@@ -1,0 +1,419 @@
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"dfsdm.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MX_DFSDM1_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	MX_DFSDM1_Init
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	MX_DFSDM1_Init:
+  26              	.LFB130:
+  27              		.file 1 "Src/dfsdm.c"
+   1:Src/dfsdm.c   **** /**
+   2:Src/dfsdm.c   ****   ******************************************************************************
+   3:Src/dfsdm.c   ****   * File Name          : DFSDM.c
+   4:Src/dfsdm.c   ****   * Description        : This file provides code for the configuration
+   5:Src/dfsdm.c   ****   *                      of the DFSDM instances.
+   6:Src/dfsdm.c   ****   ******************************************************************************
+   7:Src/dfsdm.c   ****   * @attention
+   8:Src/dfsdm.c   ****   *
+   9:Src/dfsdm.c   ****   * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  10:Src/dfsdm.c   ****   * All rights reserved.</center></h2>
+  11:Src/dfsdm.c   ****   *
+  12:Src/dfsdm.c   ****   * This software component is licensed by ST under Ultimate Liberty license
+  13:Src/dfsdm.c   ****   * SLA0044, the "License"; You may not use this file except in compliance with
+  14:Src/dfsdm.c   ****   * the License. You may obtain a copy of the License at:
+  15:Src/dfsdm.c   ****   *                             www.st.com/SLA0044
+  16:Src/dfsdm.c   ****   *
+  17:Src/dfsdm.c   ****   ******************************************************************************
+  18:Src/dfsdm.c   ****   */
+  19:Src/dfsdm.c   **** 
+  20:Src/dfsdm.c   **** /* Includes ------------------------------------------------------------------*/
+  21:Src/dfsdm.c   **** #include "dfsdm.h"
+  22:Src/dfsdm.c   **** 
+  23:Src/dfsdm.c   **** /* USER CODE BEGIN 0 */
+  24:Src/dfsdm.c   **** 
+  25:Src/dfsdm.c   **** /* USER CODE END 0 */
+  26:Src/dfsdm.c   **** 
+  27:Src/dfsdm.c   **** DFSDM_Channel_HandleTypeDef hdfsdm1_channel1;
+  28:Src/dfsdm.c   **** 
+  29:Src/dfsdm.c   **** /* DFSDM1 init function */
+  30:Src/dfsdm.c   **** void MX_DFSDM1_Init(void)
+  31:Src/dfsdm.c   **** {
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s 			page 2
+
+
+  28              		.loc 1 31 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  32:Src/dfsdm.c   **** 
+  33:Src/dfsdm.c   ****   hdfsdm1_channel1.Instance = DFSDM1_Channel1;
+  37              		.loc 1 33 0
+  38 0002 0E48     		ldr	r0, .L5
+  39 0004 0E4B     		ldr	r3, .L5+4
+  40 0006 0360     		str	r3, [r0]
+  34:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.OutputClock.Activation = ENABLE;
+  41              		.loc 1 34 0
+  42 0008 0122     		movs	r2, #1
+  43 000a 0271     		strb	r2, [r0, #4]
+  35:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.OutputClock.Selection = DFSDM_CHANNEL_OUTPUT_CLOCK_SYSTEM;
+  44              		.loc 1 35 0
+  45 000c 0023     		movs	r3, #0
+  46 000e 8360     		str	r3, [r0, #8]
+  36:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.OutputClock.Divider = 2;
+  47              		.loc 1 36 0
+  48 0010 0221     		movs	r1, #2
+  49 0012 C160     		str	r1, [r0, #12]
+  37:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.Input.Multiplexer = DFSDM_CHANNEL_EXTERNAL_INPUTS;
+  50              		.loc 1 37 0
+  51 0014 0361     		str	r3, [r0, #16]
+  38:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.Input.DataPacking = DFSDM_CHANNEL_STANDARD_MODE;
+  52              		.loc 1 38 0
+  53 0016 4361     		str	r3, [r0, #20]
+  39:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.Input.Pins = DFSDM_CHANNEL_FOLLOWING_CHANNEL_PINS;
+  54              		.loc 1 39 0
+  55 0018 4FF48071 		mov	r1, #256
+  56 001c 8161     		str	r1, [r0, #24]
+  40:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.SerialInterface.Type = DFSDM_CHANNEL_SPI_RISING;
+  57              		.loc 1 40 0
+  58 001e C361     		str	r3, [r0, #28]
+  41:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.SerialInterface.SpiClock = DFSDM_CHANNEL_SPI_CLOCK_INTERNAL;
+  59              		.loc 1 41 0
+  60 0020 0421     		movs	r1, #4
+  61 0022 0162     		str	r1, [r0, #32]
+  42:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.Awd.FilterOrder = DFSDM_CHANNEL_FASTSINC_ORDER;
+  62              		.loc 1 42 0
+  63 0024 4362     		str	r3, [r0, #36]
+  43:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.Awd.Oversampling = 1;
+  64              		.loc 1 43 0
+  65 0026 8262     		str	r2, [r0, #40]
+  44:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.Offset = 0;
+  66              		.loc 1 44 0
+  67 0028 C362     		str	r3, [r0, #44]
+  45:Src/dfsdm.c   ****   hdfsdm1_channel1.Init.RightBitShift = 0x00;
+  68              		.loc 1 45 0
+  69 002a 0363     		str	r3, [r0, #48]
+  46:Src/dfsdm.c   ****   if (HAL_DFSDM_ChannelInit(&hdfsdm1_channel1) != HAL_OK)
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s 			page 3
+
+
+  70              		.loc 1 46 0
+  71 002c FFF7FEFF 		bl	HAL_DFSDM_ChannelInit
+  72              	.LVL0:
+  73 0030 00B9     		cbnz	r0, .L4
+  74              	.L1:
+  75 0032 08BD     		pop	{r3, pc}
+  76              	.L4:
+  47:Src/dfsdm.c   ****   {
+  48:Src/dfsdm.c   ****     Error_Handler();
+  77              		.loc 1 48 0
+  78 0034 FFF7FEFF 		bl	Error_Handler
+  79              	.LVL1:
+  49:Src/dfsdm.c   ****   }
+  50:Src/dfsdm.c   **** 
+  51:Src/dfsdm.c   **** }
+  80              		.loc 1 51 0
+  81 0038 FBE7     		b	.L1
+  82              	.L6:
+  83 003a 00BF     		.align	2
+  84              	.L5:
+  85 003c 00000000 		.word	hdfsdm1_channel1
+  86 0040 20600140 		.word	1073831968
+  87              		.cfi_endproc
+  88              	.LFE130:
+  90              		.section	.text.HAL_DFSDM_ChannelMspInit,"ax",%progbits
+  91              		.align	1
+  92              		.global	HAL_DFSDM_ChannelMspInit
+  93              		.syntax unified
+  94              		.thumb
+  95              		.thumb_func
+  96              		.fpu fpv4-sp-d16
+  98              	HAL_DFSDM_ChannelMspInit:
+  99              	.LFB131:
+  52:Src/dfsdm.c   **** 
+  53:Src/dfsdm.c   **** static uint32_t DFSDM1_Init = 0;
+  54:Src/dfsdm.c   **** 
+  55:Src/dfsdm.c   **** void HAL_DFSDM_ChannelMspInit(DFSDM_Channel_HandleTypeDef* dfsdm_channelHandle)
+  56:Src/dfsdm.c   **** {
+ 100              		.loc 1 56 0
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 32
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104              	.LVL2:
+ 105 0000 00B5     		push	{lr}
+ 106              	.LCFI1:
+ 107              		.cfi_def_cfa_offset 4
+ 108              		.cfi_offset 14, -4
+ 109 0002 89B0     		sub	sp, sp, #36
+ 110              	.LCFI2:
+ 111              		.cfi_def_cfa_offset 40
+  57:Src/dfsdm.c   **** 
+  58:Src/dfsdm.c   ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+ 112              		.loc 1 58 0
+ 113 0004 0023     		movs	r3, #0
+ 114 0006 0393     		str	r3, [sp, #12]
+ 115 0008 0493     		str	r3, [sp, #16]
+ 116 000a 0593     		str	r3, [sp, #20]
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s 			page 4
+
+
+ 117 000c 0693     		str	r3, [sp, #24]
+ 118 000e 0793     		str	r3, [sp, #28]
+  59:Src/dfsdm.c   ****   if(DFSDM1_Init == 0)
+ 119              		.loc 1 59 0
+ 120 0010 154B     		ldr	r3, .L11
+ 121 0012 1B68     		ldr	r3, [r3]
+ 122 0014 13B1     		cbz	r3, .L10
+ 123              	.LVL3:
+ 124              	.L7:
+  60:Src/dfsdm.c   ****   {
+  61:Src/dfsdm.c   ****   /* USER CODE BEGIN DFSDM1_MspInit 0 */
+  62:Src/dfsdm.c   **** 
+  63:Src/dfsdm.c   ****   /* USER CODE END DFSDM1_MspInit 0 */
+  64:Src/dfsdm.c   ****     /* DFSDM1 clock enable */
+  65:Src/dfsdm.c   ****     __HAL_RCC_DFSDM1_CLK_ENABLE();
+  66:Src/dfsdm.c   ****   
+  67:Src/dfsdm.c   ****     __HAL_RCC_GPIOE_CLK_ENABLE();
+  68:Src/dfsdm.c   ****     /**DFSDM1 GPIO Configuration    
+  69:Src/dfsdm.c   ****     PE7     ------> DFSDM1_DATIN2
+  70:Src/dfsdm.c   ****     PE9     ------> DFSDM1_CKOUT 
+  71:Src/dfsdm.c   ****     */
+  72:Src/dfsdm.c   ****     GPIO_InitStruct.Pin = DFSDM1_DATIN2_Pin|DFSDM1_CKOUT_Pin;
+  73:Src/dfsdm.c   ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  74:Src/dfsdm.c   ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+  75:Src/dfsdm.c   ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  76:Src/dfsdm.c   ****     GPIO_InitStruct.Alternate = GPIO_AF6_DFSDM1;
+  77:Src/dfsdm.c   ****     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  78:Src/dfsdm.c   **** 
+  79:Src/dfsdm.c   ****   /* USER CODE BEGIN DFSDM1_MspInit 1 */
+  80:Src/dfsdm.c   **** 
+  81:Src/dfsdm.c   ****   /* USER CODE END DFSDM1_MspInit 1 */
+  82:Src/dfsdm.c   ****   DFSDM1_Init++;
+  83:Src/dfsdm.c   ****   }
+  84:Src/dfsdm.c   **** }
+ 125              		.loc 1 84 0
+ 126 0016 09B0     		add	sp, sp, #36
+ 127              	.LCFI3:
+ 128              		.cfi_remember_state
+ 129              		.cfi_def_cfa_offset 4
+ 130              		@ sp needed
+ 131 0018 5DF804FB 		ldr	pc, [sp], #4
+ 132              	.LVL4:
+ 133              	.L10:
+ 134              	.LCFI4:
+ 135              		.cfi_restore_state
+ 136              	.LBB2:
+  65:Src/dfsdm.c   ****   
+ 137              		.loc 1 65 0
+ 138 001c 03F18043 		add	r3, r3, #1073741824
+ 139 0020 03F50433 		add	r3, r3, #135168
+ 140 0024 1A6E     		ldr	r2, [r3, #96]
+ 141 0026 42F08072 		orr	r2, r2, #16777216
+ 142 002a 1A66     		str	r2, [r3, #96]
+ 143 002c 1A6E     		ldr	r2, [r3, #96]
+ 144 002e 02F08072 		and	r2, r2, #16777216
+ 145 0032 0192     		str	r2, [sp, #4]
+ 146 0034 019A     		ldr	r2, [sp, #4]
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s 			page 5
+
+
+ 147              	.LBE2:
+ 148              	.LBB3:
+  67:Src/dfsdm.c   ****     /**DFSDM1 GPIO Configuration    
+ 149              		.loc 1 67 0
+ 150 0036 DA6C     		ldr	r2, [r3, #76]
+ 151 0038 42F01002 		orr	r2, r2, #16
+ 152 003c DA64     		str	r2, [r3, #76]
+ 153 003e DB6C     		ldr	r3, [r3, #76]
+ 154 0040 03F01003 		and	r3, r3, #16
+ 155 0044 0293     		str	r3, [sp, #8]
+ 156 0046 029B     		ldr	r3, [sp, #8]
+ 157              	.LBE3:
+  72:Src/dfsdm.c   ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 158              		.loc 1 72 0
+ 159 0048 4FF42073 		mov	r3, #640
+ 160 004c 0393     		str	r3, [sp, #12]
+  73:Src/dfsdm.c   ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 161              		.loc 1 73 0
+ 162 004e 0223     		movs	r3, #2
+ 163 0050 0493     		str	r3, [sp, #16]
+  76:Src/dfsdm.c   ****     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+ 164              		.loc 1 76 0
+ 165 0052 0623     		movs	r3, #6
+ 166 0054 0793     		str	r3, [sp, #28]
+  77:Src/dfsdm.c   **** 
+ 167              		.loc 1 77 0
+ 168 0056 03A9     		add	r1, sp, #12
+ 169 0058 0448     		ldr	r0, .L11+4
+ 170              	.LVL5:
+ 171 005a FFF7FEFF 		bl	HAL_GPIO_Init
+ 172              	.LVL6:
+  82:Src/dfsdm.c   ****   }
+ 173              		.loc 1 82 0
+ 174 005e 024A     		ldr	r2, .L11
+ 175 0060 1368     		ldr	r3, [r2]
+ 176 0062 0133     		adds	r3, r3, #1
+ 177 0064 1360     		str	r3, [r2]
+ 178              		.loc 1 84 0
+ 179 0066 D6E7     		b	.L7
+ 180              	.L12:
+ 181              		.align	2
+ 182              	.L11:
+ 183 0068 00000000 		.word	.LANCHOR0
+ 184 006c 00100048 		.word	1207963648
+ 185              		.cfi_endproc
+ 186              	.LFE131:
+ 188              		.section	.text.HAL_DFSDM_ChannelMspDeInit,"ax",%progbits
+ 189              		.align	1
+ 190              		.global	HAL_DFSDM_ChannelMspDeInit
+ 191              		.syntax unified
+ 192              		.thumb
+ 193              		.thumb_func
+ 194              		.fpu fpv4-sp-d16
+ 196              	HAL_DFSDM_ChannelMspDeInit:
+ 197              	.LFB132:
+  85:Src/dfsdm.c   **** 
+  86:Src/dfsdm.c   **** void HAL_DFSDM_ChannelMspDeInit(DFSDM_Channel_HandleTypeDef* dfsdm_channelHandle)
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s 			page 6
+
+
+  87:Src/dfsdm.c   **** {
+ 198              		.loc 1 87 0
+ 199              		.cfi_startproc
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202              	.LVL7:
+ 203 0000 08B5     		push	{r3, lr}
+ 204              	.LCFI5:
+ 205              		.cfi_def_cfa_offset 8
+ 206              		.cfi_offset 3, -8
+ 207              		.cfi_offset 14, -4
+  88:Src/dfsdm.c   **** 
+  89:Src/dfsdm.c   ****   DFSDM1_Init-- ;
+ 208              		.loc 1 89 0
+ 209 0002 084A     		ldr	r2, .L17
+ 210 0004 1368     		ldr	r3, [r2]
+ 211 0006 013B     		subs	r3, r3, #1
+ 212 0008 1360     		str	r3, [r2]
+  90:Src/dfsdm.c   ****   if(DFSDM1_Init == 0)
+ 213              		.loc 1 90 0
+ 214 000a 03B1     		cbz	r3, .L16
+ 215              	.LVL8:
+ 216              	.L13:
+ 217 000c 08BD     		pop	{r3, pc}
+ 218              	.LVL9:
+ 219              	.L16:
+  91:Src/dfsdm.c   ****     {
+  92:Src/dfsdm.c   ****   /* USER CODE BEGIN DFSDM1_MspDeInit 0 */
+  93:Src/dfsdm.c   **** 
+  94:Src/dfsdm.c   ****   /* USER CODE END DFSDM1_MspDeInit 0 */
+  95:Src/dfsdm.c   ****     /* Peripheral clock disable */
+  96:Src/dfsdm.c   ****     __HAL_RCC_DFSDM1_CLK_DISABLE();
+ 220              		.loc 1 96 0
+ 221 000e 064A     		ldr	r2, .L17+4
+ 222 0010 136E     		ldr	r3, [r2, #96]
+ 223 0012 23F08073 		bic	r3, r3, #16777216
+ 224 0016 1366     		str	r3, [r2, #96]
+  97:Src/dfsdm.c   ****   
+  98:Src/dfsdm.c   ****     /**DFSDM1 GPIO Configuration    
+  99:Src/dfsdm.c   ****     PE7     ------> DFSDM1_DATIN2
+ 100:Src/dfsdm.c   ****     PE9     ------> DFSDM1_CKOUT 
+ 101:Src/dfsdm.c   ****     */
+ 102:Src/dfsdm.c   ****     HAL_GPIO_DeInit(GPIOE, DFSDM1_DATIN2_Pin|DFSDM1_CKOUT_Pin);
+ 225              		.loc 1 102 0
+ 226 0018 4FF42071 		mov	r1, #640
+ 227 001c 0348     		ldr	r0, .L17+8
+ 228              	.LVL10:
+ 229 001e FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 230              	.LVL11:
+ 103:Src/dfsdm.c   **** 
+ 104:Src/dfsdm.c   ****   /* USER CODE BEGIN DFSDM1_MspDeInit 1 */
+ 105:Src/dfsdm.c   **** 
+ 106:Src/dfsdm.c   ****   /* USER CODE END DFSDM1_MspDeInit 1 */
+ 107:Src/dfsdm.c   ****   }
+ 108:Src/dfsdm.c   **** } 
+ 231              		.loc 1 108 0
+ 232 0022 F3E7     		b	.L13
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s 			page 7
+
+
+ 233              	.L18:
+ 234              		.align	2
+ 235              	.L17:
+ 236 0024 00000000 		.word	.LANCHOR0
+ 237 0028 00100240 		.word	1073876992
+ 238 002c 00100048 		.word	1207963648
+ 239              		.cfi_endproc
+ 240              	.LFE132:
+ 242              		.comm	hdfsdm1_channel1,56,4
+ 243              		.section	.bss.DFSDM1_Init,"aw",%nobits
+ 244              		.align	2
+ 245              		.set	.LANCHOR0,. + 0
+ 248              	DFSDM1_Init:
+ 249 0000 00000000 		.space	4
+ 250              		.text
+ 251              	.Letext0:
+ 252              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 253              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 254              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 255              		.file 5 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 256              		.file 6 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
+ 257              		.file 7 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h"
+ 258              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 259              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 260              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 261              		.file 11 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dfsdm.h"
+ 262              		.file 12 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h"
+ 263              		.file 13 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 264              		.file 14 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 265              		.file 15 "Inc/stm32l4xx_nucleo.h"
+ 266              		.file 16 "Inc/dfsdm.h"
+ 267              		.file 17 "Inc/main.h"
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 dfsdm.c
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:18     .text.MX_DFSDM1_Init:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:25     .text.MX_DFSDM1_Init:00000000 MX_DFSDM1_Init
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:85     .text.MX_DFSDM1_Init:0000003c $d
+                            *COM*:00000038 hdfsdm1_channel1
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:91     .text.HAL_DFSDM_ChannelMspInit:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:98     .text.HAL_DFSDM_ChannelMspInit:00000000 HAL_DFSDM_ChannelMspInit
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:183    .text.HAL_DFSDM_ChannelMspInit:00000068 $d
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:189    .text.HAL_DFSDM_ChannelMspDeInit:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:196    .text.HAL_DFSDM_ChannelMspDeInit:00000000 HAL_DFSDM_ChannelMspDeInit
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:236    .text.HAL_DFSDM_ChannelMspDeInit:00000024 $d
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:244    .bss.DFSDM1_Init:00000000 $d
+C:\Users\choee\AppData\Local\Temp\ccrCQPGu.s:248    .bss.DFSDM1_Init:00000000 DFSDM1_Init
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+HAL_DFSDM_ChannelInit
+Error_Handler
+HAL_GPIO_Init
+HAL_GPIO_DeInit

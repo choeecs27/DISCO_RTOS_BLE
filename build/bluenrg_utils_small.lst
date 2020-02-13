@@ -1,0 +1,146 @@
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cc5pQr69.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"bluenrg_utils_small.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.getBlueNRGVersion,"ax",%progbits
+  18              		.align	1
+  19              		.global	getBlueNRGVersion
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	getBlueNRGVersion:
+  26              	.LFB130:
+  27              		.file 1 "Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c"
+   1:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** 
+   2:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** #include "bluenrg_types.h"
+   3:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** #include "bluenrg_def.h"
+   4:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** #include "bluenrg_aci.h"
+   5:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** #include "bluenrg_utils.h"
+   6:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** #include "hci.h"
+   7:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** #include "hci_le.h"
+   8:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** #include "string.h"
+   9:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** 
+  10:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** uint8_t getBlueNRGVersion(uint8_t *hwVersion, uint16_t *fwVersion)
+  11:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** {
+  28              		.loc 1 11 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 30B5     		push	{r4, r5, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 12
+  36              		.cfi_offset 4, -12
+  37              		.cfi_offset 5, -8
+  38              		.cfi_offset 14, -4
+  39 0002 85B0     		sub	sp, sp, #20
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_offset 32
+  42 0004 0546     		mov	r5, r0
+  43 0006 0C46     		mov	r4, r1
+  12:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****   uint8_t status;
+  13:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****   uint8_t hci_version, lmp_pal_version;
+  14:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****   uint16_t hci_revision, manufacturer_name, lmp_pal_subversion;
+  15:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** 
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cc5pQr69.s 			page 2
+
+
+  16:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****   status = hci_le_read_local_version(&hci_version, &hci_revision, &lmp_pal_version, 
+  44              		.loc 1 16 0
+  45 0008 02AB     		add	r3, sp, #8
+  46 000a 0093     		str	r3, [sp]
+  47 000c 0DF10A03 		add	r3, sp, #10
+  48 0010 0DF10E02 		add	r2, sp, #14
+  49 0014 03A9     		add	r1, sp, #12
+  50              	.LVL1:
+  51 0016 0DF10F00 		add	r0, sp, #15
+  52              	.LVL2:
+  53 001a FFF7FEFF 		bl	hci_le_read_local_version
+  54              	.LVL3:
+  55 001e C0B2     		uxtb	r0, r0
+  56              	.LVL4:
+  17:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** 				     &manufacturer_name, &lmp_pal_subversion);
+  18:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** 
+  19:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****   if (status == BLE_STATUS_SUCCESS) {
+  57              		.loc 1 19 0
+  58 0020 98B9     		cbnz	r0, .L2
+  20:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****     *hwVersion = hci_revision >> 8;
+  59              		.loc 1 20 0
+  60 0022 BDF80C30 		ldrh	r3, [sp, #12]
+  61 0026 1A0A     		lsrs	r2, r3, #8
+  62 0028 2A70     		strb	r2, [r5]
+  21:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****     *fwVersion = (hci_revision & 0xFF) << 8;              // Major Version Number
+  63              		.loc 1 21 0
+  64 002a 1B02     		lsls	r3, r3, #8
+  65 002c 9AB2     		uxth	r2, r3
+  22:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****     *fwVersion |= ((lmp_pal_subversion >> 4) & 0xF) << 4; // Minor Version Number
+  66              		.loc 1 22 0
+  67 002e BDF80830 		ldrh	r3, [sp, #8]
+  68 0032 1B09     		lsrs	r3, r3, #4
+  69 0034 1B01     		lsls	r3, r3, #4
+  70 0036 03F0F003 		and	r3, r3, #240
+  71 003a 1343     		orrs	r3, r3, r2
+  72 003c 1BB2     		sxth	r3, r3
+  23:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****     *fwVersion |= lmp_pal_subversion & 0xF;               // Patch Version Number
+  73              		.loc 1 23 0
+  74 003e BDF80820 		ldrh	r2, [sp, #8]
+  75 0042 02F00F02 		and	r2, r2, #15
+  76 0046 1343     		orrs	r3, r3, r2
+  77 0048 2380     		strh	r3, [r4]	@ movhi
+  78              	.L2:
+  24:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****   }
+  25:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c ****   return status;
+  26:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c **** }
+  79              		.loc 1 26 0
+  80 004a 05B0     		add	sp, sp, #20
+  81              	.LCFI2:
+  82              		.cfi_def_cfa_offset 12
+  83              		@ sp needed
+  84 004c 30BD     		pop	{r4, r5, pc}
+  85              		.cfi_endproc
+  86              	.LFE130:
+  88              		.text
+  89              	.Letext0:
+  90              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cc5pQr69.s 			page 3
+
+
+  91              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  92              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+  93              		.file 5 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+  94              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+  95              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h"
+  96              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+  97              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  98              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+  99              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-ea
+ 100              		.file 12 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 101              		.file 13 "Middlewares/ST/BlueNRG-MS/includes/bluenrg_utils.h"
+ 102              		.file 14 "Middlewares/ST/BlueNRG-MS/includes/hci_le.h"
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cc5pQr69.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 bluenrg_utils_small.c
+C:\Users\choee\AppData\Local\Temp\cc5pQr69.s:18     .text.getBlueNRGVersion:00000000 $t
+C:\Users\choee\AppData\Local\Temp\cc5pQr69.s:25     .text.getBlueNRGVersion:00000000 getBlueNRGVersion
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+hci_le_read_local_version

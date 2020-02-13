@@ -1,0 +1,978 @@
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"eddystone_beacon.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.EddystoneUID_Init,"ax",%progbits
+  18              		.align	1
+  19              		.global	EddystoneUID_Init
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	EddystoneUID_Init:
+  26              	.LFB132:
+  27              		.file 1 "Src/eddystone_beacon.c"
+   1:Src/eddystone_beacon.c **** /**
+   2:Src/eddystone_beacon.c ****   ******************************************************************************
+   3:Src/eddystone_beacon.c ****   * @file    eddystone_beacon.c
+   4:Src/eddystone_beacon.c ****   * @author  MCD Application Team & Central Labs
+   5:Src/eddystone_beacon.c ****   * @version
+   6:Src/eddystone_beacon.c ****   * @date    20 May 2016
+   7:Src/eddystone_beacon.c ****   * @brief
+   8:Src/eddystone_beacon.c ****   *
+   9:Src/eddystone_beacon.c ****   @verbatim
+  10:Src/eddystone_beacon.c ****   ==============================================================================
+  11:Src/eddystone_beacon.c ****                         ##### How to use this driver #####
+  12:Src/eddystone_beacon.c ****   ==============================================================================
+  13:Src/eddystone_beacon.c ****   @endverbatim
+  14:Src/eddystone_beacon.c ****   ******************************************************************************
+  15:Src/eddystone_beacon.c ****   * @attention
+  16:Src/eddystone_beacon.c ****   *
+  17:Src/eddystone_beacon.c ****   * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  18:Src/eddystone_beacon.c ****   *
+  19:Src/eddystone_beacon.c ****   * Redistribution and use in source and binary forms, with or without modification,
+  20:Src/eddystone_beacon.c ****   * are permitted provided that the following conditions are met:
+  21:Src/eddystone_beacon.c ****   *   1. Redistributions of source code must retain the above copyright notice,
+  22:Src/eddystone_beacon.c ****   *      this list of conditions and the following disclaimer.
+  23:Src/eddystone_beacon.c ****   *   2. Redistributions in binary form must reproduce the above copyright notice,
+  24:Src/eddystone_beacon.c ****   *      this list of conditions and the following disclaimer in the documentation
+  25:Src/eddystone_beacon.c ****   *      and/or other materials provided with the distribution.
+  26:Src/eddystone_beacon.c ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  27:Src/eddystone_beacon.c ****   *      may be used to endorse or promote products derived from this software
+  28:Src/eddystone_beacon.c ****   *      without specific prior written permission.
+  29:Src/eddystone_beacon.c ****   *
+  30:Src/eddystone_beacon.c ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  31:Src/eddystone_beacon.c ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 2
+
+
+  32:Src/eddystone_beacon.c ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  33:Src/eddystone_beacon.c ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  34:Src/eddystone_beacon.c ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  35:Src/eddystone_beacon.c ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  36:Src/eddystone_beacon.c ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  37:Src/eddystone_beacon.c ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  38:Src/eddystone_beacon.c ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  39:Src/eddystone_beacon.c ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  40:Src/eddystone_beacon.c ****   *
+  41:Src/eddystone_beacon.c ****   ******************************************************************************
+  42:Src/eddystone_beacon.c ****   */
+  43:Src/eddystone_beacon.c **** 
+  44:Src/eddystone_beacon.c **** /* Includes ------------------------------------------------------------------*/
+  45:Src/eddystone_beacon.c **** #include "beacon_utils.h"
+  46:Src/eddystone_beacon.c **** 
+  47:Src/eddystone_beacon.c **** #include "hci_const.h"
+  48:Src/eddystone_beacon.c **** #include "hci_le.h"
+  49:Src/eddystone_beacon.c **** #include "bluenrg_gap.h"
+  50:Src/eddystone_beacon.c **** #include "bluenrg_gap_aci.h"
+  51:Src/eddystone_beacon.c **** #include "bluenrg_gatt_aci.h"
+  52:Src/eddystone_beacon.c **** #include "bluenrg_hal_aci.h"
+  53:Src/eddystone_beacon.c **** #include "eddystone_beacon.h"
+  54:Src/eddystone_beacon.c **** 
+  55:Src/eddystone_beacon.c **** /** @addtogroup Applications
+  56:Src/eddystone_beacon.c ****  *  @{
+  57:Src/eddystone_beacon.c ****  */
+  58:Src/eddystone_beacon.c **** 
+  59:Src/eddystone_beacon.c **** /** @addtogroup Beacon
+  60:Src/eddystone_beacon.c ****  *  @{
+  61:Src/eddystone_beacon.c ****  */
+  62:Src/eddystone_beacon.c ****  
+  63:Src/eddystone_beacon.c **** /** @defgroup EDDYSTONE_BEACON
+  64:Src/eddystone_beacon.c ****  * @{
+  65:Src/eddystone_beacon.c ****  */
+  66:Src/eddystone_beacon.c **** 
+  67:Src/eddystone_beacon.c **** /* Private types -------------------------------------------------------------*/
+  68:Src/eddystone_beacon.c **** /* Private variables ---------------------------------------------------------*/
+  69:Src/eddystone_beacon.c **** /** @defgroup EDDYSTONE_BEACON_Private_Constants
+  70:Src/eddystone_beacon.c ****  * @{
+  71:Src/eddystone_beacon.c ****  */
+  72:Src/eddystone_beacon.c **** /* Private constants ---------------------------------------------------------*/
+  73:Src/eddystone_beacon.c **** #define ADVERTISING_INTERVAL_INCREMENT (16)
+  74:Src/eddystone_beacon.c **** /**
+  75:Src/eddystone_beacon.c ****  * @}
+  76:Src/eddystone_beacon.c ****  */
+  77:Src/eddystone_beacon.c **** /* Private macros ------------------------------------------------------------*/
+  78:Src/eddystone_beacon.c **** /* Private function prototypes -----------------------------------------------*/
+  79:Src/eddystone_beacon.c **** 
+  80:Src/eddystone_beacon.c **** /** @defgroup EDDYSTONE_BEACON_Exported_Functions 
+  81:Src/eddystone_beacon.c ****  * @{
+  82:Src/eddystone_beacon.c ****  */ 
+  83:Src/eddystone_beacon.c **** /* Exported functions --------------------------------------------------------*/
+  84:Src/eddystone_beacon.c **** 
+  85:Src/eddystone_beacon.c **** /**
+  86:Src/eddystone_beacon.c ****   * @brief  This function starts the Eddystone UID device
+  87:Src/eddystone_beacon.c ****   * @param  None
+  88:Src/eddystone_beacon.c ****   * @retval None
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 3
+
+
+  89:Src/eddystone_beacon.c ****   */
+  90:Src/eddystone_beacon.c **** void EddystoneUID_Start(void)
+  91:Src/eddystone_beacon.c **** {
+  92:Src/eddystone_beacon.c ****   uint8_t NamespaceID[] = { NAMESPACE_ID };
+  93:Src/eddystone_beacon.c ****   uint8_t BeaconID[] = { BEACON_ID };
+  94:Src/eddystone_beacon.c **** 
+  95:Src/eddystone_beacon.c ****   EddystoneUID_InitTypeDef EddystoneUID_InitStruct =
+  96:Src/eddystone_beacon.c ****   {
+  97:Src/eddystone_beacon.c ****     .AdvertisingInterval = ADVERTISING_INTERVAL_IN_MS,
+  98:Src/eddystone_beacon.c ****     .CalibratedTxPower = CALIBRATED_TX_POWER_AT_0_M,
+  99:Src/eddystone_beacon.c ****     .NamespaceID = NamespaceID,
+ 100:Src/eddystone_beacon.c ****     .BeaconID = BeaconID
+ 101:Src/eddystone_beacon.c ****   };
+ 102:Src/eddystone_beacon.c **** 
+ 103:Src/eddystone_beacon.c ****   EddystoneUID_Init(&EddystoneUID_InitStruct);
+ 104:Src/eddystone_beacon.c **** }
+ 105:Src/eddystone_beacon.c **** 
+ 106:Src/eddystone_beacon.c **** /**
+ 107:Src/eddystone_beacon.c ****   * @brief  This function starts the Eddystone URL device
+ 108:Src/eddystone_beacon.c ****   * @param  None
+ 109:Src/eddystone_beacon.c ****   * @retval None
+ 110:Src/eddystone_beacon.c ****   */
+ 111:Src/eddystone_beacon.c **** void EddystoneURL_Start(void)
+ 112:Src/eddystone_beacon.c **** {
+ 113:Src/eddystone_beacon.c ****   uint8_t UrlScheme = URL_PREFIX;
+ 114:Src/eddystone_beacon.c ****   uint8_t Url[] = PHYSICAL_WEB_URL;
+ 115:Src/eddystone_beacon.c **** 
+ 116:Src/eddystone_beacon.c ****   EddystoneURL_InitTypeDef EddystoneURL_InitStruct =
+ 117:Src/eddystone_beacon.c ****   {
+ 118:Src/eddystone_beacon.c ****     .AdvertisingInterval = ADVERTISING_INTERVAL_IN_MS,
+ 119:Src/eddystone_beacon.c ****     .CalibratedTxPower = CALIBRATED_TX_POWER_AT_0_M,
+ 120:Src/eddystone_beacon.c ****     .UrlScheme = UrlScheme,
+ 121:Src/eddystone_beacon.c ****     .Url = Url,
+ 122:Src/eddystone_beacon.c ****     .UrlLength = sizeof(Url) - 1
+ 123:Src/eddystone_beacon.c ****   };
+ 124:Src/eddystone_beacon.c **** 
+ 125:Src/eddystone_beacon.c ****   EddystoneURL_Init(&EddystoneURL_InitStruct);
+ 126:Src/eddystone_beacon.c **** }
+ 127:Src/eddystone_beacon.c **** 
+ 128:Src/eddystone_beacon.c **** /**
+ 129:Src/eddystone_beacon.c ****   * @brief  This function initializes the Eddystone UID Bluetooth services
+ 130:Src/eddystone_beacon.c ****   * @param  EddystoneUID_Init pointer to initialization structure
+ 131:Src/eddystone_beacon.c ****   * @retval None
+ 132:Src/eddystone_beacon.c ****   */
+ 133:Src/eddystone_beacon.c **** tBleStatus EddystoneUID_Init(EddystoneUID_InitTypeDef *EddystoneUID_Init)
+ 134:Src/eddystone_beacon.c **** {
+  28              		.loc 1 134 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 32
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 10B5     		push	{r4, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  38 0002 90B0     		sub	sp, sp, #64
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 4
+
+
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_offset 72
+  41 0004 0446     		mov	r4, r0
+  42              	.LVL1:
+ 135:Src/eddystone_beacon.c ****   tBleStatus ret = BLE_STATUS_SUCCESS;
+ 136:Src/eddystone_beacon.c **** 
+ 137:Src/eddystone_beacon.c ****   /* Disable scan response. */
+ 138:Src/eddystone_beacon.c ****   hci_le_set_scan_resp_data(0, NULL);
+  43              		.loc 1 138 0
+  44 0006 0021     		movs	r1, #0
+  45 0008 0846     		mov	r0, r1
+  46              	.LVL2:
+  47 000a FFF7FEFF 		bl	hci_le_set_scan_resp_data
+  48              	.LVL3:
+ 139:Src/eddystone_beacon.c **** 
+ 140:Src/eddystone_beacon.c ****   /* Put the device in a non-connectable mode. */
+ 141:Src/eddystone_beacon.c ****   ret = aci_gap_set_discoverable(ADV_DATA_TYPE,                   /*< Advertise as non-connectable,
+  49              		.loc 1 141 0
+  50 000e 0020     		movs	r0, #0
+  51 0010 0690     		str	r0, [sp, #24]
+  52 0012 0590     		str	r0, [sp, #20]
+  53 0014 0490     		str	r0, [sp, #16]
+  54 0016 0390     		str	r0, [sp, #12]
+  55 0018 0290     		str	r0, [sp, #8]
+  56 001a 0190     		str	r0, [sp, #4]
+  57 001c 0090     		str	r0, [sp]
+  58 001e 0346     		mov	r3, r0
+  59 0020 4FF48052 		mov	r2, #4096
+  60 0024 4FF40061 		mov	r1, #2048
+  61 0028 FFF7FEFF 		bl	aci_gap_set_discoverable
+  62              	.LVL4:
+ 142:Src/eddystone_beacon.c ****                                  ADV_INTERV_MIN, ADV_INTERV_MAX,  /*< Set the advertising interval 
+ 143:Src/eddystone_beacon.c ****                                  PUBLIC_ADDR, NO_WHITE_LIST_USE,  /*< Use the public address, with 
+ 144:Src/eddystone_beacon.c ****                                  0, NULL,                         /*< Do not use a local name. */
+ 145:Src/eddystone_beacon.c ****                                  0, NULL,                         /*< Do not include the service UU
+ 146:Src/eddystone_beacon.c ****                                  0, 0);                           /*< Do not set a slave connection
+ 147:Src/eddystone_beacon.c **** 
+ 148:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+  63              		.loc 1 148 0
+  64 002c 0346     		mov	r3, r0
+  65 002e 10B1     		cbz	r0, .L4
+  66              	.LVL5:
+  67              	.L2:
+ 149:Src/eddystone_beacon.c ****   {
+ 150:Src/eddystone_beacon.c ****     return ret;
+ 151:Src/eddystone_beacon.c ****   }
+ 152:Src/eddystone_beacon.c **** 
+ 153:Src/eddystone_beacon.c ****   /* Remove the TX power level advertisement (this is done to decrease the packet size). */
+ 154:Src/eddystone_beacon.c ****   ret = aci_gap_delete_ad_type(AD_TYPE_TX_POWER_LEVEL);
+ 155:Src/eddystone_beacon.c **** 
+ 156:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+ 157:Src/eddystone_beacon.c ****   {
+ 158:Src/eddystone_beacon.c ****     return ret;
+ 159:Src/eddystone_beacon.c ****   }
+ 160:Src/eddystone_beacon.c **** 
+ 161:Src/eddystone_beacon.c ****   uint8_t service_data[] =
+ 162:Src/eddystone_beacon.c ****   {
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 5
+
+
+ 163:Src/eddystone_beacon.c ****     23,                                                                      /*< Length. */
+ 164:Src/eddystone_beacon.c ****     AD_TYPE_SERVICE_DATA,                                                    /*< Service Data data 
+ 165:Src/eddystone_beacon.c ****     0xAA, 0xFE,                                                              /*< 16-bit Eddystone U
+ 166:Src/eddystone_beacon.c ****     0x00,                                                                    /*< UID frame type. */
+ 167:Src/eddystone_beacon.c ****     EddystoneUID_Init->CalibratedTxPower,                                    /*< Ranging data. */
+ 168:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[0],                                       /*< 10-byte ID Namespa
+ 169:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[1],
+ 170:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[2],
+ 171:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[3],
+ 172:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[4],
+ 173:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[5],
+ 174:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[6],
+ 175:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[7],
+ 176:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[8],
+ 177:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[9],
+ 178:Src/eddystone_beacon.c ****     EddystoneUID_Init->BeaconID[0],                                         /*< 6-byte ID Instance.
+ 179:Src/eddystone_beacon.c ****     EddystoneUID_Init->BeaconID[1],
+ 180:Src/eddystone_beacon.c ****     EddystoneUID_Init->BeaconID[2],
+ 181:Src/eddystone_beacon.c ****     EddystoneUID_Init->BeaconID[3],
+ 182:Src/eddystone_beacon.c ****     EddystoneUID_Init->BeaconID[4],
+ 183:Src/eddystone_beacon.c ****     EddystoneUID_Init->BeaconID[5],
+ 184:Src/eddystone_beacon.c ****     0x00,                                                                   /*< Reserved. */
+ 185:Src/eddystone_beacon.c ****     0x00                                                                    /*< Reserved. */
+ 186:Src/eddystone_beacon.c ****   };
+ 187:Src/eddystone_beacon.c **** 
+ 188:Src/eddystone_beacon.c ****   uint8_t service_uuid_list[] =
+ 189:Src/eddystone_beacon.c ****   {
+ 190:Src/eddystone_beacon.c ****     3,                                                                      /*< Length. */
+ 191:Src/eddystone_beacon.c ****     AD_TYPE_16_BIT_SERV_UUID_CMPLT_LIST,                                    /*< Complete list of 16
+ 192:Src/eddystone_beacon.c ****     0xAA, 0xFE                                                              /*< 16-bit Eddystone UU
+ 193:Src/eddystone_beacon.c ****   };
+ 194:Src/eddystone_beacon.c **** 
+ 195:Src/eddystone_beacon.c ****   uint8_t flags[] =
+ 196:Src/eddystone_beacon.c ****   {
+ 197:Src/eddystone_beacon.c ****     2,                                                                      /*< Length. */
+ 198:Src/eddystone_beacon.c ****     AD_TYPE_FLAGS,                                                          /*< Flags data type val
+ 199:Src/eddystone_beacon.c ****     (FLAG_BIT_LE_GENERAL_DISCOVERABLE_MODE | FLAG_BIT_BR_EDR_NOT_SUPPORTED) /*< BLE general discove
+ 200:Src/eddystone_beacon.c ****   };
+ 201:Src/eddystone_beacon.c **** 
+ 202:Src/eddystone_beacon.c ****   /* Update the service data. */
+ 203:Src/eddystone_beacon.c ****   ret = aci_gap_update_adv_data(sizeof(service_data), service_data);
+ 204:Src/eddystone_beacon.c **** 
+ 205:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+ 206:Src/eddystone_beacon.c ****   {
+ 207:Src/eddystone_beacon.c ****     return ret;
+ 208:Src/eddystone_beacon.c ****   }
+ 209:Src/eddystone_beacon.c **** 
+ 210:Src/eddystone_beacon.c ****   /* Update the service UUID list. */
+ 211:Src/eddystone_beacon.c ****   ret = aci_gap_update_adv_data(sizeof(service_uuid_list), service_uuid_list);
+ 212:Src/eddystone_beacon.c **** 
+ 213:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+ 214:Src/eddystone_beacon.c ****   {
+ 215:Src/eddystone_beacon.c ****     return ret;
+ 216:Src/eddystone_beacon.c ****   }
+ 217:Src/eddystone_beacon.c **** 
+ 218:Src/eddystone_beacon.c ****   /* Update the adverstising flags. */
+ 219:Src/eddystone_beacon.c ****   ret = aci_gap_update_adv_data(sizeof(flags), flags);
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 6
+
+
+ 220:Src/eddystone_beacon.c **** 
+ 221:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+ 222:Src/eddystone_beacon.c ****   {
+ 223:Src/eddystone_beacon.c ****     return ret;
+ 224:Src/eddystone_beacon.c ****   }
+ 225:Src/eddystone_beacon.c **** 
+ 226:Src/eddystone_beacon.c ****   return ret;
+ 227:Src/eddystone_beacon.c **** }
+  68              		.loc 1 227 0
+  69 0030 1846     		mov	r0, r3
+  70 0032 10B0     		add	sp, sp, #64
+  71              	.LCFI2:
+  72              		.cfi_remember_state
+  73              		.cfi_def_cfa_offset 8
+  74              		@ sp needed
+  75 0034 10BD     		pop	{r4, pc}
+  76              	.LVL6:
+  77              	.L4:
+  78              	.LCFI3:
+  79              		.cfi_restore_state
+ 154:Src/eddystone_beacon.c **** 
+  80              		.loc 1 154 0
+  81 0036 0A20     		movs	r0, #10
+  82              	.LVL7:
+  83 0038 FFF7FEFF 		bl	aci_gap_delete_ad_type
+  84              	.LVL8:
+ 156:Src/eddystone_beacon.c ****   {
+  85              		.loc 1 156 0
+  86 003c 0346     		mov	r3, r0
+  87 003e 0028     		cmp	r0, #0
+  88 0040 F6D1     		bne	.L2
+ 161:Src/eddystone_beacon.c ****   {
+  89              		.loc 1 161 0
+  90 0042 1723     		movs	r3, #23
+  91 0044 8DF82830 		strb	r3, [sp, #40]
+  92 0048 1623     		movs	r3, #22
+  93 004a 8DF82930 		strb	r3, [sp, #41]
+  94 004e AA23     		movs	r3, #170
+  95 0050 8DF82A30 		strb	r3, [sp, #42]
+  96 0054 FE23     		movs	r3, #254
+  97 0056 8DF82B30 		strb	r3, [sp, #43]
+  98 005a 0022     		movs	r2, #0
+  99 005c 8DF82C20 		strb	r2, [sp, #44]
+ 167:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[0],                                       /*< 10-byte ID Namespa
+ 100              		.loc 1 167 0
+ 101 0060 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 161:Src/eddystone_beacon.c ****   {
+ 102              		.loc 1 161 0
+ 103 0062 8DF82D30 		strb	r3, [sp, #45]
+ 168:Src/eddystone_beacon.c ****     EddystoneUID_Init->NamespaceID[1],
+ 104              		.loc 1 168 0
+ 105 0066 6368     		ldr	r3, [r4, #4]
+ 106 0068 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 161:Src/eddystone_beacon.c ****   {
+ 107              		.loc 1 161 0
+ 108 006a 8DF82E10 		strb	r1, [sp, #46]
+ 109 006e 5978     		ldrb	r1, [r3, #1]	@ zero_extendqisi2
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 7
+
+
+ 110 0070 8DF82F10 		strb	r1, [sp, #47]
+ 111 0074 9978     		ldrb	r1, [r3, #2]	@ zero_extendqisi2
+ 112 0076 8DF83010 		strb	r1, [sp, #48]
+ 113 007a D978     		ldrb	r1, [r3, #3]	@ zero_extendqisi2
+ 114 007c 8DF83110 		strb	r1, [sp, #49]
+ 115 0080 1979     		ldrb	r1, [r3, #4]	@ zero_extendqisi2
+ 116 0082 8DF83210 		strb	r1, [sp, #50]
+ 117 0086 5979     		ldrb	r1, [r3, #5]	@ zero_extendqisi2
+ 118 0088 8DF83310 		strb	r1, [sp, #51]
+ 119 008c 9979     		ldrb	r1, [r3, #6]	@ zero_extendqisi2
+ 120 008e 8DF83410 		strb	r1, [sp, #52]
+ 121 0092 D979     		ldrb	r1, [r3, #7]	@ zero_extendqisi2
+ 122 0094 8DF83510 		strb	r1, [sp, #53]
+ 123 0098 197A     		ldrb	r1, [r3, #8]	@ zero_extendqisi2
+ 124 009a 8DF83610 		strb	r1, [sp, #54]
+ 125 009e 5B7A     		ldrb	r3, [r3, #9]	@ zero_extendqisi2
+ 126 00a0 8DF83730 		strb	r3, [sp, #55]
+ 178:Src/eddystone_beacon.c ****     EddystoneUID_Init->BeaconID[1],
+ 127              		.loc 1 178 0
+ 128 00a4 A368     		ldr	r3, [r4, #8]
+ 129 00a6 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 161:Src/eddystone_beacon.c ****   {
+ 130              		.loc 1 161 0
+ 131 00a8 8DF83810 		strb	r1, [sp, #56]
+ 132 00ac 5978     		ldrb	r1, [r3, #1]	@ zero_extendqisi2
+ 133 00ae 8DF83910 		strb	r1, [sp, #57]
+ 134 00b2 9978     		ldrb	r1, [r3, #2]	@ zero_extendqisi2
+ 135 00b4 8DF83A10 		strb	r1, [sp, #58]
+ 136 00b8 D978     		ldrb	r1, [r3, #3]	@ zero_extendqisi2
+ 137 00ba 8DF83B10 		strb	r1, [sp, #59]
+ 138 00be 1979     		ldrb	r1, [r3, #4]	@ zero_extendqisi2
+ 139 00c0 8DF83C10 		strb	r1, [sp, #60]
+ 140 00c4 5B79     		ldrb	r3, [r3, #5]	@ zero_extendqisi2
+ 141 00c6 8DF83D30 		strb	r3, [sp, #61]
+ 142 00ca 8DF83E20 		strb	r2, [sp, #62]
+ 143 00ce 8DF83F20 		strb	r2, [sp, #63]
+ 188:Src/eddystone_beacon.c ****   {
+ 144              		.loc 1 188 0
+ 145 00d2 0E4B     		ldr	r3, .L5
+ 146 00d4 1A68     		ldr	r2, [r3]
+ 147 00d6 0992     		str	r2, [sp, #36]
+ 195:Src/eddystone_beacon.c ****   {
+ 148              		.loc 1 195 0
+ 149 00d8 5B68     		ldr	r3, [r3, #4]
+ 150 00da ADF82030 		strh	r3, [sp, #32]	@ movhi
+ 151 00de 1B0C     		lsrs	r3, r3, #16
+ 152 00e0 8DF82230 		strb	r3, [sp, #34]
+ 203:Src/eddystone_beacon.c **** 
+ 153              		.loc 1 203 0
+ 154 00e4 0AA9     		add	r1, sp, #40
+ 155 00e6 1820     		movs	r0, #24
+ 156              	.LVL9:
+ 157 00e8 FFF7FEFF 		bl	aci_gap_update_adv_data
+ 158              	.LVL10:
+ 205:Src/eddystone_beacon.c ****   {
+ 159              		.loc 1 205 0
+ 160 00ec 0346     		mov	r3, r0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 8
+
+
+ 161 00ee 0028     		cmp	r0, #0
+ 162 00f0 9ED1     		bne	.L2
+ 211:Src/eddystone_beacon.c **** 
+ 163              		.loc 1 211 0
+ 164 00f2 09A9     		add	r1, sp, #36
+ 165 00f4 0420     		movs	r0, #4
+ 166              	.LVL11:
+ 167 00f6 FFF7FEFF 		bl	aci_gap_update_adv_data
+ 168              	.LVL12:
+ 213:Src/eddystone_beacon.c ****   {
+ 169              		.loc 1 213 0
+ 170 00fa 0346     		mov	r3, r0
+ 171 00fc 0028     		cmp	r0, #0
+ 172 00fe 97D1     		bne	.L2
+ 219:Src/eddystone_beacon.c **** 
+ 173              		.loc 1 219 0
+ 174 0100 08A9     		add	r1, sp, #32
+ 175 0102 0320     		movs	r0, #3
+ 176              	.LVL13:
+ 177 0104 FFF7FEFF 		bl	aci_gap_update_adv_data
+ 178              	.LVL14:
+ 179 0108 0346     		mov	r3, r0
+ 180              	.LVL15:
+ 181 010a 91E7     		b	.L2
+ 182              	.L6:
+ 183              		.align	2
+ 184              	.L5:
+ 185 010c 00000000 		.word	.LANCHOR0
+ 186              		.cfi_endproc
+ 187              	.LFE132:
+ 189              		.section	.text.EddystoneUID_Start,"ax",%progbits
+ 190              		.align	1
+ 191              		.global	EddystoneUID_Start
+ 192              		.syntax unified
+ 193              		.thumb
+ 194              		.thumb_func
+ 195              		.fpu fpv4-sp-d16
+ 197              	EddystoneUID_Start:
+ 198              	.LFB130:
+  91:Src/eddystone_beacon.c ****   uint8_t NamespaceID[] = { NAMESPACE_ID };
+ 199              		.loc 1 91 0
+ 200              		.cfi_startproc
+ 201              		@ args = 0, pretend = 0, frame = 32
+ 202              		@ frame_needed = 0, uses_anonymous_args = 0
+ 203 0000 00B5     		push	{lr}
+ 204              	.LCFI4:
+ 205              		.cfi_def_cfa_offset 4
+ 206              		.cfi_offset 14, -4
+ 207 0002 89B0     		sub	sp, sp, #36
+ 208              	.LCFI5:
+ 209              		.cfi_def_cfa_offset 40
+  92:Src/eddystone_beacon.c ****   uint8_t BeaconID[] = { BEACON_ID };
+ 210              		.loc 1 92 0
+ 211 0004 05AB     		add	r3, sp, #20
+ 212 0006 114A     		ldr	r2, .L9
+ 213 0008 07CA     		ldm	r2, {r0, r1, r2}
+ 214 000a 03C3     		stmia	r3!, {r0, r1}
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 9
+
+
+ 215 000c 1A80     		strh	r2, [r3]	@ movhi
+  93:Src/eddystone_beacon.c **** 
+ 216              		.loc 1 93 0
+ 217 000e 0023     		movs	r3, #0
+ 218 0010 8DF80C30 		strb	r3, [sp, #12]
+ 219 0014 8DF80D30 		strb	r3, [sp, #13]
+ 220 0018 8DF80E30 		strb	r3, [sp, #14]
+ 221 001c 8DF80F30 		strb	r3, [sp, #15]
+ 222 0020 8DF81030 		strb	r3, [sp, #16]
+ 223 0024 0123     		movs	r3, #1
+ 224 0026 8DF81130 		strb	r3, [sp, #17]
+  95:Src/eddystone_beacon.c ****   {
+ 225              		.loc 1 95 0
+ 226 002a 4FF47A73 		mov	r3, #1000
+ 227 002e ADF80030 		strh	r3, [sp]	@ movhi
+ 228 0032 EA23     		movs	r3, #234
+ 229 0034 8DF80230 		strb	r3, [sp, #2]
+ 230 0038 05AB     		add	r3, sp, #20
+ 231 003a 0193     		str	r3, [sp, #4]
+ 232 003c 03AB     		add	r3, sp, #12
+ 233 003e 0293     		str	r3, [sp, #8]
+ 103:Src/eddystone_beacon.c **** }
+ 234              		.loc 1 103 0
+ 235 0040 6846     		mov	r0, sp
+ 236 0042 FFF7FEFF 		bl	EddystoneUID_Init
+ 237              	.LVL16:
+ 104:Src/eddystone_beacon.c **** 
+ 238              		.loc 1 104 0
+ 239 0046 09B0     		add	sp, sp, #36
+ 240              	.LCFI6:
+ 241              		.cfi_def_cfa_offset 4
+ 242              		@ sp needed
+ 243 0048 5DF804FB 		ldr	pc, [sp], #4
+ 244              	.L10:
+ 245              		.align	2
+ 246              	.L9:
+ 247 004c 08000000 		.word	.LANCHOR0+8
+ 248              		.cfi_endproc
+ 249              	.LFE130:
+ 251              		.section	.text.EddystoneURL_Init,"ax",%progbits
+ 252              		.align	1
+ 253              		.global	EddystoneURL_Init
+ 254              		.syntax unified
+ 255              		.thumb
+ 256              		.thumb_func
+ 257              		.fpu fpv4-sp-d16
+ 259              	EddystoneURL_Init:
+ 260              	.LFB133:
+ 228:Src/eddystone_beacon.c **** 
+ 229:Src/eddystone_beacon.c **** /**
+ 230:Src/eddystone_beacon.c ****   * @brief  This function initializes the Eddystone URL Bluetooth services
+ 231:Src/eddystone_beacon.c ****   * @param  EddystoneURL_Init pointer to initialization structure
+ 232:Src/eddystone_beacon.c ****   * @retval None
+ 233:Src/eddystone_beacon.c ****   */
+ 234:Src/eddystone_beacon.c **** tBleStatus EddystoneURL_Init(EddystoneURL_InitTypeDef *EddystoneURL_Init)
+ 235:Src/eddystone_beacon.c **** {
+ 261              		.loc 1 235 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 10
+
+
+ 262              		.cfi_startproc
+ 263              		@ args = 0, pretend = 0, frame = 32
+ 264              		@ frame_needed = 0, uses_anonymous_args = 0
+ 265              	.LVL17:
+ 266 0000 10B5     		push	{r4, lr}
+ 267              	.LCFI7:
+ 268              		.cfi_def_cfa_offset 8
+ 269              		.cfi_offset 4, -8
+ 270              		.cfi_offset 14, -4
+ 271 0002 90B0     		sub	sp, sp, #64
+ 272              	.LCFI8:
+ 273              		.cfi_def_cfa_offset 72
+ 274 0004 0446     		mov	r4, r0
+ 236:Src/eddystone_beacon.c ****   tBleStatus ret;
+ 237:Src/eddystone_beacon.c **** 
+ 238:Src/eddystone_beacon.c ****   /* Disable scan response. */
+ 239:Src/eddystone_beacon.c ****   hci_le_set_scan_resp_data(0, NULL);
+ 275              		.loc 1 239 0
+ 276 0006 0021     		movs	r1, #0
+ 277 0008 0846     		mov	r0, r1
+ 278              	.LVL18:
+ 279 000a FFF7FEFF 		bl	hci_le_set_scan_resp_data
+ 280              	.LVL19:
+ 240:Src/eddystone_beacon.c **** 
+ 241:Src/eddystone_beacon.c ****   /* Put the device in a non-connectable mode. */
+ 242:Src/eddystone_beacon.c ****   ret = aci_gap_set_discoverable(ADV_DATA_TYPE,                   /*< Advertise as non-connectable,
+ 281              		.loc 1 242 0
+ 282 000e 0020     		movs	r0, #0
+ 283 0010 0690     		str	r0, [sp, #24]
+ 284 0012 0590     		str	r0, [sp, #20]
+ 285 0014 0490     		str	r0, [sp, #16]
+ 286 0016 0390     		str	r0, [sp, #12]
+ 287 0018 0290     		str	r0, [sp, #8]
+ 288 001a 0190     		str	r0, [sp, #4]
+ 289 001c 0090     		str	r0, [sp]
+ 290 001e 0346     		mov	r3, r0
+ 291 0020 4FF48052 		mov	r2, #4096
+ 292 0024 4FF40061 		mov	r1, #2048
+ 293 0028 FFF7FEFF 		bl	aci_gap_set_discoverable
+ 294              	.LVL20:
+ 243:Src/eddystone_beacon.c ****                                  ADV_INTERV_MIN, ADV_INTERV_MAX,  /*< Set the advertising interval 
+ 244:Src/eddystone_beacon.c ****                                  PUBLIC_ADDR, NO_WHITE_LIST_USE,  /*< Use the public address, with 
+ 245:Src/eddystone_beacon.c ****                                  0, NULL,                         /*< Do not use a local name. */
+ 246:Src/eddystone_beacon.c ****                                  0, NULL,                         /*< Do not include the service UU
+ 247:Src/eddystone_beacon.c ****                                  0, 0);                           /*< Do not set a slave connection
+ 248:Src/eddystone_beacon.c **** 
+ 249:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+ 295              		.loc 1 249 0
+ 296 002c 0346     		mov	r3, r0
+ 297 002e 10B1     		cbz	r0, .L16
+ 298              	.LVL21:
+ 299              	.L12:
+ 250:Src/eddystone_beacon.c ****   {
+ 251:Src/eddystone_beacon.c ****     return ret;
+ 252:Src/eddystone_beacon.c ****   }
+ 253:Src/eddystone_beacon.c **** 
+ 254:Src/eddystone_beacon.c ****   /* Remove the TX power level advertisement (this is done to decrease the packet size). */
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 11
+
+
+ 255:Src/eddystone_beacon.c ****   ret = aci_gap_delete_ad_type(AD_TYPE_TX_POWER_LEVEL);
+ 256:Src/eddystone_beacon.c **** 
+ 257:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+ 258:Src/eddystone_beacon.c ****   {
+ 259:Src/eddystone_beacon.c ****     return ret;
+ 260:Src/eddystone_beacon.c ****   }
+ 261:Src/eddystone_beacon.c **** 
+ 262:Src/eddystone_beacon.c ****   uint8_t service_data[24] =
+ 263:Src/eddystone_beacon.c ****   {
+ 264:Src/eddystone_beacon.c ****     6 + EddystoneURL_Init->UrlLength,                                       /*< Length. */
+ 265:Src/eddystone_beacon.c ****     AD_TYPE_SERVICE_DATA,                                                   /*< Service Data data t
+ 266:Src/eddystone_beacon.c ****     0xAA, 0xFE,                                                             /*< 16-bit Eddystone UU
+ 267:Src/eddystone_beacon.c ****     0x10,                                                                   /*< URL frame type. */
+ 268:Src/eddystone_beacon.c ****     EddystoneURL_Init->CalibratedTxPower,                                   /*< Ranging data. */
+ 269:Src/eddystone_beacon.c ****     EddystoneURL_Init->UrlScheme,                                           /*< URL Scheme Prefix i
+ 270:Src/eddystone_beacon.c ****     0x00,                                                                   /*< URL */
+ 271:Src/eddystone_beacon.c ****     0x00,
+ 272:Src/eddystone_beacon.c ****     0x00,
+ 273:Src/eddystone_beacon.c ****     0x00,
+ 274:Src/eddystone_beacon.c ****     0x00,
+ 275:Src/eddystone_beacon.c ****     0x00,
+ 276:Src/eddystone_beacon.c ****     0x00,
+ 277:Src/eddystone_beacon.c ****     0x00,
+ 278:Src/eddystone_beacon.c ****     0x00,
+ 279:Src/eddystone_beacon.c ****     0x00,
+ 280:Src/eddystone_beacon.c ****     0x00,
+ 281:Src/eddystone_beacon.c ****     0x00,
+ 282:Src/eddystone_beacon.c ****     0x00,
+ 283:Src/eddystone_beacon.c ****     0x00,
+ 284:Src/eddystone_beacon.c ****     0x00,
+ 285:Src/eddystone_beacon.c ****     0x00,
+ 286:Src/eddystone_beacon.c ****     0x00
+ 287:Src/eddystone_beacon.c ****   };
+ 288:Src/eddystone_beacon.c **** 
+ 289:Src/eddystone_beacon.c ****   for (uint8_t i = 0; i < EddystoneURL_Init->UrlLength; ++i)
+ 290:Src/eddystone_beacon.c ****   {
+ 291:Src/eddystone_beacon.c ****     service_data[7 + i] = EddystoneURL_Init->Url[i];
+ 292:Src/eddystone_beacon.c ****   }
+ 293:Src/eddystone_beacon.c **** 
+ 294:Src/eddystone_beacon.c ****   uint8_t service_uuid_list[] =
+ 295:Src/eddystone_beacon.c ****   {
+ 296:Src/eddystone_beacon.c ****     3,                                                                      /*< Length. */
+ 297:Src/eddystone_beacon.c ****     AD_TYPE_16_BIT_SERV_UUID_CMPLT_LIST,                                    /*< Complete list of 16
+ 298:Src/eddystone_beacon.c ****     0xAA, 0xFE                                                              /*< 16-bit Eddystone UU
+ 299:Src/eddystone_beacon.c ****   };
+ 300:Src/eddystone_beacon.c **** 
+ 301:Src/eddystone_beacon.c ****   uint8_t flags[] =
+ 302:Src/eddystone_beacon.c ****   {
+ 303:Src/eddystone_beacon.c ****     2,                                                                      /*< Length. */
+ 304:Src/eddystone_beacon.c ****     AD_TYPE_FLAGS,                                                          /*< Flags data type val
+ 305:Src/eddystone_beacon.c ****     (FLAG_BIT_LE_GENERAL_DISCOVERABLE_MODE | FLAG_BIT_BR_EDR_NOT_SUPPORTED) /*< BLE general discove
+ 306:Src/eddystone_beacon.c ****   };
+ 307:Src/eddystone_beacon.c **** 
+ 308:Src/eddystone_beacon.c ****   /* Update the service data. */
+ 309:Src/eddystone_beacon.c ****   ret = aci_gap_update_adv_data(sizeof(service_data), service_data);
+ 310:Src/eddystone_beacon.c **** 
+ 311:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 12
+
+
+ 312:Src/eddystone_beacon.c ****   {
+ 313:Src/eddystone_beacon.c ****     return ret;
+ 314:Src/eddystone_beacon.c ****   }
+ 315:Src/eddystone_beacon.c **** 
+ 316:Src/eddystone_beacon.c ****   /* Update the service UUID list. */
+ 317:Src/eddystone_beacon.c ****   ret = aci_gap_update_adv_data(sizeof(service_uuid_list), service_uuid_list);
+ 318:Src/eddystone_beacon.c **** 
+ 319:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+ 320:Src/eddystone_beacon.c ****   {
+ 321:Src/eddystone_beacon.c ****     return ret;
+ 322:Src/eddystone_beacon.c ****   }
+ 323:Src/eddystone_beacon.c **** 
+ 324:Src/eddystone_beacon.c ****   /* Update the adverstising flags. */
+ 325:Src/eddystone_beacon.c ****   ret = aci_gap_update_adv_data(sizeof(flags), flags);
+ 326:Src/eddystone_beacon.c **** 
+ 327:Src/eddystone_beacon.c ****   if (ret != BLE_STATUS_SUCCESS)
+ 328:Src/eddystone_beacon.c ****   {
+ 329:Src/eddystone_beacon.c ****     return ret;
+ 330:Src/eddystone_beacon.c ****   }
+ 331:Src/eddystone_beacon.c **** 
+ 332:Src/eddystone_beacon.c ****   return ret;
+ 333:Src/eddystone_beacon.c **** }
+ 300              		.loc 1 333 0
+ 301 0030 1846     		mov	r0, r3
+ 302 0032 10B0     		add	sp, sp, #64
+ 303              	.LCFI9:
+ 304              		.cfi_remember_state
+ 305              		.cfi_def_cfa_offset 8
+ 306              		@ sp needed
+ 307 0034 10BD     		pop	{r4, pc}
+ 308              	.LVL22:
+ 309              	.L16:
+ 310              	.LCFI10:
+ 311              		.cfi_restore_state
+ 255:Src/eddystone_beacon.c **** 
+ 312              		.loc 1 255 0
+ 313 0036 0A20     		movs	r0, #10
+ 314              	.LVL23:
+ 315 0038 FFF7FEFF 		bl	aci_gap_delete_ad_type
+ 316              	.LVL24:
+ 257:Src/eddystone_beacon.c ****   {
+ 317              		.loc 1 257 0
+ 318 003c 0346     		mov	r3, r0
+ 319 003e 0028     		cmp	r0, #0
+ 320 0040 F6D1     		bne	.L12
+ 264:Src/eddystone_beacon.c ****     AD_TYPE_SERVICE_DATA,                                                   /*< Service Data data t
+ 321              		.loc 1 264 0
+ 322 0042 237A     		ldrb	r3, [r4, #8]	@ zero_extendqisi2
+ 323 0044 0633     		adds	r3, r3, #6
+ 262:Src/eddystone_beacon.c ****   {
+ 324              		.loc 1 262 0
+ 325 0046 8DF82830 		strb	r3, [sp, #40]
+ 326 004a 1623     		movs	r3, #22
+ 327 004c 8DF82930 		strb	r3, [sp, #41]
+ 328 0050 AA23     		movs	r3, #170
+ 329 0052 8DF82A30 		strb	r3, [sp, #42]
+ 330 0056 FE23     		movs	r3, #254
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 13
+
+
+ 331 0058 8DF82B30 		strb	r3, [sp, #43]
+ 332 005c 1023     		movs	r3, #16
+ 333 005e 8DF82C30 		strb	r3, [sp, #44]
+ 268:Src/eddystone_beacon.c ****     EddystoneURL_Init->UrlScheme,                                           /*< URL Scheme Prefix i
+ 334              		.loc 1 268 0
+ 335 0062 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 262:Src/eddystone_beacon.c ****   {
+ 336              		.loc 1 262 0
+ 337 0064 8DF82D30 		strb	r3, [sp, #45]
+ 269:Src/eddystone_beacon.c ****     0x00,                                                                   /*< URL */
+ 338              		.loc 1 269 0
+ 339 0068 E378     		ldrb	r3, [r4, #3]	@ zero_extendqisi2
+ 262:Src/eddystone_beacon.c ****   {
+ 340              		.loc 1 262 0
+ 341 006a 8DF82E30 		strb	r3, [sp, #46]
+ 342 006e 0023     		movs	r3, #0
+ 343 0070 8DF82F30 		strb	r3, [sp, #47]
+ 344 0074 8DF83030 		strb	r3, [sp, #48]
+ 345 0078 8DF83130 		strb	r3, [sp, #49]
+ 346 007c 8DF83230 		strb	r3, [sp, #50]
+ 347 0080 8DF83330 		strb	r3, [sp, #51]
+ 348 0084 8DF83430 		strb	r3, [sp, #52]
+ 349 0088 8DF83530 		strb	r3, [sp, #53]
+ 350 008c 8DF83630 		strb	r3, [sp, #54]
+ 351 0090 8DF83730 		strb	r3, [sp, #55]
+ 352 0094 8DF83830 		strb	r3, [sp, #56]
+ 353 0098 8DF83930 		strb	r3, [sp, #57]
+ 354 009c 8DF83A30 		strb	r3, [sp, #58]
+ 355 00a0 8DF83B30 		strb	r3, [sp, #59]
+ 356 00a4 8DF83C30 		strb	r3, [sp, #60]
+ 357 00a8 8DF83D30 		strb	r3, [sp, #61]
+ 358 00ac 8DF83E30 		strb	r3, [sp, #62]
+ 359 00b0 8DF83F30 		strb	r3, [sp, #63]
+ 360              	.LVL25:
+ 361              	.LBB2:
+ 289:Src/eddystone_beacon.c ****   {
+ 362              		.loc 1 289 0
+ 363 00b4 08E0     		b	.L13
+ 364              	.LVL26:
+ 365              	.L14:
+ 291:Src/eddystone_beacon.c ****   }
+ 366              		.loc 1 291 0 discriminator 3
+ 367 00b6 DA1D     		adds	r2, r3, #7
+ 368 00b8 6168     		ldr	r1, [r4, #4]
+ 369 00ba C95C     		ldrb	r1, [r1, r3]	@ zero_extendqisi2
+ 370 00bc 10A8     		add	r0, sp, #64
+ 371 00be 0244     		add	r2, r2, r0
+ 372 00c0 02F8181C 		strb	r1, [r2, #-24]
+ 289:Src/eddystone_beacon.c ****   {
+ 373              		.loc 1 289 0 discriminator 3
+ 374 00c4 0133     		adds	r3, r3, #1
+ 375              	.LVL27:
+ 376 00c6 DBB2     		uxtb	r3, r3
+ 377              	.LVL28:
+ 378              	.L13:
+ 289:Src/eddystone_beacon.c ****   {
+ 379              		.loc 1 289 0 is_stmt 0 discriminator 1
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 14
+
+
+ 380 00c8 227A     		ldrb	r2, [r4, #8]	@ zero_extendqisi2
+ 381 00ca 9342     		cmp	r3, r2
+ 382 00cc F3D3     		bcc	.L14
+ 383              	.LBE2:
+ 294:Src/eddystone_beacon.c ****   {
+ 384              		.loc 1 294 0 is_stmt 1
+ 385 00ce 0E4B     		ldr	r3, .L17
+ 386              	.LVL29:
+ 387 00d0 1A68     		ldr	r2, [r3]
+ 388 00d2 0992     		str	r2, [sp, #36]
+ 301:Src/eddystone_beacon.c ****   {
+ 389              		.loc 1 301 0
+ 390 00d4 5B68     		ldr	r3, [r3, #4]
+ 391 00d6 ADF82030 		strh	r3, [sp, #32]	@ movhi
+ 392 00da 1B0C     		lsrs	r3, r3, #16
+ 393 00dc 8DF82230 		strb	r3, [sp, #34]
+ 309:Src/eddystone_beacon.c **** 
+ 394              		.loc 1 309 0
+ 395 00e0 0AA9     		add	r1, sp, #40
+ 396 00e2 1820     		movs	r0, #24
+ 397 00e4 FFF7FEFF 		bl	aci_gap_update_adv_data
+ 398              	.LVL30:
+ 311:Src/eddystone_beacon.c ****   {
+ 399              		.loc 1 311 0
+ 400 00e8 0346     		mov	r3, r0
+ 401 00ea 0028     		cmp	r0, #0
+ 402 00ec A0D1     		bne	.L12
+ 317:Src/eddystone_beacon.c **** 
+ 403              		.loc 1 317 0
+ 404 00ee 09A9     		add	r1, sp, #36
+ 405 00f0 0420     		movs	r0, #4
+ 406              	.LVL31:
+ 407 00f2 FFF7FEFF 		bl	aci_gap_update_adv_data
+ 408              	.LVL32:
+ 319:Src/eddystone_beacon.c ****   {
+ 409              		.loc 1 319 0
+ 410 00f6 0346     		mov	r3, r0
+ 411 00f8 0028     		cmp	r0, #0
+ 412 00fa 99D1     		bne	.L12
+ 325:Src/eddystone_beacon.c **** 
+ 413              		.loc 1 325 0
+ 414 00fc 08A9     		add	r1, sp, #32
+ 415 00fe 0320     		movs	r0, #3
+ 416              	.LVL33:
+ 417 0100 FFF7FEFF 		bl	aci_gap_update_adv_data
+ 418              	.LVL34:
+ 419 0104 0346     		mov	r3, r0
+ 420              	.LVL35:
+ 421 0106 93E7     		b	.L12
+ 422              	.L18:
+ 423              		.align	2
+ 424              	.L17:
+ 425 0108 00000000 		.word	.LANCHOR0
+ 426              		.cfi_endproc
+ 427              	.LFE133:
+ 429              		.section	.text.EddystoneURL_Start,"ax",%progbits
+ 430              		.align	1
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 15
+
+
+ 431              		.global	EddystoneURL_Start
+ 432              		.syntax unified
+ 433              		.thumb
+ 434              		.thumb_func
+ 435              		.fpu fpv4-sp-d16
+ 437              	EddystoneURL_Start:
+ 438              	.LFB131:
+ 112:Src/eddystone_beacon.c ****   uint8_t UrlScheme = URL_PREFIX;
+ 439              		.loc 1 112 0
+ 440              		.cfi_startproc
+ 441              		@ args = 0, pretend = 0, frame = 32
+ 442              		@ frame_needed = 0, uses_anonymous_args = 0
+ 443 0000 10B5     		push	{r4, lr}
+ 444              	.LCFI11:
+ 445              		.cfi_def_cfa_offset 8
+ 446              		.cfi_offset 4, -8
+ 447              		.cfi_offset 14, -4
+ 448 0002 88B0     		sub	sp, sp, #32
+ 449              	.LCFI12:
+ 450              		.cfi_def_cfa_offset 40
+ 451              	.LVL36:
+ 114:Src/eddystone_beacon.c **** 
+ 452              		.loc 1 114 0
+ 453 0004 0C4B     		ldr	r3, .L21
+ 454 0006 04AC     		add	r4, sp, #16
+ 455 0008 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ 456 000a 07C4     		stmia	r4!, {r0, r1, r2}
+ 457 000c 2380     		strh	r3, [r4]	@ movhi
+ 116:Src/eddystone_beacon.c ****   {
+ 458              		.loc 1 116 0
+ 459 000e 4FF47A73 		mov	r3, #1000
+ 460 0012 ADF80430 		strh	r3, [sp, #4]	@ movhi
+ 461 0016 EA23     		movs	r3, #234
+ 462 0018 8DF80630 		strb	r3, [sp, #6]
+ 463 001c 0223     		movs	r3, #2
+ 464 001e 8DF80730 		strb	r3, [sp, #7]
+ 465 0022 04AB     		add	r3, sp, #16
+ 466 0024 0293     		str	r3, [sp, #8]
+ 467 0026 0D23     		movs	r3, #13
+ 468 0028 8DF80C30 		strb	r3, [sp, #12]
+ 125:Src/eddystone_beacon.c **** }
+ 469              		.loc 1 125 0
+ 470 002c 01A8     		add	r0, sp, #4
+ 471 002e FFF7FEFF 		bl	EddystoneURL_Init
+ 472              	.LVL37:
+ 126:Src/eddystone_beacon.c **** 
+ 473              		.loc 1 126 0
+ 474 0032 08B0     		add	sp, sp, #32
+ 475              	.LCFI13:
+ 476              		.cfi_def_cfa_offset 8
+ 477              		@ sp needed
+ 478 0034 10BD     		pop	{r4, pc}
+ 479              	.L22:
+ 480 0036 00BF     		.align	2
+ 481              	.L21:
+ 482 0038 00000000 		.word	.LC3
+ 483              		.cfi_endproc
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 16
+
+
+ 484              	.LFE131:
+ 486              		.section	.rodata
+ 487              		.align	2
+ 488              		.set	.LANCHOR0,. + 0
+ 489              	.LC1:
+ 490 0000 03       		.byte	3
+ 491 0001 03       		.byte	3
+ 492 0002 AA       		.byte	-86
+ 493 0003 FE       		.byte	-2
+ 494              	.LC2:
+ 495 0004 02       		.byte	2
+ 496 0005 01       		.byte	1
+ 497 0006 06       		.byte	6
+ 498 0007 00       		.space	1
+ 499              	.LC0:
+ 500 0008 77       		.byte	119
+ 501 0009 77       		.byte	119
+ 502 000a 77       		.byte	119
+ 503 000b 2E       		.byte	46
+ 504 000c 73       		.byte	115
+ 505 000d 74       		.byte	116
+ 506 000e 2E       		.byte	46
+ 507 000f 63       		.byte	99
+ 508 0010 6F       		.byte	111
+ 509 0011 6D       		.byte	109
+ 510              		.section	.rodata.EddystoneURL_Start.str1.4,"aMS",%progbits,1
+ 511              		.align	2
+ 512              	.LC3:
+ 513 0000 676F6F2E 		.ascii	"goo.gl/viVrdi\000"
+ 513      676C2F76 
+ 513      69567264 
+ 513      6900
+ 514              		.text
+ 515              	.Letext0:
+ 516              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 517              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 518              		.file 4 "Middlewares/ST/BlueNRG-MS/includes/bluenrg_def.h"
+ 519              		.file 5 "Drivers/CMSIS/Include/core_cm4.h"
+ 520              		.file 6 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 521              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 522              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h"
+ 523              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 524              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 525              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 526              		.file 12 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-ea
+ 527              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 528              		.file 14 "Inc/eddystone_beacon.h"
+ 529              		.file 15 "Middlewares/ST/BlueNRG-MS/includes/hci_le.h"
+ 530              		.file 16 "Middlewares/ST/BlueNRG-MS/includes/bluenrg_gap_aci.h"
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s 			page 17
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 eddystone_beacon.c
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:18     .text.EddystoneUID_Init:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:25     .text.EddystoneUID_Init:00000000 EddystoneUID_Init
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:185    .text.EddystoneUID_Init:0000010c $d
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:190    .text.EddystoneUID_Start:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:197    .text.EddystoneUID_Start:00000000 EddystoneUID_Start
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:247    .text.EddystoneUID_Start:0000004c $d
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:252    .text.EddystoneURL_Init:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:259    .text.EddystoneURL_Init:00000000 EddystoneURL_Init
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:425    .text.EddystoneURL_Init:00000108 $d
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:430    .text.EddystoneURL_Start:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:437    .text.EddystoneURL_Start:00000000 EddystoneURL_Start
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:482    .text.EddystoneURL_Start:00000038 $d
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:487    .rodata:00000000 $d
+C:\Users\choee\AppData\Local\Temp\ccBiyOBW.s:511    .rodata.EddystoneURL_Start.str1.4:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+hci_le_set_scan_resp_data
+aci_gap_set_discoverable
+aci_gap_delete_ad_type
+aci_gap_update_adv_data

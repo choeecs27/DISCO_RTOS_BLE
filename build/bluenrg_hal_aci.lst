@@ -1,0 +1,1147 @@
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"bluenrg_hal_aci.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.aci_hal_get_fw_build_number,"ax",%progbits
+  18              		.align	1
+  19              		.global	aci_hal_get_fw_build_number
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	aci_hal_get_fw_build_number:
+  26              	.LFB130:
+  27              		.file 1 "Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c"
+   1:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** /******************** (C) COPYRIGHT 2013 STMicroelectronics ********************
+   2:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * File Name          : bluenrg_hci.c
+   3:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * Author             : AMS - HEA&RF BU
+   4:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * Version            : V1.0.0
+   5:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * Date               : 4-Oct-2013
+   6:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * Description        : File with HCI commands for BlueNRG FW6.0 and above.
+   7:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** ********************************************************************************
+   8:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+   9:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
+  10:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
+  11:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM THE
+  12:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING
+  13:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** * INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  14:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** *******************************************************************************/
+  15:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+  16:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** #include "bluenrg_types.h"
+  17:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** #include "bluenrg_def.h"
+  18:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** #include "hci_const.h"
+  19:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** #include "bluenrg_aci_const.h"
+  20:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** #include "bluenrg_hal_aci.h"
+  21:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** #include "bluenrg_gatt_server.h"
+  22:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** #include "bluenrg_gap.h"
+  23:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+  24:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** #define MIN(a,b)            ((a) < (b) )? (a) : (b)
+  25:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** #define MAX(a,b)            ((a) > (b) )? (a) : (b)
+  26:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+  27:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_get_fw_build_number(uint16_t *build_number)
+  28:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+  28              		.loc 1 28 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 32
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 2
+
+
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 10B5     		push	{r4, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  38 0002 88B0     		sub	sp, sp, #32
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_offset 40
+  41 0004 0446     		mov	r4, r0
+  29:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+  30:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   hal_get_fw_build_number_rp rp;
+  31:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+  32:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+  42              		.loc 1 32 0
+  43 0006 0021     		movs	r1, #0
+  44 0008 0291     		str	r1, [sp, #8]
+  45 000a 0391     		str	r1, [sp, #12]
+  46 000c 0491     		str	r1, [sp, #16]
+  47 000e 0591     		str	r1, [sp, #20]
+  33:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+  48              		.loc 1 33 0
+  49 0010 3F23     		movs	r3, #63
+  50 0012 ADF80830 		strh	r3, [sp, #8]	@ movhi
+  34:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_GET_FW_BUILD_NUMBER;
+  35:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &rp;
+  51              		.loc 1 35 0
+  52 0016 01AB     		add	r3, sp, #4
+  53 0018 0693     		str	r3, [sp, #24]
+  36:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = sizeof(rp);
+  54              		.loc 1 36 0
+  55 001a 0323     		movs	r3, #3
+  56 001c 0793     		str	r3, [sp, #28]
+  37:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+  38:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+  57              		.loc 1 38 0
+  58 001e 02A8     		add	r0, sp, #8
+  59              	.LVL1:
+  60 0020 FFF7FEFF 		bl	hci_send_req
+  61              	.LVL2:
+  62 0024 0028     		cmp	r0, #0
+  63 0026 06DB     		blt	.L3
+  39:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+  40:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+  41:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if(rp.status)
+  64              		.loc 1 41 0
+  65 0028 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+  66 002c 20B9     		cbnz	r0, .L2
+  42:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return rp.status;
+  43:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+  44:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   *build_number = rp.build_number;
+  67              		.loc 1 44 0
+  68 002e BDF80530 		ldrh	r3, [sp, #5]	@ unaligned
+  69 0032 2380     		strh	r3, [r4]	@ movhi
+  45:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+  46:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return 0;
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 3
+
+
+  70              		.loc 1 46 0
+  71 0034 00E0     		b	.L2
+  72              	.L3:
+  39:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+  73              		.loc 1 39 0
+  74 0036 FF20     		movs	r0, #255
+  75              	.L2:
+  47:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+  76              		.loc 1 47 0
+  77 0038 08B0     		add	sp, sp, #32
+  78              	.LCFI2:
+  79              		.cfi_def_cfa_offset 8
+  80              		@ sp needed
+  81 003a 10BD     		pop	{r4, pc}
+  82              		.cfi_endproc
+  83              	.LFE130:
+  85              		.section	.text.aci_hal_write_config_data,"ax",%progbits
+  86              		.align	1
+  87              		.global	aci_hal_write_config_data
+  88              		.syntax unified
+  89              		.thumb
+  90              		.thumb_func
+  91              		.fpu fpv4-sp-d16
+  93              	aci_hal_write_config_data:
+  94              	.LFB131:
+  48:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+  49:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_write_config_data(uint8_t offset, 
+  50:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****                                     uint8_t len,
+  51:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****                                     const uint8_t *val)
+  52:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+  95              		.loc 1 52 0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 160
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              	.LVL3:
+  53:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+  54:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   uint8_t status;
+  55:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   uint8_t buffer[HCI_MAX_PAYLOAD_SIZE];
+  56:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   uint8_t indx = 0;
+  57:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     
+  58:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if ((len+2) > HCI_MAX_PAYLOAD_SIZE)
+ 100              		.loc 1 58 0
+ 101 0000 8B1C     		adds	r3, r1, #2
+ 102 0002 802B     		cmp	r3, #128
+ 103 0004 01DD     		ble	.L13
+  59:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_INVALID_PARAMS;
+ 104              		.loc 1 59 0
+ 105 0006 4220     		movs	r0, #66
+ 106              	.LVL4:
+ 107 0008 7047     		bx	lr
+ 108              	.LVL5:
+ 109              	.L13:
+  52:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+ 110              		.loc 1 52 0
+ 111 000a 10B5     		push	{r4, lr}
+ 112              	.LCFI3:
+ 113              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 4
+
+
+ 114              		.cfi_offset 4, -8
+ 115              		.cfi_offset 14, -4
+ 116 000c A8B0     		sub	sp, sp, #160
+ 117              	.LCFI4:
+ 118              		.cfi_def_cfa_offset 168
+ 119 000e 1346     		mov	r3, r2
+ 120 0010 0C46     		mov	r4, r1
+  60:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+  61:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   buffer[indx] = offset;
+ 121              		.loc 1 61 0
+ 122 0012 8DF80400 		strb	r0, [sp, #4]
+ 123              	.LVL6:
+  62:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   indx++;
+  63:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     
+  64:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   buffer[indx] = len;
+ 124              		.loc 1 64 0
+ 125 0016 8DF80510 		strb	r1, [sp, #5]
+ 126              	.LVL7:
+  65:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   indx++;
+  66:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****         
+  67:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memcpy(buffer + indx, val, len);
+ 127              		.loc 1 67 0
+ 128 001a 0A46     		mov	r2, r1
+ 129              	.LVL8:
+ 130 001c 1946     		mov	r1, r3
+ 131              	.LVL9:
+ 132 001e 0DF10600 		add	r0, sp, #6
+ 133              	.LVL10:
+ 134 0022 FFF7FEFF 		bl	memcpy
+ 135              	.LVL11:
+  68:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   indx +=  len;
+ 136              		.loc 1 68 0
+ 137 0026 0234     		adds	r4, r4, #2
+ 138 0028 E4B2     		uxtb	r4, r4
+ 139              	.LVL12:
+  69:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+  70:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 140              		.loc 1 70 0
+ 141 002a 0021     		movs	r1, #0
+ 142 002c 2391     		str	r1, [sp, #140]
+  71:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+ 143              		.loc 1 71 0
+ 144 002e 3F23     		movs	r3, #63
+ 145 0030 ADF88830 		strh	r3, [sp, #136]	@ movhi
+  72:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_WRITE_CONFIG_DATA;
+ 146              		.loc 1 72 0
+ 147 0034 0C23     		movs	r3, #12
+ 148 0036 ADF88A30 		strh	r3, [sp, #138]	@ movhi
+  73:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.cparam = (void *)buffer;
+ 149              		.loc 1 73 0
+ 150 003a 01AB     		add	r3, sp, #4
+ 151 003c 2493     		str	r3, [sp, #144]
+  74:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.clen = indx;
+ 152              		.loc 1 74 0
+ 153 003e 2594     		str	r4, [sp, #148]
+  75:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &status;
+ 154              		.loc 1 75 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 5
+
+
+ 155 0040 0DF18703 		add	r3, sp, #135
+ 156 0044 2693     		str	r3, [sp, #152]
+  76:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = 1;
+ 157              		.loc 1 76 0
+ 158 0046 0123     		movs	r3, #1
+ 159 0048 2793     		str	r3, [sp, #156]
+  77:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+  78:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 160              		.loc 1 78 0
+ 161 004a 22A8     		add	r0, sp, #136
+ 162 004c FFF7FEFF 		bl	hci_send_req
+ 163              	.LVL13:
+ 164 0050 0028     		cmp	r0, #0
+ 165 0052 03DB     		blt	.L8
+  79:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+  80:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+  81:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return status;
+ 166              		.loc 1 81 0
+ 167 0054 9DF88700 		ldrb	r0, [sp, #135]	@ zero_extendqisi2
+ 168              	.L6:
+  82:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+ 169              		.loc 1 82 0
+ 170 0058 28B0     		add	sp, sp, #160
+ 171              	.LCFI5:
+ 172              		.cfi_remember_state
+ 173              		.cfi_def_cfa_offset 8
+ 174              		@ sp needed
+ 175 005a 10BD     		pop	{r4, pc}
+ 176              	.LVL14:
+ 177              	.L8:
+ 178              	.LCFI6:
+ 179              		.cfi_restore_state
+  79:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 180              		.loc 1 79 0
+ 181 005c FF20     		movs	r0, #255
+ 182 005e FBE7     		b	.L6
+ 183              		.cfi_endproc
+ 184              	.LFE131:
+ 186              		.section	.text.aci_hal_read_config_data,"ax",%progbits
+ 187              		.align	1
+ 188              		.global	aci_hal_read_config_data
+ 189              		.syntax unified
+ 190              		.thumb
+ 191              		.thumb_func
+ 192              		.fpu fpv4-sp-d16
+ 194              	aci_hal_read_config_data:
+ 195              	.LFB132:
+  83:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+  84:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_read_config_data(uint8_t offset, uint16_t data_len, uint8_t *data_len_out_p, uin
+  85:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+ 196              		.loc 1 85 0
+ 197              		.cfi_startproc
+ 198              		@ args = 0, pretend = 0, frame = 160
+ 199              		@ frame_needed = 0, uses_anonymous_args = 0
+ 200              	.LVL15:
+ 201 0000 70B5     		push	{r4, r5, r6, lr}
+ 202              	.LCFI7:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 6
+
+
+ 203              		.cfi_def_cfa_offset 16
+ 204              		.cfi_offset 4, -16
+ 205              		.cfi_offset 5, -12
+ 206              		.cfi_offset 6, -8
+ 207              		.cfi_offset 14, -4
+ 208 0002 A8B0     		sub	sp, sp, #160
+ 209              	.LCFI8:
+ 210              		.cfi_def_cfa_offset 176
+ 211 0004 0D46     		mov	r5, r1
+ 212 0006 1646     		mov	r6, r2
+ 213 0008 1C46     		mov	r4, r3
+  86:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+  87:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   hal_read_config_data_cp cp;
+  88:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   hal_read_config_data_rp rp;
+  89:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+  90:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   cp.offset = offset;
+ 214              		.loc 1 90 0
+ 215 000a 8DF88400 		strb	r0, [sp, #132]
+  91:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+  92:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 216              		.loc 1 92 0
+ 217 000e 0021     		movs	r1, #0
+ 218              	.LVL16:
+ 219 0010 2391     		str	r1, [sp, #140]
+  93:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+ 220              		.loc 1 93 0
+ 221 0012 3F23     		movs	r3, #63
+ 222              	.LVL17:
+ 223 0014 ADF88830 		strh	r3, [sp, #136]	@ movhi
+  94:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_READ_CONFIG_DATA;
+ 224              		.loc 1 94 0
+ 225 0018 0D23     		movs	r3, #13
+ 226 001a ADF88A30 		strh	r3, [sp, #138]	@ movhi
+  95:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.cparam = &cp;
+ 227              		.loc 1 95 0
+ 228 001e 21AB     		add	r3, sp, #132
+ 229 0020 2493     		str	r3, [sp, #144]
+  96:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.clen = sizeof(cp);
+ 230              		.loc 1 96 0
+ 231 0022 0123     		movs	r3, #1
+ 232 0024 2593     		str	r3, [sp, #148]
+  97:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &rp;
+ 233              		.loc 1 97 0
+ 234 0026 01AB     		add	r3, sp, #4
+ 235 0028 2693     		str	r3, [sp, #152]
+  98:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = sizeof(rp);
+ 236              		.loc 1 98 0
+ 237 002a 8023     		movs	r3, #128
+ 238 002c 2793     		str	r3, [sp, #156]
+  99:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 100:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 239              		.loc 1 100 0
+ 240 002e 22A8     		add	r0, sp, #136
+ 241              	.LVL18:
+ 242 0030 FFF7FEFF 		bl	hci_send_req
+ 243              	.LVL19:
+ 244 0034 0028     		cmp	r0, #0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 7
+
+
+ 245 0036 11DB     		blt	.L16
+ 101:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 102:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 103:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if(rp.status)
+ 246              		.loc 1 103 0
+ 247 0038 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 248 003c 78B9     		cbnz	r0, .L15
+ 104:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return rp.status;
+ 105:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 106:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   *data_len_out_p = rq.rlen-1;
+ 249              		.loc 1 106 0
+ 250 003e 279A     		ldr	r2, [sp, #156]
+ 251 0040 013A     		subs	r2, r2, #1
+ 252 0042 D2B2     		uxtb	r2, r2
+ 253 0044 3270     		strb	r2, [r6]
+ 107:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 108:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memcpy(data, rp.data, MIN(data_len, *data_len_out_p));
+ 254              		.loc 1 108 0
+ 255 0046 92B2     		uxth	r2, r2
+ 256 0048 AA42     		cmp	r2, r5
+ 257 004a 28BF     		it	cs
+ 258 004c 2A46     		movcs	r2, r5
+ 259 004e 0DF10501 		add	r1, sp, #5
+ 260 0052 2046     		mov	r0, r4
+ 261 0054 FFF7FEFF 		bl	memcpy
+ 262              	.LVL20:
+ 109:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 110:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return 0;
+ 263              		.loc 1 110 0
+ 264 0058 0020     		movs	r0, #0
+ 265 005a 00E0     		b	.L15
+ 266              	.L16:
+ 101:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 267              		.loc 1 101 0
+ 268 005c FF20     		movs	r0, #255
+ 269              	.L15:
+ 111:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+ 270              		.loc 1 111 0
+ 271 005e 28B0     		add	sp, sp, #160
+ 272              	.LCFI9:
+ 273              		.cfi_def_cfa_offset 16
+ 274              		@ sp needed
+ 275 0060 70BD     		pop	{r4, r5, r6, pc}
+ 276              		.cfi_endproc
+ 277              	.LFE132:
+ 279              		.section	.text.aci_hal_set_tx_power_level,"ax",%progbits
+ 280              		.align	1
+ 281              		.global	aci_hal_set_tx_power_level
+ 282              		.syntax unified
+ 283              		.thumb
+ 284              		.thumb_func
+ 285              		.fpu fpv4-sp-d16
+ 287              	aci_hal_set_tx_power_level:
+ 288              	.LFB133:
+ 112:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 113:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_set_tx_power_level(uint8_t en_high_power, uint8_t pa_level)
+ 114:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 8
+
+
+ 289              		.loc 1 114 0
+ 290              		.cfi_startproc
+ 291              		@ args = 0, pretend = 0, frame = 32
+ 292              		@ frame_needed = 0, uses_anonymous_args = 0
+ 293              	.LVL21:
+ 294 0000 00B5     		push	{lr}
+ 295              	.LCFI10:
+ 296              		.cfi_def_cfa_offset 4
+ 297              		.cfi_offset 14, -4
+ 298 0002 89B0     		sub	sp, sp, #36
+ 299              	.LCFI11:
+ 300              		.cfi_def_cfa_offset 40
+ 115:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+ 116:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   hal_set_tx_power_level_cp cp;    
+ 117:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   uint8_t status;
+ 118:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     
+ 119:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   cp.en_high_power = en_high_power;
+ 301              		.loc 1 119 0
+ 302 0004 8DF80400 		strb	r0, [sp, #4]
+ 120:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   cp.pa_level = pa_level;
+ 303              		.loc 1 120 0
+ 304 0008 8DF80510 		strb	r1, [sp, #5]
+ 121:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 122:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 305              		.loc 1 122 0
+ 306 000c 0021     		movs	r1, #0
+ 307              	.LVL22:
+ 308 000e 0391     		str	r1, [sp, #12]
+ 123:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+ 309              		.loc 1 123 0
+ 310 0010 3F23     		movs	r3, #63
+ 311 0012 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 124:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_SET_TX_POWER_LEVEL;
+ 312              		.loc 1 124 0
+ 313 0016 0F23     		movs	r3, #15
+ 314 0018 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 125:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.cparam = &cp;
+ 315              		.loc 1 125 0
+ 316 001c 01AB     		add	r3, sp, #4
+ 317 001e 0493     		str	r3, [sp, #16]
+ 126:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.clen = HAL_SET_TX_POWER_LEVEL_CP_SIZE;
+ 318              		.loc 1 126 0
+ 319 0020 0223     		movs	r3, #2
+ 320 0022 0593     		str	r3, [sp, #20]
+ 127:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &status;
+ 321              		.loc 1 127 0
+ 322 0024 0DF10303 		add	r3, sp, #3
+ 323 0028 0693     		str	r3, [sp, #24]
+ 128:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = 1;
+ 324              		.loc 1 128 0
+ 325 002a 0123     		movs	r3, #1
+ 326 002c 0793     		str	r3, [sp, #28]
+ 129:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 130:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 327              		.loc 1 130 0
+ 328 002e 02A8     		add	r0, sp, #8
+ 329              	.LVL23:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 9
+
+
+ 330 0030 FFF7FEFF 		bl	hci_send_req
+ 331              	.LVL24:
+ 332 0034 0028     		cmp	r0, #0
+ 333 0036 04DB     		blt	.L20
+ 131:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 132:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 133:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return status;
+ 334              		.loc 1 133 0
+ 335 0038 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 336              	.L19:
+ 134:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+ 337              		.loc 1 134 0
+ 338 003c 09B0     		add	sp, sp, #36
+ 339              	.LCFI12:
+ 340              		.cfi_remember_state
+ 341              		.cfi_def_cfa_offset 4
+ 342              		@ sp needed
+ 343 003e 5DF804FB 		ldr	pc, [sp], #4
+ 344              	.L20:
+ 345              	.LCFI13:
+ 346              		.cfi_restore_state
+ 131:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 347              		.loc 1 131 0
+ 348 0042 FF20     		movs	r0, #255
+ 349 0044 FAE7     		b	.L19
+ 350              		.cfi_endproc
+ 351              	.LFE133:
+ 353              		.section	.text.aci_hal_le_tx_test_packet_number,"ax",%progbits
+ 354              		.align	1
+ 355              		.global	aci_hal_le_tx_test_packet_number
+ 356              		.syntax unified
+ 357              		.thumb
+ 358              		.thumb_func
+ 359              		.fpu fpv4-sp-d16
+ 361              	aci_hal_le_tx_test_packet_number:
+ 362              	.LFB134:
+ 135:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 136:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_le_tx_test_packet_number(uint32_t *number_of_packets)
+ 137:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+ 363              		.loc 1 137 0
+ 364              		.cfi_startproc
+ 365              		@ args = 0, pretend = 0, frame = 32
+ 366              		@ frame_needed = 0, uses_anonymous_args = 0
+ 367              	.LVL25:
+ 368 0000 10B5     		push	{r4, lr}
+ 369              	.LCFI14:
+ 370              		.cfi_def_cfa_offset 8
+ 371              		.cfi_offset 4, -8
+ 372              		.cfi_offset 14, -4
+ 373 0002 88B0     		sub	sp, sp, #32
+ 374              	.LCFI15:
+ 375              		.cfi_def_cfa_offset 40
+ 376 0004 0446     		mov	r4, r0
+ 138:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+ 139:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   hal_le_tx_test_packet_number_rp resp;
+ 140:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 141:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 10
+
+
+ 377              		.loc 1 141 0
+ 378 0006 0021     		movs	r1, #0
+ 379 0008 0391     		str	r1, [sp, #12]
+ 380 000a 0491     		str	r1, [sp, #16]
+ 381 000c 0591     		str	r1, [sp, #20]
+ 142:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+ 382              		.loc 1 142 0
+ 383 000e 3F23     		movs	r3, #63
+ 384 0010 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 143:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_LE_TX_TEST_PACKET_NUMBER;
+ 385              		.loc 1 143 0
+ 386 0014 1423     		movs	r3, #20
+ 387 0016 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 144:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &resp;
+ 388              		.loc 1 144 0
+ 389 001a CDF818D0 		str	sp, [sp, #24]
+ 145:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = sizeof(resp);
+ 390              		.loc 1 145 0
+ 391 001e 0523     		movs	r3, #5
+ 392 0020 0793     		str	r3, [sp, #28]
+ 146:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 147:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 393              		.loc 1 147 0
+ 394 0022 02A8     		add	r0, sp, #8
+ 395              	.LVL26:
+ 396 0024 FFF7FEFF 		bl	hci_send_req
+ 397              	.LVL27:
+ 398 0028 0028     		cmp	r0, #0
+ 399 002a 06DB     		blt	.L24
+ 148:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 149:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 150:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (resp.status) {
+ 400              		.loc 1 150 0
+ 401 002c 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ 402 0030 20B9     		cbnz	r0, .L23
+ 151:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return resp.status;
+ 152:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   }
+ 153:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 154:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   *number_of_packets = btohl(resp.number_of_packets);
+ 403              		.loc 1 154 0
+ 404 0032 DDF80130 		ldr	r3, [sp, #1]	@ unaligned
+ 405 0036 2360     		str	r3, [r4]
+ 155:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 156:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return 0;
+ 406              		.loc 1 156 0
+ 407 0038 00E0     		b	.L23
+ 408              	.L24:
+ 148:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 409              		.loc 1 148 0
+ 410 003a FF20     		movs	r0, #255
+ 411              	.L23:
+ 157:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+ 412              		.loc 1 157 0
+ 413 003c 08B0     		add	sp, sp, #32
+ 414              	.LCFI16:
+ 415              		.cfi_def_cfa_offset 8
+ 416              		@ sp needed
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 11
+
+
+ 417 003e 10BD     		pop	{r4, pc}
+ 418              		.cfi_endproc
+ 419              	.LFE134:
+ 421              		.section	.text.aci_hal_device_standby,"ax",%progbits
+ 422              		.align	1
+ 423              		.global	aci_hal_device_standby
+ 424              		.syntax unified
+ 425              		.thumb
+ 426              		.thumb_func
+ 427              		.fpu fpv4-sp-d16
+ 429              	aci_hal_device_standby:
+ 430              	.LFB135:
+ 158:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 159:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_device_standby(void)
+ 160:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+ 431              		.loc 1 160 0
+ 432              		.cfi_startproc
+ 433              		@ args = 0, pretend = 0, frame = 32
+ 434              		@ frame_needed = 0, uses_anonymous_args = 0
+ 435 0000 00B5     		push	{lr}
+ 436              	.LCFI17:
+ 437              		.cfi_def_cfa_offset 4
+ 438              		.cfi_offset 14, -4
+ 439 0002 89B0     		sub	sp, sp, #36
+ 440              	.LCFI18:
+ 441              		.cfi_def_cfa_offset 40
+ 161:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+ 162:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   uint8_t status;
+ 163:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 164:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 442              		.loc 1 164 0
+ 443 0004 0021     		movs	r1, #0
+ 444 0006 0391     		str	r1, [sp, #12]
+ 445 0008 0491     		str	r1, [sp, #16]
+ 446 000a 0591     		str	r1, [sp, #20]
+ 165:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+ 447              		.loc 1 165 0
+ 448 000c 3F23     		movs	r3, #63
+ 449 000e ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 166:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_DEVICE_STANDBY;
+ 450              		.loc 1 166 0
+ 451 0012 1323     		movs	r3, #19
+ 452 0014 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 167:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &status;
+ 453              		.loc 1 167 0
+ 454 0018 0DF10703 		add	r3, sp, #7
+ 455 001c 0693     		str	r3, [sp, #24]
+ 168:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = 1;
+ 456              		.loc 1 168 0
+ 457 001e 0123     		movs	r3, #1
+ 458 0020 0793     		str	r3, [sp, #28]
+ 169:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 170:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 459              		.loc 1 170 0
+ 460 0022 02A8     		add	r0, sp, #8
+ 461 0024 FFF7FEFF 		bl	hci_send_req
+ 462              	.LVL28:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 12
+
+
+ 463 0028 0028     		cmp	r0, #0
+ 464 002a 04DB     		blt	.L28
+ 171:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 172:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 173:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return status;
+ 465              		.loc 1 173 0
+ 466 002c 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 467              	.L27:
+ 174:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+ 468              		.loc 1 174 0
+ 469 0030 09B0     		add	sp, sp, #36
+ 470              	.LCFI19:
+ 471              		.cfi_remember_state
+ 472              		.cfi_def_cfa_offset 4
+ 473              		@ sp needed
+ 474 0032 5DF804FB 		ldr	pc, [sp], #4
+ 475              	.L28:
+ 476              	.LCFI20:
+ 477              		.cfi_restore_state
+ 171:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 478              		.loc 1 171 0
+ 479 0036 FF20     		movs	r0, #255
+ 480 0038 FAE7     		b	.L27
+ 481              		.cfi_endproc
+ 482              	.LFE135:
+ 484              		.section	.text.aci_hal_tone_start,"ax",%progbits
+ 485              		.align	1
+ 486              		.global	aci_hal_tone_start
+ 487              		.syntax unified
+ 488              		.thumb
+ 489              		.thumb_func
+ 490              		.fpu fpv4-sp-d16
+ 492              	aci_hal_tone_start:
+ 493              	.LFB136:
+ 175:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 176:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_tone_start(uint8_t rf_channel)
+ 177:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+ 494              		.loc 1 177 0
+ 495              		.cfi_startproc
+ 496              		@ args = 0, pretend = 0, frame = 32
+ 497              		@ frame_needed = 0, uses_anonymous_args = 0
+ 498              	.LVL29:
+ 499 0000 00B5     		push	{lr}
+ 500              	.LCFI21:
+ 501              		.cfi_def_cfa_offset 4
+ 502              		.cfi_offset 14, -4
+ 503 0002 89B0     		sub	sp, sp, #36
+ 504              	.LCFI22:
+ 505              		.cfi_def_cfa_offset 40
+ 178:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+ 179:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   hal_tone_start_cp cp;    
+ 180:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   uint8_t status;
+ 181:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     
+ 182:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   cp.rf_channel = rf_channel;
+ 506              		.loc 1 182 0
+ 507 0004 8DF80400 		strb	r0, [sp, #4]
+ 183:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 13
+
+
+ 184:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 508              		.loc 1 184 0
+ 509 0008 0021     		movs	r1, #0
+ 510 000a 0391     		str	r1, [sp, #12]
+ 185:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+ 511              		.loc 1 185 0
+ 512 000c 3F23     		movs	r3, #63
+ 513 000e ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 186:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_TONE_START;
+ 514              		.loc 1 186 0
+ 515 0012 1523     		movs	r3, #21
+ 516 0014 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 187:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.cparam = &cp;
+ 517              		.loc 1 187 0
+ 518 0018 01AB     		add	r3, sp, #4
+ 519 001a 0493     		str	r3, [sp, #16]
+ 188:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.clen = HAL_TONE_START_CP_SIZE;
+ 520              		.loc 1 188 0
+ 521 001c 0123     		movs	r3, #1
+ 522 001e 0593     		str	r3, [sp, #20]
+ 189:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &status;
+ 523              		.loc 1 189 0
+ 524 0020 0DF10302 		add	r2, sp, #3
+ 525 0024 0692     		str	r2, [sp, #24]
+ 190:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = 1;
+ 526              		.loc 1 190 0
+ 527 0026 0793     		str	r3, [sp, #28]
+ 191:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 192:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 528              		.loc 1 192 0
+ 529 0028 02A8     		add	r0, sp, #8
+ 530              	.LVL30:
+ 531 002a FFF7FEFF 		bl	hci_send_req
+ 532              	.LVL31:
+ 533 002e 0028     		cmp	r0, #0
+ 534 0030 04DB     		blt	.L32
+ 193:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 194:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     
+ 195:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return status;
+ 535              		.loc 1 195 0
+ 536 0032 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 537              	.L31:
+ 196:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+ 538              		.loc 1 196 0
+ 539 0036 09B0     		add	sp, sp, #36
+ 540              	.LCFI23:
+ 541              		.cfi_remember_state
+ 542              		.cfi_def_cfa_offset 4
+ 543              		@ sp needed
+ 544 0038 5DF804FB 		ldr	pc, [sp], #4
+ 545              	.L32:
+ 546              	.LCFI24:
+ 547              		.cfi_restore_state
+ 193:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 548              		.loc 1 193 0
+ 549 003c FF20     		movs	r0, #255
+ 550 003e FAE7     		b	.L31
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 14
+
+
+ 551              		.cfi_endproc
+ 552              	.LFE136:
+ 554              		.section	.text.aci_hal_tone_stop,"ax",%progbits
+ 555              		.align	1
+ 556              		.global	aci_hal_tone_stop
+ 557              		.syntax unified
+ 558              		.thumb
+ 559              		.thumb_func
+ 560              		.fpu fpv4-sp-d16
+ 562              	aci_hal_tone_stop:
+ 563              	.LFB137:
+ 197:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 198:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_tone_stop(void)
+ 199:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+ 564              		.loc 1 199 0
+ 565              		.cfi_startproc
+ 566              		@ args = 0, pretend = 0, frame = 32
+ 567              		@ frame_needed = 0, uses_anonymous_args = 0
+ 568 0000 00B5     		push	{lr}
+ 569              	.LCFI25:
+ 570              		.cfi_def_cfa_offset 4
+ 571              		.cfi_offset 14, -4
+ 572 0002 89B0     		sub	sp, sp, #36
+ 573              	.LCFI26:
+ 574              		.cfi_def_cfa_offset 40
+ 200:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+ 201:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   uint8_t status;
+ 202:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 203:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 575              		.loc 1 203 0
+ 576 0004 0021     		movs	r1, #0
+ 577 0006 0391     		str	r1, [sp, #12]
+ 578 0008 0491     		str	r1, [sp, #16]
+ 579 000a 0591     		str	r1, [sp, #20]
+ 204:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+ 580              		.loc 1 204 0
+ 581 000c 3F23     		movs	r3, #63
+ 582 000e ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 205:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_TONE_STOP;
+ 583              		.loc 1 205 0
+ 584 0012 1623     		movs	r3, #22
+ 585 0014 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 206:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &status;
+ 586              		.loc 1 206 0
+ 587 0018 0DF10703 		add	r3, sp, #7
+ 588 001c 0693     		str	r3, [sp, #24]
+ 207:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = 1;
+ 589              		.loc 1 207 0
+ 590 001e 0123     		movs	r3, #1
+ 591 0020 0793     		str	r3, [sp, #28]
+ 208:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 209:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 592              		.loc 1 209 0
+ 593 0022 02A8     		add	r0, sp, #8
+ 594 0024 FFF7FEFF 		bl	hci_send_req
+ 595              	.LVL32:
+ 596 0028 0028     		cmp	r0, #0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 15
+
+
+ 597 002a 04DB     		blt	.L36
+ 210:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 211:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 212:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return status;
+ 598              		.loc 1 212 0
+ 599 002c 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 600              	.L35:
+ 213:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+ 601              		.loc 1 213 0
+ 602 0030 09B0     		add	sp, sp, #36
+ 603              	.LCFI27:
+ 604              		.cfi_remember_state
+ 605              		.cfi_def_cfa_offset 4
+ 606              		@ sp needed
+ 607 0032 5DF804FB 		ldr	pc, [sp], #4
+ 608              	.L36:
+ 609              	.LCFI28:
+ 610              		.cfi_restore_state
+ 210:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 611              		.loc 1 210 0
+ 612 0036 FF20     		movs	r0, #255
+ 613 0038 FAE7     		b	.L35
+ 614              		.cfi_endproc
+ 615              	.LFE137:
+ 617              		.section	.text.aci_hal_get_link_status,"ax",%progbits
+ 618              		.align	1
+ 619              		.global	aci_hal_get_link_status
+ 620              		.syntax unified
+ 621              		.thumb
+ 622              		.thumb_func
+ 623              		.fpu fpv4-sp-d16
+ 625              	aci_hal_get_link_status:
+ 626              	.LFB138:
+ 214:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 215:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_get_link_status(uint8_t link_status[8], uint16_t conn_handle[8])
+ 216:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+ 627              		.loc 1 216 0
+ 628              		.cfi_startproc
+ 629              		@ args = 0, pretend = 0, frame = 56
+ 630              		@ frame_needed = 0, uses_anonymous_args = 0
+ 631              	.LVL33:
+ 632 0000 30B5     		push	{r4, r5, lr}
+ 633              	.LCFI29:
+ 634              		.cfi_def_cfa_offset 12
+ 635              		.cfi_offset 4, -12
+ 636              		.cfi_offset 5, -8
+ 637              		.cfi_offset 14, -4
+ 638 0002 8FB0     		sub	sp, sp, #60
+ 639              	.LCFI30:
+ 640              		.cfi_def_cfa_offset 72
+ 641 0004 0546     		mov	r5, r0
+ 642 0006 0C46     		mov	r4, r1
+ 217:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+ 218:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   hal_get_link_status_rp rp;
+ 219:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 220:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 643              		.loc 1 220 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 16
+
+
+ 644 0008 0021     		movs	r1, #0
+ 645              	.LVL34:
+ 646 000a 0991     		str	r1, [sp, #36]
+ 647 000c 0A91     		str	r1, [sp, #40]
+ 648 000e 0B91     		str	r1, [sp, #44]
+ 221:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+ 649              		.loc 1 221 0
+ 650 0010 3F23     		movs	r3, #63
+ 651 0012 ADF82030 		strh	r3, [sp, #32]	@ movhi
+ 222:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_GET_LINK_STATUS;
+ 652              		.loc 1 222 0
+ 653 0016 1723     		movs	r3, #23
+ 654 0018 ADF82230 		strh	r3, [sp, #34]	@ movhi
+ 223:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &rp;
+ 655              		.loc 1 223 0
+ 656 001c 01AB     		add	r3, sp, #4
+ 657 001e 0C93     		str	r3, [sp, #48]
+ 224:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = sizeof(rp);
+ 658              		.loc 1 224 0
+ 659 0020 1923     		movs	r3, #25
+ 660 0022 0D93     		str	r3, [sp, #52]
+ 225:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 226:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 661              		.loc 1 226 0
+ 662 0024 08A8     		add	r0, sp, #32
+ 663              	.LVL35:
+ 664 0026 FFF7FEFF 		bl	hci_send_req
+ 665              	.LVL36:
+ 666 002a 0028     		cmp	r0, #0
+ 667 002c 17DB     		blt	.L42
+ 227:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 228:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 229:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if(rp.status)
+ 668              		.loc 1 229 0
+ 669 002e 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 670 0032 A8B9     		cbnz	r0, .L39
+ 230:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return rp.status;
+ 231:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 232:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memcpy(link_status,rp.link_status,8);
+ 671              		.loc 1 232 0
+ 672 0034 0EAB     		add	r3, sp, #56
+ 673 0036 53F8332D 		ldr	r2, [r3, #-51]!	@ unaligned
+ 674 003a 5B68     		ldr	r3, [r3, #4]	@ unaligned
+ 675 003c 2A60     		str	r2, [r5]	@ unaligned
+ 676 003e 6B60     		str	r3, [r5, #4]	@ unaligned
+ 677              	.LVL37:
+ 678              	.LBB2:
+ 233:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   for(int i = 0; i < 8; i++)  
+ 679              		.loc 1 233 0
+ 680 0040 0023     		movs	r3, #0
+ 681 0042 08E0     		b	.L40
+ 682              	.LVL38:
+ 683              	.L41:
+ 234:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     conn_handle[i] = btohs(rp.conn_handle[i]);
+ 684              		.loc 1 234 0 discriminator 3
+ 685 0044 1A1D     		adds	r2, r3, #4
+ 686 0046 0EA9     		add	r1, sp, #56
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 17
+
+
+ 687 0048 01EB4202 		add	r2, r1, r2, lsl #1
+ 688 004c 32F8332C 		ldrh	r2, [r2, #-51]	@ unaligned
+ 689 0050 24F81320 		strh	r2, [r4, r3, lsl #1]	@ movhi
+ 233:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   for(int i = 0; i < 8; i++)  
+ 690              		.loc 1 233 0 discriminator 3
+ 691 0054 0133     		adds	r3, r3, #1
+ 692              	.LVL39:
+ 693              	.L40:
+ 233:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   for(int i = 0; i < 8; i++)  
+ 694              		.loc 1 233 0 is_stmt 0 discriminator 1
+ 695 0056 072B     		cmp	r3, #7
+ 696 0058 F4DD     		ble	.L41
+ 697              	.LBE2:
+ 235:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 236:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return 0;
+ 698              		.loc 1 236 0 is_stmt 1
+ 699 005a 0020     		movs	r0, #0
+ 700              	.LBB3:
+ 701 005c 00E0     		b	.L39
+ 702              	.LVL40:
+ 703              	.L42:
+ 704              	.LBE3:
+ 227:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 705              		.loc 1 227 0
+ 706 005e FF20     		movs	r0, #255
+ 707              	.L39:
+ 237:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+ 708              		.loc 1 237 0
+ 709 0060 0FB0     		add	sp, sp, #60
+ 710              	.LCFI31:
+ 711              		.cfi_def_cfa_offset 12
+ 712              		@ sp needed
+ 713 0062 30BD     		pop	{r4, r5, pc}
+ 714              		.cfi_endproc
+ 715              	.LFE138:
+ 717              		.section	.text.aci_hal_get_anchor_period,"ax",%progbits
+ 718              		.align	1
+ 719              		.global	aci_hal_get_anchor_period
+ 720              		.syntax unified
+ 721              		.thumb
+ 722              		.thumb_func
+ 723              		.fpu fpv4-sp-d16
+ 725              	aci_hal_get_anchor_period:
+ 726              	.LFB139:
+ 238:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** 
+ 239:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** tBleStatus aci_hal_get_anchor_period(uint32_t *anchor_period, uint32_t *max_free_slot)
+ 240:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** {
+ 727              		.loc 1 240 0
+ 728              		.cfi_startproc
+ 729              		@ args = 0, pretend = 0, frame = 40
+ 730              		@ frame_needed = 0, uses_anonymous_args = 0
+ 731              	.LVL41:
+ 732 0000 30B5     		push	{r4, r5, lr}
+ 733              	.LCFI32:
+ 734              		.cfi_def_cfa_offset 12
+ 735              		.cfi_offset 4, -12
+ 736              		.cfi_offset 5, -8
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 18
+
+
+ 737              		.cfi_offset 14, -4
+ 738 0002 8BB0     		sub	sp, sp, #44
+ 739              	.LCFI33:
+ 740              		.cfi_def_cfa_offset 56
+ 741 0004 0546     		mov	r5, r0
+ 742 0006 0C46     		mov	r4, r1
+ 241:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   struct hci_request rq;
+ 242:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   hal_get_anchor_period_rp rp;
+ 243:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 244:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 743              		.loc 1 244 0
+ 744 0008 0021     		movs	r1, #0
+ 745              	.LVL42:
+ 746 000a 0591     		str	r1, [sp, #20]
+ 747 000c 0691     		str	r1, [sp, #24]
+ 748 000e 0791     		str	r1, [sp, #28]
+ 245:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ogf = OGF_VENDOR_CMD;
+ 749              		.loc 1 245 0
+ 750 0010 3F23     		movs	r3, #63
+ 751 0012 ADF81030 		strh	r3, [sp, #16]	@ movhi
+ 246:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.ocf = OCF_HAL_GET_ANCHOR_PERIOD;
+ 752              		.loc 1 246 0
+ 753 0016 1923     		movs	r3, #25
+ 754 0018 ADF81230 		strh	r3, [sp, #18]	@ movhi
+ 247:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rparam = &rp;
+ 755              		.loc 1 247 0
+ 756 001c 01AB     		add	r3, sp, #4
+ 757 001e 0893     		str	r3, [sp, #32]
+ 248:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   rq.rlen = sizeof(rp);
+ 758              		.loc 1 248 0
+ 759 0020 0923     		movs	r3, #9
+ 760 0022 0993     		str	r3, [sp, #36]
+ 249:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 250:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 761              		.loc 1 250 0
+ 762 0024 04A8     		add	r0, sp, #16
+ 763              	.LVL43:
+ 764 0026 FFF7FEFF 		bl	hci_send_req
+ 765              	.LVL44:
+ 766 002a 0028     		cmp	r0, #0
+ 767 002c 09DB     		blt	.L46
+ 251:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return BLE_STATUS_TIMEOUT;
+ 252:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 253:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   if(rp.status)
+ 768              		.loc 1 253 0
+ 769 002e 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 770 0032 38B9     		cbnz	r0, .L45
+ 254:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****     return rp.status;
+ 255:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 256:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   *anchor_period = btohl(rp.anchor_period);
+ 771              		.loc 1 256 0
+ 772 0034 DDF80530 		ldr	r3, [sp, #5]	@ unaligned
+ 773 0038 2B60     		str	r3, [r5]
+ 257:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   *max_free_slot = btohl(rp.max_free_slot);
+ 774              		.loc 1 257 0
+ 775 003a DDF80930 		ldr	r3, [sp, #9]	@ unaligned
+ 776 003e 2360     		str	r3, [r4]
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 19
+
+
+ 258:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 259:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   return 0;
+ 777              		.loc 1 259 0
+ 778 0040 00E0     		b	.L45
+ 779              	.L46:
+ 251:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c ****   
+ 780              		.loc 1 251 0
+ 781 0042 FF20     		movs	r0, #255
+ 782              	.L45:
+ 260:Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c **** }
+ 783              		.loc 1 260 0
+ 784 0044 0BB0     		add	sp, sp, #44
+ 785              	.LCFI34:
+ 786              		.cfi_def_cfa_offset 12
+ 787              		@ sp needed
+ 788 0046 30BD     		pop	{r4, r5, pc}
+ 789              		.cfi_endproc
+ 790              	.LFE139:
+ 792              		.text
+ 793              	.Letext0:
+ 794              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 795              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 796              		.file 4 "Middlewares/ST/BlueNRG-MS/includes/bluenrg_def.h"
+ 797              		.file 5 "Drivers/CMSIS/Include/core_cm4.h"
+ 798              		.file 6 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 799              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 800              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h"
+ 801              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 802              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 803              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 804              		.file 12 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-ea
+ 805              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 806              		.file 14 "Middlewares/ST/BlueNRG-MS/hci/hci_tl_patterns/Template/hci_tl.h"
+ 807              		.file 15 "Middlewares/ST/BlueNRG-MS/includes/bluenrg_aci_const.h"
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s 			page 20
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 bluenrg_hal_aci.c
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:18     .text.aci_hal_get_fw_build_number:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:25     .text.aci_hal_get_fw_build_number:00000000 aci_hal_get_fw_build_number
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:86     .text.aci_hal_write_config_data:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:93     .text.aci_hal_write_config_data:00000000 aci_hal_write_config_data
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:187    .text.aci_hal_read_config_data:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:194    .text.aci_hal_read_config_data:00000000 aci_hal_read_config_data
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:280    .text.aci_hal_set_tx_power_level:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:287    .text.aci_hal_set_tx_power_level:00000000 aci_hal_set_tx_power_level
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:354    .text.aci_hal_le_tx_test_packet_number:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:361    .text.aci_hal_le_tx_test_packet_number:00000000 aci_hal_le_tx_test_packet_number
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:422    .text.aci_hal_device_standby:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:429    .text.aci_hal_device_standby:00000000 aci_hal_device_standby
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:485    .text.aci_hal_tone_start:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:492    .text.aci_hal_tone_start:00000000 aci_hal_tone_start
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:555    .text.aci_hal_tone_stop:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:562    .text.aci_hal_tone_stop:00000000 aci_hal_tone_stop
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:618    .text.aci_hal_get_link_status:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:625    .text.aci_hal_get_link_status:00000000 aci_hal_get_link_status
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:718    .text.aci_hal_get_anchor_period:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccCnc6t4.s:725    .text.aci_hal_get_anchor_period:00000000 aci_hal_get_anchor_period
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+hci_send_req
+memcpy

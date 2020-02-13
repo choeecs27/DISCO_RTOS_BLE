@@ -1,0 +1,913 @@
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stm32l4xx_nucleo.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.USART2_MspInit,"ax",%progbits
+  18              		.align	1
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  24              	USART2_MspInit:
+  25              	.LFB136:
+  26              		.file 1 "Src/stm32l4xx_nucleo.c"
+   1:Src/stm32l4xx_nucleo.c **** /**
+   2:Src/stm32l4xx_nucleo.c ****   ******************************************************************************
+   3:Src/stm32l4xx_nucleo.c ****   * @file  : stm32l4xx_nucleo.c
+   4:Src/stm32l4xx_nucleo.c ****   * @brief : Source file for the BSP Common driver
+   5:Src/stm32l4xx_nucleo.c ****   ******************************************************************************
+   6:Src/stm32l4xx_nucleo.c ****   * @attention
+   7:Src/stm32l4xx_nucleo.c ****   *
+   8:Src/stm32l4xx_nucleo.c ****   * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+   9:Src/stm32l4xx_nucleo.c ****   * All rights reserved.</center></h2>
+  10:Src/stm32l4xx_nucleo.c ****   *
+  11:Src/stm32l4xx_nucleo.c ****   * This software component is licensed by ST under Ultimate Liberty license
+  12:Src/stm32l4xx_nucleo.c ****   * SLA0044, the "License"; You may not use this file except in compliance with
+  13:Src/stm32l4xx_nucleo.c ****   * the License. You may obtain a copy of the License at:
+  14:Src/stm32l4xx_nucleo.c ****   *                             www.st.com/SLA0044
+  15:Src/stm32l4xx_nucleo.c ****   *
+  16:Src/stm32l4xx_nucleo.c ****   ******************************************************************************
+  17:Src/stm32l4xx_nucleo.c **** */
+  18:Src/stm32l4xx_nucleo.c **** 
+  19:Src/stm32l4xx_nucleo.c **** /* Includes ------------------------------------------------------------------*/ 
+  20:Src/stm32l4xx_nucleo.c **** #include "stm32l4xx_nucleo.h"
+  21:Src/stm32l4xx_nucleo.c **** 
+  22:Src/stm32l4xx_nucleo.c **** /** @defgroup BSP BSP
+  23:Src/stm32l4xx_nucleo.c ****  * @{
+  24:Src/stm32l4xx_nucleo.c ****  */ 
+  25:Src/stm32l4xx_nucleo.c **** 
+  26:Src/stm32l4xx_nucleo.c **** /** @defgroup STM32L4XX_NUCLEO STM32L4XX_NUCLEO
+  27:Src/stm32l4xx_nucleo.c ****  * @{
+  28:Src/stm32l4xx_nucleo.c ****  */   
+  29:Src/stm32l4xx_nucleo.c ****     
+  30:Src/stm32l4xx_nucleo.c **** /** @defgroup STM32L4XX_NUCLEO_LOW_LEVEL STM32L4XX_NUCLEO LOW LEVEL
+  31:Src/stm32l4xx_nucleo.c ****  *  @brief This file provides set of firmware functions to manage Leds and push-button
+  32:Src/stm32l4xx_nucleo.c ****  *         available on STM32L4xx-Nucleo Kit from STMicroelectronics.
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 2
+
+
+  33:Src/stm32l4xx_nucleo.c ****  * @{
+  34:Src/stm32l4xx_nucleo.c ****  */ 
+  35:Src/stm32l4xx_nucleo.c **** 
+  36:Src/stm32l4xx_nucleo.c **** /**
+  37:Src/stm32l4xx_nucleo.c ****  * @}
+  38:Src/stm32l4xx_nucleo.c ****  */ 
+  39:Src/stm32l4xx_nucleo.c **** 
+  40:Src/stm32l4xx_nucleo.c **** /** @defgroup STM32L4XX_NUCLEO_LOW_LEVEL_Private_Defines STM32L4XX_NUCLEO LOW LEVEL Private Defines
+  41:Src/stm32l4xx_nucleo.c ****  * @{
+  42:Src/stm32l4xx_nucleo.c ****  */ 
+  43:Src/stm32l4xx_nucleo.c **** 
+  44:Src/stm32l4xx_nucleo.c **** /** @defgroup STM32L4XX_NUCLEO_LOW_LEVEL_FunctionPrototypes STM32L4XX_NUCLEO LOW LEVEL Private Func
+  45:Src/stm32l4xx_nucleo.c ****  * @{
+  46:Src/stm32l4xx_nucleo.c ****  */
+  47:Src/stm32l4xx_nucleo.c **** 
+  48:Src/stm32l4xx_nucleo.c **** /**
+  49:Src/stm32l4xx_nucleo.c ****  * @}
+  50:Src/stm32l4xx_nucleo.c ****  */ 
+  51:Src/stm32l4xx_nucleo.c **** 
+  52:Src/stm32l4xx_nucleo.c **** /** @defgroup STM32L4XX_NUCLEO_LOW_LEVEL_Private_Variables STM32L4XX_NUCLEO LOW LEVEL Private Varia
+  53:Src/stm32l4xx_nucleo.c ****  * @{
+  54:Src/stm32l4xx_nucleo.c ****  */
+  55:Src/stm32l4xx_nucleo.c **** USART_TypeDef* COM_USART[COMn] = {COM1_UART};
+  56:Src/stm32l4xx_nucleo.c **** UART_HandleTypeDef hcom_uart[COMn];
+  57:Src/stm32l4xx_nucleo.c **** #if (USE_COM_LOG > 0)
+  58:Src/stm32l4xx_nucleo.c **** static COM_TypeDef COM_ActiveLogPort;
+  59:Src/stm32l4xx_nucleo.c **** #endif
+  60:Src/stm32l4xx_nucleo.c **** #if (USE_HAL_UART_REGISTER_CALLBACKS == 1)
+  61:Src/stm32l4xx_nucleo.c **** static uint32_t IsUsart2MspCbValid = 0;
+  62:Src/stm32l4xx_nucleo.c **** #endif
+  63:Src/stm32l4xx_nucleo.c **** __weak HAL_StatusTypeDef MX_USART2_UART_Init(UART_HandleTypeDef* huart);
+  64:Src/stm32l4xx_nucleo.c **** /**
+  65:Src/stm32l4xx_nucleo.c ****  * @}
+  66:Src/stm32l4xx_nucleo.c ****  */ 
+  67:Src/stm32l4xx_nucleo.c **** 
+  68:Src/stm32l4xx_nucleo.c **** /** @defgroup STM32L4XX_NUCLEO_LOW_LEVEL_Private_Functions STM32L4XX_NUCLEO LOW LEVEL Private Funct
+  69:Src/stm32l4xx_nucleo.c ****  * @{
+  70:Src/stm32l4xx_nucleo.c ****  */ 
+  71:Src/stm32l4xx_nucleo.c **** #if (USE_BSP_COM_FEATURE > 0)
+  72:Src/stm32l4xx_nucleo.c **** static void USART2_MspInit(UART_HandleTypeDef *huart);
+  73:Src/stm32l4xx_nucleo.c **** static void USART2_MspDeInit(UART_HandleTypeDef *huart); 
+  74:Src/stm32l4xx_nucleo.c **** #endif
+  75:Src/stm32l4xx_nucleo.c **** /**
+  76:Src/stm32l4xx_nucleo.c ****  * @brief  This method returns the STM32L4xx NUCLEO BSP Driver revision
+  77:Src/stm32l4xx_nucleo.c ****  * @retval version: 0xXYZR (8bits for each decimal, R for RC)
+  78:Src/stm32l4xx_nucleo.c ****  */
+  79:Src/stm32l4xx_nucleo.c **** int32_t BSP_GetVersion(void)
+  80:Src/stm32l4xx_nucleo.c **** {
+  81:Src/stm32l4xx_nucleo.c ****   return (int32_t)__STM32L4XX_NUCLEO_BSP_VERSION;
+  82:Src/stm32l4xx_nucleo.c **** }
+  83:Src/stm32l4xx_nucleo.c **** 
+  84:Src/stm32l4xx_nucleo.c **** #if (USE_BSP_COM_FEATURE > 0)
+  85:Src/stm32l4xx_nucleo.c **** /**
+  86:Src/stm32l4xx_nucleo.c ****  * @brief  Configures COM port.
+  87:Src/stm32l4xx_nucleo.c ****  * @param  COM: COM port to be configured.
+  88:Src/stm32l4xx_nucleo.c ****  *              This parameter can be COM1
+  89:Src/stm32l4xx_nucleo.c ****  * @param  UART_Init: Pointer to a UART_HandleTypeDef structure that contains the
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 3
+
+
+  90:Src/stm32l4xx_nucleo.c ****  *                    configuration information for the specified USART peripheral.
+  91:Src/stm32l4xx_nucleo.c ****  * @retval BSP error code
+  92:Src/stm32l4xx_nucleo.c ****  */
+  93:Src/stm32l4xx_nucleo.c **** int32_t BSP_COM_Init(COM_TypeDef COM) 
+  94:Src/stm32l4xx_nucleo.c **** {
+  95:Src/stm32l4xx_nucleo.c ****   int32_t ret = BSP_ERROR_NONE;
+  96:Src/stm32l4xx_nucleo.c ****   
+  97:Src/stm32l4xx_nucleo.c ****   if(COM > COMn)
+  98:Src/stm32l4xx_nucleo.c ****   {
+  99:Src/stm32l4xx_nucleo.c ****     ret = BSP_ERROR_WRONG_PARAM;
+ 100:Src/stm32l4xx_nucleo.c ****   }
+ 101:Src/stm32l4xx_nucleo.c ****   else
+ 102:Src/stm32l4xx_nucleo.c ****   {  
+ 103:Src/stm32l4xx_nucleo.c ****      hcom_uart[COM].Instance = COM_USART[COM];
+ 104:Src/stm32l4xx_nucleo.c **** #if (USE_HAL_UART_REGISTER_CALLBACKS == 0)
+ 105:Src/stm32l4xx_nucleo.c ****     /* Init the UART Msp */
+ 106:Src/stm32l4xx_nucleo.c ****     USART2_MspInit(&hcom_uart[COM]);
+ 107:Src/stm32l4xx_nucleo.c **** #else
+ 108:Src/stm32l4xx_nucleo.c ****     if(IsUsart2MspCbValid == 0U)
+ 109:Src/stm32l4xx_nucleo.c ****     {
+ 110:Src/stm32l4xx_nucleo.c ****       if(BSP_COM_RegisterDefaultMspCallbacks(COM) != BSP_ERROR_NONE)
+ 111:Src/stm32l4xx_nucleo.c ****       {
+ 112:Src/stm32l4xx_nucleo.c ****         return BSP_ERROR_MSP_FAILURE;
+ 113:Src/stm32l4xx_nucleo.c ****       }
+ 114:Src/stm32l4xx_nucleo.c ****     }
+ 115:Src/stm32l4xx_nucleo.c **** #endif
+ 116:Src/stm32l4xx_nucleo.c ****   
+ 117:Src/stm32l4xx_nucleo.c ****     if (MX_USART2_UART_Init(&hcom_uart[COM]))
+ 118:Src/stm32l4xx_nucleo.c ****     {
+ 119:Src/stm32l4xx_nucleo.c ****       ret = BSP_ERROR_PERIPH_FAILURE;
+ 120:Src/stm32l4xx_nucleo.c ****     }
+ 121:Src/stm32l4xx_nucleo.c ****   }
+ 122:Src/stm32l4xx_nucleo.c **** 
+ 123:Src/stm32l4xx_nucleo.c ****   return ret;
+ 124:Src/stm32l4xx_nucleo.c **** }
+ 125:Src/stm32l4xx_nucleo.c **** 
+ 126:Src/stm32l4xx_nucleo.c **** /**
+ 127:Src/stm32l4xx_nucleo.c ****  * @brief  DeInit COM port.
+ 128:Src/stm32l4xx_nucleo.c ****  * @param  COM COM port to be configured.
+ 129:Src/stm32l4xx_nucleo.c ****  *             This parameter can be COM1
+ 130:Src/stm32l4xx_nucleo.c ****  * @retval BSP status
+ 131:Src/stm32l4xx_nucleo.c ****  */
+ 132:Src/stm32l4xx_nucleo.c **** int32_t BSP_COM_DeInit(COM_TypeDef COM)
+ 133:Src/stm32l4xx_nucleo.c **** {
+ 134:Src/stm32l4xx_nucleo.c ****   int32_t ret = BSP_ERROR_NONE;
+ 135:Src/stm32l4xx_nucleo.c ****   
+ 136:Src/stm32l4xx_nucleo.c ****   if(COM > COMn)
+ 137:Src/stm32l4xx_nucleo.c ****   {
+ 138:Src/stm32l4xx_nucleo.c ****     ret = BSP_ERROR_WRONG_PARAM;
+ 139:Src/stm32l4xx_nucleo.c ****   }
+ 140:Src/stm32l4xx_nucleo.c ****   else
+ 141:Src/stm32l4xx_nucleo.c ****   {  
+ 142:Src/stm32l4xx_nucleo.c ****     /* USART configuration */
+ 143:Src/stm32l4xx_nucleo.c ****     hcom_uart[COM].Instance = COM_USART[COM];
+ 144:Src/stm32l4xx_nucleo.c ****   
+ 145:Src/stm32l4xx_nucleo.c ****     #if (USE_HAL_UART_REGISTER_CALLBACKS == 0)  
+ 146:Src/stm32l4xx_nucleo.c ****       USART2_MspDeInit(&hcom_uart[COM]);  
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 4
+
+
+ 147:Src/stm32l4xx_nucleo.c ****     #endif /* (USE_HAL_UART_REGISTER_CALLBACKS == 0) */
+ 148:Src/stm32l4xx_nucleo.c ****   
+ 149:Src/stm32l4xx_nucleo.c ****     if(HAL_UART_DeInit(&hcom_uart[COM]) != HAL_OK)
+ 150:Src/stm32l4xx_nucleo.c ****     {
+ 151:Src/stm32l4xx_nucleo.c ****       ret = BSP_ERROR_PERIPH_FAILURE;
+ 152:Src/stm32l4xx_nucleo.c ****     }
+ 153:Src/stm32l4xx_nucleo.c ****   }
+ 154:Src/stm32l4xx_nucleo.c ****   
+ 155:Src/stm32l4xx_nucleo.c ****   return ret;
+ 156:Src/stm32l4xx_nucleo.c **** }
+ 157:Src/stm32l4xx_nucleo.c **** 
+ 158:Src/stm32l4xx_nucleo.c **** /**
+ 159:Src/stm32l4xx_nucleo.c ****  * @brief  Configures COM port.
+ 160:Src/stm32l4xx_nucleo.c ****  * @param  huart USART handle
+ 161:Src/stm32l4xx_nucleo.c ****  *               This parameter can be COM1
+ 162:Src/stm32l4xx_nucleo.c ****  * @param  COM_Init Pointer to a UART_HandleTypeDef structure that contains the
+ 163:Src/stm32l4xx_nucleo.c ****  *                  configuration information for the specified USART peripheral.
+ 164:Src/stm32l4xx_nucleo.c ****  * @retval HAL error code
+ 165:Src/stm32l4xx_nucleo.c ****  */
+ 166:Src/stm32l4xx_nucleo.c **** 
+ 167:Src/stm32l4xx_nucleo.c **** /* USART2 init function */ 
+ 168:Src/stm32l4xx_nucleo.c **** 
+ 169:Src/stm32l4xx_nucleo.c **** __weak HAL_StatusTypeDef MX_USART2_UART_Init(UART_HandleTypeDef* huart)
+ 170:Src/stm32l4xx_nucleo.c **** {
+ 171:Src/stm32l4xx_nucleo.c ****   HAL_StatusTypeDef ret = HAL_OK;
+ 172:Src/stm32l4xx_nucleo.c ****   huart->Instance = USART2;
+ 173:Src/stm32l4xx_nucleo.c ****   huart->Init.BaudRate = 115200;
+ 174:Src/stm32l4xx_nucleo.c ****   huart->Init.WordLength = UART_WORDLENGTH_8B;
+ 175:Src/stm32l4xx_nucleo.c ****   huart->Init.StopBits = UART_STOPBITS_1;
+ 176:Src/stm32l4xx_nucleo.c ****   huart->Init.Parity = UART_PARITY_NONE;
+ 177:Src/stm32l4xx_nucleo.c ****   huart->Init.Mode = UART_MODE_TX_RX;
+ 178:Src/stm32l4xx_nucleo.c ****   huart->Init.HwFlowCtl = UART_HWCONTROL_NONE;
+ 179:Src/stm32l4xx_nucleo.c ****   huart->Init.OverSampling = UART_OVERSAMPLING_16;
+ 180:Src/stm32l4xx_nucleo.c ****   huart->Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+ 181:Src/stm32l4xx_nucleo.c ****   huart->AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+ 182:Src/stm32l4xx_nucleo.c ****   if (HAL_UART_Init(huart) != HAL_OK)
+ 183:Src/stm32l4xx_nucleo.c ****   {
+ 184:Src/stm32l4xx_nucleo.c ****     ret = HAL_ERROR;
+ 185:Src/stm32l4xx_nucleo.c ****   }
+ 186:Src/stm32l4xx_nucleo.c **** 
+ 187:Src/stm32l4xx_nucleo.c ****   return ret;
+ 188:Src/stm32l4xx_nucleo.c **** }
+ 189:Src/stm32l4xx_nucleo.c **** 
+ 190:Src/stm32l4xx_nucleo.c **** #endif 
+ 191:Src/stm32l4xx_nucleo.c **** #if (USE_HAL_UART_REGISTER_CALLBACKS == 1) 
+ 192:Src/stm32l4xx_nucleo.c **** /**
+ 193:Src/stm32l4xx_nucleo.c ****  * @brief Register Default USART2 Bus Msp Callbacks
+ 194:Src/stm32l4xx_nucleo.c ****  * @retval BSP status
+ 195:Src/stm32l4xx_nucleo.c ****  */
+ 196:Src/stm32l4xx_nucleo.c **** int32_t BSP_COM_RegisterDefaultMspCallbacks(COM_TypeDef COM)
+ 197:Src/stm32l4xx_nucleo.c **** {
+ 198:Src/stm32l4xx_nucleo.c ****   int32_t ret = BSP_ERROR_NONE;
+ 199:Src/stm32l4xx_nucleo.c ****   
+ 200:Src/stm32l4xx_nucleo.c ****   if(COM >= COMn)
+ 201:Src/stm32l4xx_nucleo.c ****   {
+ 202:Src/stm32l4xx_nucleo.c ****     ret = BSP_ERROR_WRONG_PARAM;
+ 203:Src/stm32l4xx_nucleo.c ****   }
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 5
+
+
+ 204:Src/stm32l4xx_nucleo.c ****   else
+ 205:Src/stm32l4xx_nucleo.c ****   {  
+ 206:Src/stm32l4xx_nucleo.c ****     
+ 207:Src/stm32l4xx_nucleo.c ****     __HAL_UART_RESET_HANDLE_STATE(&hcom_uart[COM]);
+ 208:Src/stm32l4xx_nucleo.c ****   
+ 209:Src/stm32l4xx_nucleo.c ****     /* Register default MspInit/MspDeInit Callback */
+ 210:Src/stm32l4xx_nucleo.c ****     if(HAL_UART_RegisterCallback(&hcom_uart[COM], HAL_UART_MSPINIT_CB_ID, USART2_MspInit) != HAL_OK
+ 211:Src/stm32l4xx_nucleo.c ****     {
+ 212:Src/stm32l4xx_nucleo.c ****       ret = BSP_ERROR_PERIPH_FAILURE;
+ 213:Src/stm32l4xx_nucleo.c ****     }
+ 214:Src/stm32l4xx_nucleo.c ****     else if(HAL_UART_RegisterCallback(&hcom_uart[COM], HAL_UART_MSPDEINIT_CB_ID, USART2_MspDeInit) 
+ 215:Src/stm32l4xx_nucleo.c ****     {
+ 216:Src/stm32l4xx_nucleo.c ****       ret = BSP_ERROR_PERIPH_FAILURE;
+ 217:Src/stm32l4xx_nucleo.c ****     }
+ 218:Src/stm32l4xx_nucleo.c ****     else
+ 219:Src/stm32l4xx_nucleo.c ****     {
+ 220:Src/stm32l4xx_nucleo.c ****       IsUsart2MspCbValid = 1U;
+ 221:Src/stm32l4xx_nucleo.c ****     }
+ 222:Src/stm32l4xx_nucleo.c ****   }
+ 223:Src/stm32l4xx_nucleo.c ****   
+ 224:Src/stm32l4xx_nucleo.c ****   /* BSP status */  
+ 225:Src/stm32l4xx_nucleo.c ****   return ret;
+ 226:Src/stm32l4xx_nucleo.c **** }
+ 227:Src/stm32l4xx_nucleo.c **** 
+ 228:Src/stm32l4xx_nucleo.c **** /**
+ 229:Src/stm32l4xx_nucleo.c ****  * @brief Register USART2 Bus Msp Callback registering
+ 230:Src/stm32l4xx_nucleo.c ****  * @param Callbacks pointer to USART2 MspInit/MspDeInit callback functions
+ 231:Src/stm32l4xx_nucleo.c ****  * @retval BSP status
+ 232:Src/stm32l4xx_nucleo.c ****  */
+ 233:Src/stm32l4xx_nucleo.c **** int32_t BSP_COM_RegisterMspCallbacks (COM_TypeDef COM , BSP_COM_Cb_t *Callback)
+ 234:Src/stm32l4xx_nucleo.c **** {
+ 235:Src/stm32l4xx_nucleo.c ****   int32_t ret = BSP_ERROR_NONE;
+ 236:Src/stm32l4xx_nucleo.c ****   
+ 237:Src/stm32l4xx_nucleo.c ****   if(COM >= COMn)
+ 238:Src/stm32l4xx_nucleo.c ****   {
+ 239:Src/stm32l4xx_nucleo.c ****     ret = BSP_ERROR_WRONG_PARAM;
+ 240:Src/stm32l4xx_nucleo.c ****   }
+ 241:Src/stm32l4xx_nucleo.c ****   else
+ 242:Src/stm32l4xx_nucleo.c ****   {
+ 243:Src/stm32l4xx_nucleo.c ****     __HAL_UART_RESET_HANDLE_STATE(&hcom_uart[COM]);
+ 244:Src/stm32l4xx_nucleo.c ****   
+ 245:Src/stm32l4xx_nucleo.c ****     /* Register MspInit/MspDeInit Callbacks */
+ 246:Src/stm32l4xx_nucleo.c ****     if(HAL_UART_RegisterCallback(&hcom_uart[COM], HAL_UART_MSPINIT_CB_ID, Callback->pMspInitCb) != 
+ 247:Src/stm32l4xx_nucleo.c ****     {
+ 248:Src/stm32l4xx_nucleo.c ****       ret = BSP_ERROR_PERIPH_FAILURE;
+ 249:Src/stm32l4xx_nucleo.c ****     }
+ 250:Src/stm32l4xx_nucleo.c ****     else if(HAL_UART_RegisterCallback(&hcom_uart[COM], HAL_UART_MSPDEINIT_CB_ID, Callback->pMspDeIn
+ 251:Src/stm32l4xx_nucleo.c ****     {
+ 252:Src/stm32l4xx_nucleo.c ****       ret = BSP_ERROR_PERIPH_FAILURE;
+ 253:Src/stm32l4xx_nucleo.c ****     }
+ 254:Src/stm32l4xx_nucleo.c ****     else
+ 255:Src/stm32l4xx_nucleo.c ****     {
+ 256:Src/stm32l4xx_nucleo.c ****       IsUsart2MspCbValid = 1U;
+ 257:Src/stm32l4xx_nucleo.c ****     }
+ 258:Src/stm32l4xx_nucleo.c ****   }
+ 259:Src/stm32l4xx_nucleo.c ****   
+ 260:Src/stm32l4xx_nucleo.c ****   /* BSP status */  
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 6
+
+
+ 261:Src/stm32l4xx_nucleo.c ****   return ret; 
+ 262:Src/stm32l4xx_nucleo.c **** }
+ 263:Src/stm32l4xx_nucleo.c **** #endif /* USE_HAL_UART_REGISTER_CALLBACKS */
+ 264:Src/stm32l4xx_nucleo.c **** 
+ 265:Src/stm32l4xx_nucleo.c **** #if (USE_COM_LOG > 0)
+ 266:Src/stm32l4xx_nucleo.c **** /**
+ 267:Src/stm32l4xx_nucleo.c ****  * @brief  Select the active COM port.
+ 268:Src/stm32l4xx_nucleo.c ****  * @param  COM COM port to be activated.
+ 269:Src/stm32l4xx_nucleo.c ****  *             This parameter can be COM1
+ 270:Src/stm32l4xx_nucleo.c ****  * @retval BSP status
+ 271:Src/stm32l4xx_nucleo.c ****  */
+ 272:Src/stm32l4xx_nucleo.c **** int32_t BSP_COM_SelectLogPort(COM_TypeDef COM)
+ 273:Src/stm32l4xx_nucleo.c **** { 
+ 274:Src/stm32l4xx_nucleo.c ****   if(COM_ActiveLogPort != COM)
+ 275:Src/stm32l4xx_nucleo.c ****   {
+ 276:Src/stm32l4xx_nucleo.c ****     COM_ActiveLogPort = COM;
+ 277:Src/stm32l4xx_nucleo.c ****   } 
+ 278:Src/stm32l4xx_nucleo.c ****   return BSP_ERROR_NONE; 
+ 279:Src/stm32l4xx_nucleo.c **** }
+ 280:Src/stm32l4xx_nucleo.c **** 
+ 281:Src/stm32l4xx_nucleo.c **** #ifdef __GNUC__ 
+ 282:Src/stm32l4xx_nucleo.c ****  int __io_putchar (int ch) 
+ 283:Src/stm32l4xx_nucleo.c **** #else 
+ 284:Src/stm32l4xx_nucleo.c ****  int fputc (int ch, FILE *f) 
+ 285:Src/stm32l4xx_nucleo.c **** #endif /* __GNUC__ */ 
+ 286:Src/stm32l4xx_nucleo.c **** { 
+ 287:Src/stm32l4xx_nucleo.c ****   (void)HAL_UART_Transmit(&hcom_uart[COM_ActiveLogPort], (uint8_t *)&ch, 1, COM_POLL_TIMEOUT); 
+ 288:Src/stm32l4xx_nucleo.c ****   return ch;
+ 289:Src/stm32l4xx_nucleo.c **** }
+ 290:Src/stm32l4xx_nucleo.c **** #endif /* USE_COM_LOG */ 
+ 291:Src/stm32l4xx_nucleo.c **** /**
+ 292:Src/stm32l4xx_nucleo.c ****  * @brief  Initializes USART2 MSP.
+ 293:Src/stm32l4xx_nucleo.c ****  * @param  huart USART2 handle
+ 294:Src/stm32l4xx_nucleo.c ****  * @retval None
+ 295:Src/stm32l4xx_nucleo.c ****  */
+ 296:Src/stm32l4xx_nucleo.c **** 
+ 297:Src/stm32l4xx_nucleo.c **** static void USART2_MspInit(UART_HandleTypeDef* uartHandle)
+ 298:Src/stm32l4xx_nucleo.c **** {
+  27              		.loc 1 298 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 32
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 00B5     		push	{lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 14, -4
+  36 0002 89B0     		sub	sp, sp, #36
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 40
+  39              	.LBB2:
+ 299:Src/stm32l4xx_nucleo.c ****   GPIO_InitTypeDef GPIO_InitStruct;
+ 300:Src/stm32l4xx_nucleo.c ****   /* USER CODE BEGIN USART2_MspInit 0 */
+ 301:Src/stm32l4xx_nucleo.c **** 
+ 302:Src/stm32l4xx_nucleo.c ****   /* USER CODE END USART2_MspInit 0 */
+ 303:Src/stm32l4xx_nucleo.c ****     /* Enable Peripheral clock */
+ 304:Src/stm32l4xx_nucleo.c ****     __HAL_RCC_USART2_CLK_ENABLE();
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 7
+
+
+  40              		.loc 1 304 0
+  41 0004 114B     		ldr	r3, .L3
+  42 0006 9A6D     		ldr	r2, [r3, #88]
+  43 0008 42F40032 		orr	r2, r2, #131072
+  44 000c 9A65     		str	r2, [r3, #88]
+  45 000e 9A6D     		ldr	r2, [r3, #88]
+  46 0010 02F40032 		and	r2, r2, #131072
+  47 0014 0192     		str	r2, [sp, #4]
+  48 0016 019A     		ldr	r2, [sp, #4]
+  49              	.LBE2:
+  50              	.LBB3:
+ 305:Src/stm32l4xx_nucleo.c ****   
+ 306:Src/stm32l4xx_nucleo.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+  51              		.loc 1 306 0
+  52 0018 DA6C     		ldr	r2, [r3, #76]
+  53 001a 42F00102 		orr	r2, r2, #1
+  54 001e DA64     		str	r2, [r3, #76]
+  55 0020 DB6C     		ldr	r3, [r3, #76]
+  56 0022 03F00103 		and	r3, r3, #1
+  57 0026 0293     		str	r3, [sp, #8]
+  58 0028 029B     		ldr	r3, [sp, #8]
+  59              	.LBE3:
+ 307:Src/stm32l4xx_nucleo.c ****     /**USART2 GPIO Configuration    
+ 308:Src/stm32l4xx_nucleo.c ****     PA2     ------> USART2_TX
+ 309:Src/stm32l4xx_nucleo.c ****     PA3     ------> USART2_RX 
+ 310:Src/stm32l4xx_nucleo.c ****     */
+ 311:Src/stm32l4xx_nucleo.c ****     GPIO_InitStruct.Pin = USART_TX_Pin|USART_RX_Pin;
+  60              		.loc 1 311 0
+  61 002a 0C23     		movs	r3, #12
+  62 002c 0393     		str	r3, [sp, #12]
+ 312:Src/stm32l4xx_nucleo.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  63              		.loc 1 312 0
+  64 002e 0223     		movs	r3, #2
+  65 0030 0493     		str	r3, [sp, #16]
+ 313:Src/stm32l4xx_nucleo.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+  66              		.loc 1 313 0
+  67 0032 0023     		movs	r3, #0
+  68 0034 0593     		str	r3, [sp, #20]
+ 314:Src/stm32l4xx_nucleo.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  69              		.loc 1 314 0
+  70 0036 0693     		str	r3, [sp, #24]
+ 315:Src/stm32l4xx_nucleo.c ****     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+  71              		.loc 1 315 0
+  72 0038 0723     		movs	r3, #7
+  73 003a 0793     		str	r3, [sp, #28]
+ 316:Src/stm32l4xx_nucleo.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  74              		.loc 1 316 0
+  75 003c 03A9     		add	r1, sp, #12
+  76 003e 4FF09040 		mov	r0, #1207959552
+  77              	.LVL1:
+  78 0042 FFF7FEFF 		bl	HAL_GPIO_Init
+  79              	.LVL2:
+ 317:Src/stm32l4xx_nucleo.c **** 
+ 318:Src/stm32l4xx_nucleo.c ****   /* USER CODE BEGIN USART2_MspInit 1 */
+ 319:Src/stm32l4xx_nucleo.c **** 
+ 320:Src/stm32l4xx_nucleo.c ****   /* USER CODE END USART2_MspInit 1 */
+ 321:Src/stm32l4xx_nucleo.c **** }
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 8
+
+
+  80              		.loc 1 321 0
+  81 0046 09B0     		add	sp, sp, #36
+  82              	.LCFI2:
+  83              		.cfi_def_cfa_offset 4
+  84              		@ sp needed
+  85 0048 5DF804FB 		ldr	pc, [sp], #4
+  86              	.L4:
+  87              		.align	2
+  88              	.L3:
+  89 004c 00100240 		.word	1073876992
+  90              		.cfi_endproc
+  91              	.LFE136:
+  93              		.section	.text.USART2_MspDeInit,"ax",%progbits
+  94              		.align	1
+  95              		.syntax unified
+  96              		.thumb
+  97              		.thumb_func
+  98              		.fpu fpv4-sp-d16
+ 100              	USART2_MspDeInit:
+ 101              	.LFB137:
+ 322:Src/stm32l4xx_nucleo.c **** 
+ 323:Src/stm32l4xx_nucleo.c **** static void USART2_MspDeInit(UART_HandleTypeDef* uartHandle)
+ 324:Src/stm32l4xx_nucleo.c **** {
+ 102              		.loc 1 324 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              	.LVL3:
+ 107 0000 08B5     		push	{r3, lr}
+ 108              	.LCFI3:
+ 109              		.cfi_def_cfa_offset 8
+ 110              		.cfi_offset 3, -8
+ 111              		.cfi_offset 14, -4
+ 325:Src/stm32l4xx_nucleo.c ****   /* USER CODE BEGIN USART2_MspDeInit 0 */
+ 326:Src/stm32l4xx_nucleo.c **** 
+ 327:Src/stm32l4xx_nucleo.c ****   /* USER CODE END USART2_MspDeInit 0 */
+ 328:Src/stm32l4xx_nucleo.c ****     /* Peripheral clock disable */
+ 329:Src/stm32l4xx_nucleo.c ****     __HAL_RCC_USART2_CLK_DISABLE();
+ 112              		.loc 1 329 0
+ 113 0002 054A     		ldr	r2, .L7
+ 114 0004 936D     		ldr	r3, [r2, #88]
+ 115 0006 23F40033 		bic	r3, r3, #131072
+ 116 000a 9365     		str	r3, [r2, #88]
+ 330:Src/stm32l4xx_nucleo.c ****   
+ 331:Src/stm32l4xx_nucleo.c ****     /**USART2 GPIO Configuration    
+ 332:Src/stm32l4xx_nucleo.c ****     PA2     ------> USART2_TX
+ 333:Src/stm32l4xx_nucleo.c ****     PA3     ------> USART2_RX 
+ 334:Src/stm32l4xx_nucleo.c ****     */
+ 335:Src/stm32l4xx_nucleo.c ****     HAL_GPIO_DeInit(GPIOA, USART_TX_Pin|USART_RX_Pin);
+ 117              		.loc 1 335 0
+ 118 000c 0C21     		movs	r1, #12
+ 119 000e 4FF09040 		mov	r0, #1207959552
+ 120              	.LVL4:
+ 121 0012 FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 122              	.LVL5:
+ 123 0016 08BD     		pop	{r3, pc}
+ 124              	.L8:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 9
+
+
+ 125              		.align	2
+ 126              	.L7:
+ 127 0018 00100240 		.word	1073876992
+ 128              		.cfi_endproc
+ 129              	.LFE137:
+ 131              		.section	.text.BSP_GetVersion,"ax",%progbits
+ 132              		.align	1
+ 133              		.global	BSP_GetVersion
+ 134              		.syntax unified
+ 135              		.thumb
+ 136              		.thumb_func
+ 137              		.fpu fpv4-sp-d16
+ 139              	BSP_GetVersion:
+ 140              	.LFB130:
+  80:Src/stm32l4xx_nucleo.c ****   return (int32_t)__STM32L4XX_NUCLEO_BSP_VERSION;
+ 141              		.loc 1 80 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              		@ link register save eliminated.
+  82:Src/stm32l4xx_nucleo.c **** 
+ 146              		.loc 1 82 0
+ 147 0000 4FF08070 		mov	r0, #16777216
+ 148 0004 7047     		bx	lr
+ 149              		.cfi_endproc
+ 150              	.LFE130:
+ 152              		.section	.text.BSP_COM_DeInit,"ax",%progbits
+ 153              		.align	1
+ 154              		.global	BSP_COM_DeInit
+ 155              		.syntax unified
+ 156              		.thumb
+ 157              		.thumb_func
+ 158              		.fpu fpv4-sp-d16
+ 160              	BSP_COM_DeInit:
+ 161              	.LFB132:
+ 133:Src/stm32l4xx_nucleo.c ****   int32_t ret = BSP_ERROR_NONE;
+ 162              		.loc 1 133 0
+ 163              		.cfi_startproc
+ 164              		@ args = 0, pretend = 0, frame = 0
+ 165              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166              	.LVL6:
+ 136:Src/stm32l4xx_nucleo.c ****   {
+ 167              		.loc 1 136 0
+ 168 0000 0128     		cmp	r0, #1
+ 169 0002 0FD8     		bhi	.L12
+ 133:Src/stm32l4xx_nucleo.c ****   int32_t ret = BSP_ERROR_NONE;
+ 170              		.loc 1 133 0
+ 171 0004 10B5     		push	{r4, lr}
+ 172              	.LCFI4:
+ 173              		.cfi_def_cfa_offset 8
+ 174              		.cfi_offset 4, -8
+ 175              		.cfi_offset 14, -4
+ 143:Src/stm32l4xx_nucleo.c ****   
+ 176              		.loc 1 143 0
+ 177 0006 0A4B     		ldr	r3, .L18
+ 178 0008 53F82020 		ldr	r2, [r3, r0, lsl #2]
+ 179 000c 094B     		ldr	r3, .L18+4
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 10
+
+
+ 180 000e C001     		lsls	r0, r0, #7
+ 181              	.LVL7:
+ 182 0010 1C18     		adds	r4, r3, r0
+ 183 0012 1A50     		str	r2, [r3, r0]
+ 146:Src/stm32l4xx_nucleo.c ****     #endif /* (USE_HAL_UART_REGISTER_CALLBACKS == 0) */
+ 184              		.loc 1 146 0
+ 185 0014 2046     		mov	r0, r4
+ 186 0016 FFF7FEFF 		bl	USART2_MspDeInit
+ 187              	.LVL8:
+ 149:Src/stm32l4xx_nucleo.c ****     {
+ 188              		.loc 1 149 0
+ 189 001a 2046     		mov	r0, r4
+ 190 001c FFF7FEFF 		bl	HAL_UART_DeInit
+ 191              	.LVL9:
+ 192 0020 18B9     		cbnz	r0, .L13
+ 193 0022 10BD     		pop	{r4, pc}
+ 194              	.LVL10:
+ 195              	.L12:
+ 196              	.LCFI5:
+ 197              		.cfi_def_cfa_offset 0
+ 198              		.cfi_restore 4
+ 199              		.cfi_restore 14
+ 138:Src/stm32l4xx_nucleo.c ****   }
+ 200              		.loc 1 138 0
+ 201 0024 6FF00100 		mvn	r0, #1
+ 202              	.LVL11:
+ 203 0028 7047     		bx	lr
+ 204              	.L13:
+ 205              	.LCFI6:
+ 206              		.cfi_def_cfa_offset 8
+ 207              		.cfi_offset 4, -8
+ 208              		.cfi_offset 14, -4
+ 151:Src/stm32l4xx_nucleo.c ****     }
+ 209              		.loc 1 151 0
+ 210 002a 6FF00300 		mvn	r0, #3
+ 211              	.LVL12:
+ 156:Src/stm32l4xx_nucleo.c **** 
+ 212              		.loc 1 156 0
+ 213 002e 10BD     		pop	{r4, pc}
+ 214              	.L19:
+ 215              		.align	2
+ 216              	.L18:
+ 217 0030 00000000 		.word	.LANCHOR0
+ 218 0034 00000000 		.word	hcom_uart
+ 219              		.cfi_endproc
+ 220              	.LFE132:
+ 222              		.section	.text.MX_USART2_UART_Init,"ax",%progbits
+ 223              		.align	1
+ 224              		.weak	MX_USART2_UART_Init
+ 225              		.syntax unified
+ 226              		.thumb
+ 227              		.thumb_func
+ 228              		.fpu fpv4-sp-d16
+ 230              	MX_USART2_UART_Init:
+ 231              	.LFB133:
+ 170:Src/stm32l4xx_nucleo.c ****   HAL_StatusTypeDef ret = HAL_OK;
+ 232              		.loc 1 170 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 11
+
+
+ 233              		.cfi_startproc
+ 234              		@ args = 0, pretend = 0, frame = 0
+ 235              		@ frame_needed = 0, uses_anonymous_args = 0
+ 236              	.LVL13:
+ 237 0000 08B5     		push	{r3, lr}
+ 238              	.LCFI7:
+ 239              		.cfi_def_cfa_offset 8
+ 240              		.cfi_offset 3, -8
+ 241              		.cfi_offset 14, -4
+ 242              	.LVL14:
+ 172:Src/stm32l4xx_nucleo.c ****   huart->Init.BaudRate = 115200;
+ 243              		.loc 1 172 0
+ 244 0002 0B4A     		ldr	r2, .L24
+ 245 0004 0260     		str	r2, [r0]
+ 173:Src/stm32l4xx_nucleo.c ****   huart->Init.WordLength = UART_WORDLENGTH_8B;
+ 246              		.loc 1 173 0
+ 247 0006 4FF4E132 		mov	r2, #115200
+ 248 000a 4260     		str	r2, [r0, #4]
+ 174:Src/stm32l4xx_nucleo.c ****   huart->Init.StopBits = UART_STOPBITS_1;
+ 249              		.loc 1 174 0
+ 250 000c 0022     		movs	r2, #0
+ 251 000e 8260     		str	r2, [r0, #8]
+ 175:Src/stm32l4xx_nucleo.c ****   huart->Init.Parity = UART_PARITY_NONE;
+ 252              		.loc 1 175 0
+ 253 0010 C260     		str	r2, [r0, #12]
+ 176:Src/stm32l4xx_nucleo.c ****   huart->Init.Mode = UART_MODE_TX_RX;
+ 254              		.loc 1 176 0
+ 255 0012 0261     		str	r2, [r0, #16]
+ 177:Src/stm32l4xx_nucleo.c ****   huart->Init.HwFlowCtl = UART_HWCONTROL_NONE;
+ 256              		.loc 1 177 0
+ 257 0014 0C21     		movs	r1, #12
+ 258 0016 4161     		str	r1, [r0, #20]
+ 178:Src/stm32l4xx_nucleo.c ****   huart->Init.OverSampling = UART_OVERSAMPLING_16;
+ 259              		.loc 1 178 0
+ 260 0018 8261     		str	r2, [r0, #24]
+ 179:Src/stm32l4xx_nucleo.c ****   huart->Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+ 261              		.loc 1 179 0
+ 262 001a C261     		str	r2, [r0, #28]
+ 180:Src/stm32l4xx_nucleo.c ****   huart->AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+ 263              		.loc 1 180 0
+ 264 001c 0262     		str	r2, [r0, #32]
+ 181:Src/stm32l4xx_nucleo.c ****   if (HAL_UART_Init(huart) != HAL_OK)
+ 265              		.loc 1 181 0
+ 266 001e 4262     		str	r2, [r0, #36]
+ 182:Src/stm32l4xx_nucleo.c ****   {
+ 267              		.loc 1 182 0
+ 268 0020 FFF7FEFF 		bl	HAL_UART_Init
+ 269              	.LVL15:
+ 270 0024 0346     		mov	r3, r0
+ 271 0026 00B1     		cbz	r0, .L21
+ 184:Src/stm32l4xx_nucleo.c ****   }
+ 272              		.loc 1 184 0
+ 273 0028 0123     		movs	r3, #1
+ 274              	.L21:
+ 275              	.LVL16:
+ 188:Src/stm32l4xx_nucleo.c **** 
+ 276              		.loc 1 188 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 12
+
+
+ 277 002a 1846     		mov	r0, r3
+ 278 002c 08BD     		pop	{r3, pc}
+ 279              	.LVL17:
+ 280              	.L25:
+ 281 002e 00BF     		.align	2
+ 282              	.L24:
+ 283 0030 00440040 		.word	1073759232
+ 284              		.cfi_endproc
+ 285              	.LFE133:
+ 287              		.section	.text.BSP_COM_Init,"ax",%progbits
+ 288              		.align	1
+ 289              		.global	BSP_COM_Init
+ 290              		.syntax unified
+ 291              		.thumb
+ 292              		.thumb_func
+ 293              		.fpu fpv4-sp-d16
+ 295              	BSP_COM_Init:
+ 296              	.LFB131:
+  94:Src/stm32l4xx_nucleo.c ****   int32_t ret = BSP_ERROR_NONE;
+ 297              		.loc 1 94 0
+ 298              		.cfi_startproc
+ 299              		@ args = 0, pretend = 0, frame = 0
+ 300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301              	.LVL18:
+  97:Src/stm32l4xx_nucleo.c ****   {
+ 302              		.loc 1 97 0
+ 303 0000 0128     		cmp	r0, #1
+ 304 0002 0FD8     		bhi	.L28
+  94:Src/stm32l4xx_nucleo.c ****   int32_t ret = BSP_ERROR_NONE;
+ 305              		.loc 1 94 0
+ 306 0004 10B5     		push	{r4, lr}
+ 307              	.LCFI8:
+ 308              		.cfi_def_cfa_offset 8
+ 309              		.cfi_offset 4, -8
+ 310              		.cfi_offset 14, -4
+ 103:Src/stm32l4xx_nucleo.c **** #if (USE_HAL_UART_REGISTER_CALLBACKS == 0)
+ 311              		.loc 1 103 0
+ 312 0006 0A4B     		ldr	r3, .L34
+ 313 0008 53F82020 		ldr	r2, [r3, r0, lsl #2]
+ 314 000c 094B     		ldr	r3, .L34+4
+ 315 000e C001     		lsls	r0, r0, #7
+ 316              	.LVL19:
+ 317 0010 1C18     		adds	r4, r3, r0
+ 318 0012 1A50     		str	r2, [r3, r0]
+ 106:Src/stm32l4xx_nucleo.c **** #else
+ 319              		.loc 1 106 0
+ 320 0014 2046     		mov	r0, r4
+ 321 0016 FFF7FEFF 		bl	USART2_MspInit
+ 322              	.LVL20:
+ 117:Src/stm32l4xx_nucleo.c ****     {
+ 323              		.loc 1 117 0
+ 324 001a 2046     		mov	r0, r4
+ 325 001c FFF7FEFF 		bl	MX_USART2_UART_Init
+ 326              	.LVL21:
+ 327 0020 18B9     		cbnz	r0, .L29
+ 328 0022 10BD     		pop	{r4, pc}
+ 329              	.LVL22:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 13
+
+
+ 330              	.L28:
+ 331              	.LCFI9:
+ 332              		.cfi_def_cfa_offset 0
+ 333              		.cfi_restore 4
+ 334              		.cfi_restore 14
+  99:Src/stm32l4xx_nucleo.c ****   }
+ 335              		.loc 1 99 0
+ 336 0024 6FF00100 		mvn	r0, #1
+ 337              	.LVL23:
+ 338 0028 7047     		bx	lr
+ 339              	.L29:
+ 340              	.LCFI10:
+ 341              		.cfi_def_cfa_offset 8
+ 342              		.cfi_offset 4, -8
+ 343              		.cfi_offset 14, -4
+ 119:Src/stm32l4xx_nucleo.c ****     }
+ 344              		.loc 1 119 0
+ 345 002a 6FF00300 		mvn	r0, #3
+ 346              	.LVL24:
+ 124:Src/stm32l4xx_nucleo.c **** 
+ 347              		.loc 1 124 0
+ 348 002e 10BD     		pop	{r4, pc}
+ 349              	.L35:
+ 350              		.align	2
+ 351              	.L34:
+ 352 0030 00000000 		.word	.LANCHOR0
+ 353 0034 00000000 		.word	hcom_uart
+ 354              		.cfi_endproc
+ 355              	.LFE131:
+ 357              		.section	.text.BSP_COM_SelectLogPort,"ax",%progbits
+ 358              		.align	1
+ 359              		.global	BSP_COM_SelectLogPort
+ 360              		.syntax unified
+ 361              		.thumb
+ 362              		.thumb_func
+ 363              		.fpu fpv4-sp-d16
+ 365              	BSP_COM_SelectLogPort:
+ 366              	.LFB134:
+ 273:Src/stm32l4xx_nucleo.c ****   if(COM_ActiveLogPort != COM)
+ 367              		.loc 1 273 0
+ 368              		.cfi_startproc
+ 369              		@ args = 0, pretend = 0, frame = 0
+ 370              		@ frame_needed = 0, uses_anonymous_args = 0
+ 371              		@ link register save eliminated.
+ 372              	.LVL25:
+ 274:Src/stm32l4xx_nucleo.c ****   {
+ 373              		.loc 1 274 0
+ 374 0000 034B     		ldr	r3, .L38
+ 375 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 376 0004 8342     		cmp	r3, r0
+ 377 0006 01D0     		beq	.L37
+ 276:Src/stm32l4xx_nucleo.c ****   } 
+ 378              		.loc 1 276 0
+ 379 0008 014B     		ldr	r3, .L38
+ 380 000a 1870     		strb	r0, [r3]
+ 381              	.L37:
+ 279:Src/stm32l4xx_nucleo.c **** 
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 14
+
+
+ 382              		.loc 1 279 0
+ 383 000c 0020     		movs	r0, #0
+ 384              	.LVL26:
+ 385 000e 7047     		bx	lr
+ 386              	.L39:
+ 387              		.align	2
+ 388              	.L38:
+ 389 0010 00000000 		.word	.LANCHOR1
+ 390              		.cfi_endproc
+ 391              	.LFE134:
+ 393              		.section	.text.__io_putchar,"ax",%progbits
+ 394              		.align	1
+ 395              		.global	__io_putchar
+ 396              		.syntax unified
+ 397              		.thumb
+ 398              		.thumb_func
+ 399              		.fpu fpv4-sp-d16
+ 401              	__io_putchar:
+ 402              	.LFB135:
+ 286:Src/stm32l4xx_nucleo.c ****   (void)HAL_UART_Transmit(&hcom_uart[COM_ActiveLogPort], (uint8_t *)&ch, 1, COM_POLL_TIMEOUT); 
+ 403              		.loc 1 286 0
+ 404              		.cfi_startproc
+ 405              		@ args = 0, pretend = 0, frame = 8
+ 406              		@ frame_needed = 0, uses_anonymous_args = 0
+ 407              	.LVL27:
+ 408 0000 10B5     		push	{r4, lr}
+ 409              	.LCFI11:
+ 410              		.cfi_def_cfa_offset 8
+ 411              		.cfi_offset 4, -8
+ 412              		.cfi_offset 14, -4
+ 413 0002 82B0     		sub	sp, sp, #8
+ 414              	.LCFI12:
+ 415              		.cfi_def_cfa_offset 16
+ 416 0004 02A9     		add	r1, sp, #8
+ 417 0006 41F8040D 		str	r0, [r1, #-4]!
+ 287:Src/stm32l4xx_nucleo.c ****   return ch;
+ 418              		.loc 1 287 0
+ 419 000a 064B     		ldr	r3, .L42
+ 420 000c 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 421 000e 4FF47A73 		mov	r3, #1000
+ 422 0012 0122     		movs	r2, #1
+ 423 0014 0448     		ldr	r0, .L42+4
+ 424              	.LVL28:
+ 425 0016 00EBC410 		add	r0, r0, r4, lsl #7
+ 426 001a FFF7FEFF 		bl	HAL_UART_Transmit
+ 427              	.LVL29:
+ 289:Src/stm32l4xx_nucleo.c **** #endif /* USE_COM_LOG */ 
+ 428              		.loc 1 289 0
+ 429 001e 0198     		ldr	r0, [sp, #4]
+ 430 0020 02B0     		add	sp, sp, #8
+ 431              	.LCFI13:
+ 432              		.cfi_def_cfa_offset 8
+ 433              		@ sp needed
+ 434 0022 10BD     		pop	{r4, pc}
+ 435              	.L43:
+ 436              		.align	2
+ 437              	.L42:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 15
+
+
+ 438 0024 00000000 		.word	.LANCHOR1
+ 439 0028 00000000 		.word	hcom_uart
+ 440              		.cfi_endproc
+ 441              	.LFE135:
+ 443              		.comm	hcom_uart,128,4
+ 444              		.global	COM_USART
+ 445              		.section	.bss.COM_ActiveLogPort,"aw",%nobits
+ 446              		.set	.LANCHOR1,. + 0
+ 449              	COM_ActiveLogPort:
+ 450 0000 00       		.space	1
+ 451              		.section	.data.COM_USART,"aw",%progbits
+ 452              		.align	2
+ 453              		.set	.LANCHOR0,. + 0
+ 456              	COM_USART:
+ 457 0000 00440040 		.word	1073759232
+ 458              		.text
+ 459              	.Letext0:
+ 460              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 461              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 462              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 463              		.file 5 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 464              		.file 6 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
+ 465              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 466              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 467              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 468              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h"
+ 469              		.file 11 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 470              		.file 12 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 471              		.file 13 "Inc/stm32l4xx_nucleo.h"
+ARM GAS  C:\Users\choee\AppData\Local\Temp\cce03jzh.s 			page 16
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32l4xx_nucleo.c
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:18     .text.USART2_MspInit:00000000 $t
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:24     .text.USART2_MspInit:00000000 USART2_MspInit
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:89     .text.USART2_MspInit:0000004c $d
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:94     .text.USART2_MspDeInit:00000000 $t
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:100    .text.USART2_MspDeInit:00000000 USART2_MspDeInit
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:127    .text.USART2_MspDeInit:00000018 $d
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:132    .text.BSP_GetVersion:00000000 $t
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:139    .text.BSP_GetVersion:00000000 BSP_GetVersion
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:153    .text.BSP_COM_DeInit:00000000 $t
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:160    .text.BSP_COM_DeInit:00000000 BSP_COM_DeInit
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:217    .text.BSP_COM_DeInit:00000030 $d
+                            *COM*:00000080 hcom_uart
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:223    .text.MX_USART2_UART_Init:00000000 $t
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:230    .text.MX_USART2_UART_Init:00000000 MX_USART2_UART_Init
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:283    .text.MX_USART2_UART_Init:00000030 $d
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:288    .text.BSP_COM_Init:00000000 $t
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:295    .text.BSP_COM_Init:00000000 BSP_COM_Init
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:352    .text.BSP_COM_Init:00000030 $d
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:358    .text.BSP_COM_SelectLogPort:00000000 $t
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:365    .text.BSP_COM_SelectLogPort:00000000 BSP_COM_SelectLogPort
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:389    .text.BSP_COM_SelectLogPort:00000010 $d
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:394    .text.__io_putchar:00000000 $t
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:401    .text.__io_putchar:00000000 __io_putchar
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:438    .text.__io_putchar:00000024 $d
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:456    .data.COM_USART:00000000 COM_USART
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:449    .bss.COM_ActiveLogPort:00000000 COM_ActiveLogPort
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:450    .bss.COM_ActiveLogPort:00000000 $d
+C:\Users\choee\AppData\Local\Temp\cce03jzh.s:452    .data.COM_USART:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_Init
+HAL_GPIO_DeInit
+HAL_UART_DeInit
+HAL_UART_Init
+HAL_UART_Transmit

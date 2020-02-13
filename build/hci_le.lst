@@ -1,0 +1,3599 @@
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"hci_le.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.hci_reset,"ax",%progbits
+  18              		.align	1
+  19              		.global	hci_reset
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	hci_reset:
+  26              	.LFB130:
+  27              		.file 1 "Middlewares/ST/BlueNRG-MS/hci/hci_le.c"
+   1:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** /**
+   2:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   ******************************************************************************
+   3:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * @file    hci_le.c 
+   4:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * @author  AMG RF  Application Team
+   5:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * @brief   Function for managing HCI interface.
+   6:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   ******************************************************************************
+   7:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *
+   8:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *
+   9:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  10:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  11:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
+  12:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  13:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  14:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  15:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *
+  16:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
+  17:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   */ 
+  18:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+  19:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** #include "hci_le.h"
+  20:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** #include "bluenrg_types.h"
+  21:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** #include "bluenrg_def.h"
+  22:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** #include "hci_const.h"
+  23:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** #include "bluenrg_conf.h"
+  24:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+  25:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** #define MIN(a,b)            ((a) < (b) )? (a) : (b)
+  26:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** #define MAX(a,b)            ((a) > (b) )? (a) : (b)
+  27:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+  28:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_reset(void)
+  29:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+  28              		.loc 1 29 0
+  29              		.cfi_startproc
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 2
+
+
+  30              		@ args = 0, pretend = 0, frame = 32
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 00B5     		push	{lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 14, -4
+  36 0002 89B0     		sub	sp, sp, #36
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 40
+  30:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+  31:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+  32:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  33:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+  39              		.loc 1 33 0
+  40 0004 0021     		movs	r1, #0
+  41 0006 0391     		str	r1, [sp, #12]
+  42 0008 0491     		str	r1, [sp, #16]
+  43 000a 0591     		str	r1, [sp, #20]
+  34:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_HOST_CTL;
+  44              		.loc 1 34 0
+  45 000c 0323     		movs	r3, #3
+  46 000e ADF80830 		strh	r3, [sp, #8]	@ movhi
+  35:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_RESET;
+  47              		.loc 1 35 0
+  48 0012 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+  36:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+  49              		.loc 1 36 0
+  50 0016 0DF10703 		add	r3, sp, #7
+  51 001a 0693     		str	r3, [sp, #24]
+  37:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+  52              		.loc 1 37 0
+  53 001c 0123     		movs	r3, #1
+  54 001e 0793     		str	r3, [sp, #28]
+  38:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  39:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+  55              		.loc 1 39 0
+  56 0020 02A8     		add	r0, sp, #8
+  57 0022 FFF7FEFF 		bl	hci_send_req
+  58              	.LVL0:
+  59 0026 0028     		cmp	r0, #0
+  60 0028 04DB     		blt	.L3
+  40:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+  41:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  42:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;  
+  61              		.loc 1 42 0
+  62 002a 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+  63              	.L1:
+  43:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+  64              		.loc 1 43 0
+  65 002e 09B0     		add	sp, sp, #36
+  66              	.LCFI2:
+  67              		.cfi_remember_state
+  68              		.cfi_def_cfa_offset 4
+  69              		@ sp needed
+  70 0030 5DF804FB 		ldr	pc, [sp], #4
+  71              	.L3:
+  72              	.LCFI3:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 3
+
+
+  73              		.cfi_restore_state
+  40:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+  74              		.loc 1 40 0
+  75 0034 FF20     		movs	r0, #255
+  76 0036 FAE7     		b	.L1
+  77              		.cfi_endproc
+  78              	.LFE130:
+  80              		.section	.text.hci_disconnect,"ax",%progbits
+  81              		.align	1
+  82              		.global	hci_disconnect
+  83              		.syntax unified
+  84              		.thumb
+  85              		.thumb_func
+  86              		.fpu fpv4-sp-d16
+  88              	hci_disconnect:
+  89              	.LFB131:
+  44:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+  45:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_disconnect(uint16_t handle, uint8_t reason)
+  46:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+  90              		.loc 1 46 0
+  91              		.cfi_startproc
+  92              		@ args = 0, pretend = 0, frame = 32
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  94              	.LVL1:
+  95 0000 00B5     		push	{lr}
+  96              	.LCFI4:
+  97              		.cfi_def_cfa_offset 4
+  98              		.cfi_offset 14, -4
+  99 0002 89B0     		sub	sp, sp, #36
+ 100              	.LCFI5:
+ 101              		.cfi_def_cfa_offset 40
+  47:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+  48:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   disconnect_cp cp;
+  49:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+  50:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  51:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   cp.handle = handle;
+ 102              		.loc 1 51 0
+ 103 0004 ADF80400 		strh	r0, [sp, #4]	@ movhi
+  52:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   cp.reason = reason;
+ 104              		.loc 1 52 0
+ 105 0008 8DF80610 		strb	r1, [sp, #6]
+  53:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  54:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+  55:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LINK_CTL;
+ 106              		.loc 1 55 0
+ 107 000c 0123     		movs	r3, #1
+ 108 000e ADF80830 		strh	r3, [sp, #8]	@ movhi
+  56:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_DISCONNECT;
+ 109              		.loc 1 56 0
+ 110 0012 0622     		movs	r2, #6
+ 111 0014 ADF80A20 		strh	r2, [sp, #10]	@ movhi
+  57:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &cp;
+ 112              		.loc 1 57 0
+ 113 0018 01AA     		add	r2, sp, #4
+ 114 001a 0492     		str	r2, [sp, #16]
+  58:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = DISCONNECT_CP_SIZE;
+ 115              		.loc 1 58 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 4
+
+
+ 116 001c 0322     		movs	r2, #3
+ 117 001e 0592     		str	r2, [sp, #20]
+  59:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.event = EVT_CMD_STATUS;
+ 118              		.loc 1 59 0
+ 119 0020 0F22     		movs	r2, #15
+ 120 0022 0392     		str	r2, [sp, #12]
+  60:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 121              		.loc 1 60 0
+ 122 0024 0DF10302 		add	r2, sp, #3
+ 123 0028 0692     		str	r2, [sp, #24]
+  61:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 124              		.loc 1 61 0
+ 125 002a 0793     		str	r3, [sp, #28]
+  62:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  63:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 126              		.loc 1 63 0
+ 127 002c 0021     		movs	r1, #0
+ 128              	.LVL2:
+ 129 002e 02A8     		add	r0, sp, #8
+ 130              	.LVL3:
+ 131 0030 FFF7FEFF 		bl	hci_send_req
+ 132              	.LVL4:
+ 133 0034 0028     		cmp	r0, #0
+ 134 0036 04DB     		blt	.L7
+  64:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+  65:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  66:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;  
+ 135              		.loc 1 66 0
+ 136 0038 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 137              	.L5:
+  67:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 138              		.loc 1 67 0
+ 139 003c 09B0     		add	sp, sp, #36
+ 140              	.LCFI6:
+ 141              		.cfi_remember_state
+ 142              		.cfi_def_cfa_offset 4
+ 143              		@ sp needed
+ 144 003e 5DF804FB 		ldr	pc, [sp], #4
+ 145              	.L7:
+ 146              	.LCFI7:
+ 147              		.cfi_restore_state
+  64:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 148              		.loc 1 64 0
+ 149 0042 FF20     		movs	r0, #255
+ 150 0044 FAE7     		b	.L5
+ 151              		.cfi_endproc
+ 152              	.LFE131:
+ 154              		.section	.text.hci_le_read_local_version,"ax",%progbits
+ 155              		.align	1
+ 156              		.global	hci_le_read_local_version
+ 157              		.syntax unified
+ 158              		.thumb
+ 159              		.thumb_func
+ 160              		.fpu fpv4-sp-d16
+ 162              	hci_le_read_local_version:
+ 163              	.LFB132:
+  68:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 5
+
+
+  69:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_read_local_version(uint8_t *hci_version, uint16_t *hci_revision, uint8_t *lmp_pal_versio
+  70:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****                               uint16_t *manufacturer_name, uint16_t *lmp_pal_subversion)
+  71:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 164              		.loc 1 71 0
+ 165              		.cfi_startproc
+ 166              		@ args = 4, pretend = 0, frame = 40
+ 167              		@ frame_needed = 0, uses_anonymous_args = 0
+ 168              	.LVL5:
+ 169 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 170              	.LCFI8:
+ 171              		.cfi_def_cfa_offset 20
+ 172              		.cfi_offset 4, -20
+ 173              		.cfi_offset 5, -16
+ 174              		.cfi_offset 6, -12
+ 175              		.cfi_offset 7, -8
+ 176              		.cfi_offset 14, -4
+ 177 0002 8BB0     		sub	sp, sp, #44
+ 178              	.LCFI9:
+ 179              		.cfi_def_cfa_offset 64
+ 180 0004 0746     		mov	r7, r0
+ 181 0006 0E46     		mov	r6, r1
+ 182 0008 1546     		mov	r5, r2
+ 183 000a 1C46     		mov	r4, r3
+  72:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+  73:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   read_local_version_rp resp;
+  74:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  75:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 184              		.loc 1 75 0
+ 185 000c 01AB     		add	r3, sp, #4
+ 186              	.LVL6:
+ 187 000e 0021     		movs	r1, #0
+ 188              	.LVL7:
+ 189 0010 0191     		str	r1, [sp, #4]
+ 190 0012 0291     		str	r1, [sp, #8]
+ 191 0014 8DF80C10 		strb	r1, [sp, #12]
+  76:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  77:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 192              		.loc 1 77 0
+ 193 0018 0591     		str	r1, [sp, #20]
+ 194 001a 0691     		str	r1, [sp, #24]
+ 195 001c 0791     		str	r1, [sp, #28]
+  78:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_INFO_PARAM;
+ 196              		.loc 1 78 0
+ 197 001e 0422     		movs	r2, #4
+ 198              	.LVL8:
+ 199 0020 ADF81020 		strh	r2, [sp, #16]	@ movhi
+  79:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_READ_LOCAL_VERSION;
+ 200              		.loc 1 79 0
+ 201 0024 0122     		movs	r2, #1
+ 202 0026 ADF81220 		strh	r2, [sp, #18]	@ movhi
+  80:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = NULL;
+  81:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = 0;
+  82:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 203              		.loc 1 82 0
+ 204 002a 0893     		str	r3, [sp, #32]
+  83:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = READ_LOCAL_VERSION_RP_SIZE;
+ 205              		.loc 1 83 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 6
+
+
+ 206 002c 0923     		movs	r3, #9
+ 207 002e 0993     		str	r3, [sp, #36]
+  84:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  85:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 208              		.loc 1 85 0
+ 209 0030 04A8     		add	r0, sp, #16
+ 210              	.LVL9:
+ 211 0032 FFF7FEFF 		bl	hci_send_req
+ 212              	.LVL10:
+ 213 0036 0028     		cmp	r0, #0
+ 214 0038 14DB     		blt	.L12
+  86:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+  87:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  88:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 215              		.loc 1 88 0
+ 216 003a 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 217 003e 90B9     		cbnz	r0, .L9
+  89:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+  90:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+  91:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  92:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  93:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *hci_version = resp.hci_version;
+ 218              		.loc 1 93 0
+ 219 0040 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 220 0044 3B70     		strb	r3, [r7]
+  94:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *hci_revision =  btohs(resp.hci_revision);
+ 221              		.loc 1 94 0
+ 222 0046 BDF80630 		ldrh	r3, [sp, #6]
+ 223 004a 3380     		strh	r3, [r6]	@ movhi
+  95:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *lmp_pal_version = resp.lmp_pal_version;
+ 224              		.loc 1 95 0
+ 225 004c 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+ 226 0050 2B70     		strb	r3, [r5]
+  96:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *manufacturer_name = btohs(resp.manufacturer_name);
+ 227              		.loc 1 96 0
+ 228 0052 BDF80930 		ldrh	r3, [sp, #9]	@ unaligned
+ 229 0056 2380     		strh	r3, [r4]	@ movhi
+  97:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *lmp_pal_subversion = btohs(resp.lmp_pal_subversion);
+ 230              		.loc 1 97 0
+ 231 0058 BDF80B20 		ldrh	r2, [sp, #11]	@ unaligned
+ 232 005c 109B     		ldr	r3, [sp, #64]
+ 233 005e 1A80     		strh	r2, [r3]	@ movhi
+  98:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+  99:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 234              		.loc 1 99 0
+ 235 0060 0020     		movs	r0, #0
+ 236 0062 00E0     		b	.L9
+ 237              	.L12:
+  86:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 238              		.loc 1 86 0
+ 239 0064 FF20     		movs	r0, #255
+ 240              	.L9:
+ 100:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 241              		.loc 1 100 0
+ 242 0066 0BB0     		add	sp, sp, #44
+ 243              	.LCFI10:
+ 244              		.cfi_def_cfa_offset 20
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 7
+
+
+ 245              		@ sp needed
+ 246 0068 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 247              		.cfi_endproc
+ 248              	.LFE132:
+ 250              		.section	.text.hci_le_read_buffer_size,"ax",%progbits
+ 251              		.align	1
+ 252              		.global	hci_le_read_buffer_size
+ 253              		.syntax unified
+ 254              		.thumb
+ 255              		.thumb_func
+ 256              		.fpu fpv4-sp-d16
+ 258              	hci_le_read_buffer_size:
+ 259              	.LFB133:
+ 101:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 102:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_read_buffer_size(uint16_t *pkt_len, uint8_t *max_pkt)
+ 103:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 260              		.loc 1 103 0
+ 261              		.cfi_startproc
+ 262              		@ args = 0, pretend = 0, frame = 32
+ 263              		@ frame_needed = 0, uses_anonymous_args = 0
+ 264              	.LVL11:
+ 265 0000 30B5     		push	{r4, r5, lr}
+ 266              	.LCFI11:
+ 267              		.cfi_def_cfa_offset 12
+ 268              		.cfi_offset 4, -12
+ 269              		.cfi_offset 5, -8
+ 270              		.cfi_offset 14, -4
+ 271 0002 89B0     		sub	sp, sp, #36
+ 272              	.LCFI12:
+ 273              		.cfi_def_cfa_offset 48
+ 274 0004 0546     		mov	r5, r0
+ 275 0006 0C46     		mov	r4, r1
+ 104:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 105:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_read_buffer_size_rp resp;
+ 106:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 107:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 276              		.loc 1 107 0
+ 277 0008 0021     		movs	r1, #0
+ 278              	.LVL12:
+ 279 000a 0191     		str	r1, [sp, #4]
+ 108:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 109:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 280              		.loc 1 109 0
+ 281 000c 0391     		str	r1, [sp, #12]
+ 282 000e 0491     		str	r1, [sp, #16]
+ 283 0010 0591     		str	r1, [sp, #20]
+ 110:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 284              		.loc 1 110 0
+ 285 0012 0823     		movs	r3, #8
+ 286 0014 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 111:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_READ_BUFFER_SIZE;
+ 287              		.loc 1 111 0
+ 288 0018 0223     		movs	r3, #2
+ 289 001a ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 112:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = NULL;
+ 113:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = 0;
+ 114:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 8
+
+
+ 290              		.loc 1 114 0
+ 291 001e 01AB     		add	r3, sp, #4
+ 292 0020 0693     		str	r3, [sp, #24]
+ 115:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_READ_BUFFER_SIZE_RP_SIZE;
+ 293              		.loc 1 115 0
+ 294 0022 0423     		movs	r3, #4
+ 295 0024 0793     		str	r3, [sp, #28]
+ 116:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 117:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 296              		.loc 1 117 0
+ 297 0026 02A8     		add	r0, sp, #8
+ 298              	.LVL13:
+ 299 0028 FFF7FEFF 		bl	hci_send_req
+ 300              	.LVL14:
+ 301 002c 0028     		cmp	r0, #0
+ 302 002e 0ADB     		blt	.L17
+ 118:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 119:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 120:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 303              		.loc 1 120 0
+ 304 0030 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 305 0034 40B9     		cbnz	r0, .L14
+ 121:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 122:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 123:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 124:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *pkt_len = resp.pkt_len;
+ 306              		.loc 1 124 0
+ 307 0036 BDF80530 		ldrh	r3, [sp, #5]	@ unaligned
+ 308 003a 2B80     		strh	r3, [r5]	@ movhi
+ 125:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *max_pkt = resp.max_pkt;
+ 309              		.loc 1 125 0
+ 310 003c 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 311 0040 2370     		strb	r3, [r4]
+ 126:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 127:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 312              		.loc 1 127 0
+ 313 0042 0020     		movs	r0, #0
+ 314 0044 00E0     		b	.L14
+ 315              	.L17:
+ 118:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 316              		.loc 1 118 0
+ 317 0046 FF20     		movs	r0, #255
+ 318              	.L14:
+ 128:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 319              		.loc 1 128 0
+ 320 0048 09B0     		add	sp, sp, #36
+ 321              	.LCFI13:
+ 322              		.cfi_def_cfa_offset 12
+ 323              		@ sp needed
+ 324 004a 30BD     		pop	{r4, r5, pc}
+ 325              		.cfi_endproc
+ 326              	.LFE133:
+ 328              		.section	.text.hci_le_set_advertising_parameters,"ax",%progbits
+ 329              		.align	1
+ 330              		.global	hci_le_set_advertising_parameters
+ 331              		.syntax unified
+ 332              		.thumb
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 9
+
+
+ 333              		.thumb_func
+ 334              		.fpu fpv4-sp-d16
+ 336              	hci_le_set_advertising_parameters:
+ 337              	.LFB134:
+ 129:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 130:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_set_advertising_parameters(uint16_t min_interval, uint16_t max_interval, uint8_t advtype
+ 131:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****                                       uint8_t own_bdaddr_type, uint8_t direct_bdaddr_type, const tB
+ 132:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****                                       uint8_t filter)
+ 133:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 338              		.loc 1 133 0
+ 339              		.cfi_startproc
+ 340              		@ args = 16, pretend = 0, frame = 48
+ 341              		@ frame_needed = 0, uses_anonymous_args = 0
+ 342              	.LVL15:
+ 343 0000 30B5     		push	{r4, r5, lr}
+ 344              	.LCFI14:
+ 345              		.cfi_def_cfa_offset 12
+ 346              		.cfi_offset 4, -12
+ 347              		.cfi_offset 5, -8
+ 348              		.cfi_offset 14, -4
+ 349 0002 8DB0     		sub	sp, sp, #52
+ 350              	.LCFI15:
+ 351              		.cfi_def_cfa_offset 64
+ 352 0004 119D     		ldr	r5, [sp, #68]
+ 134:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 135:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_set_adv_parameters_cp adv_cp;
+ 136:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 137:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 138:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&adv_cp, 0, sizeof(adv_cp));
+ 353              		.loc 1 138 0
+ 354 0006 0024     		movs	r4, #0
+ 355 0008 0394     		str	r4, [sp, #12]
+ 356 000a 0494     		str	r4, [sp, #16]
+ 357 000c CDF81340 		str	r4, [sp, #19]	@ unaligned
+ 139:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   adv_cp.min_interval = min_interval;
+ 358              		.loc 1 139 0
+ 359 0010 ADF80800 		strh	r0, [sp, #8]	@ movhi
+ 140:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   adv_cp.max_interval = max_interval;
+ 360              		.loc 1 140 0
+ 361 0014 ADF80A10 		strh	r1, [sp, #10]	@ movhi
+ 141:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   adv_cp.advtype = advtype;
+ 362              		.loc 1 141 0
+ 363 0018 8DF80C20 		strb	r2, [sp, #12]
+ 142:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   adv_cp.own_bdaddr_type = own_bdaddr_type;
+ 364              		.loc 1 142 0
+ 365 001c 8DF80D30 		strb	r3, [sp, #13]
+ 143:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   adv_cp.direct_bdaddr_type = direct_bdaddr_type;
+ 366              		.loc 1 143 0
+ 367 0020 9DF84030 		ldrb	r3, [sp, #64]	@ zero_extendqisi2
+ 368              	.LVL16:
+ 369 0024 8DF80E30 		strb	r3, [sp, #14]
+ 144:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if(direct_bdaddr != NULL)
+ 370              		.loc 1 144 0
+ 371 0028 2DB1     		cbz	r5, .L20
+ 145:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     BLUENRG_memcpy(adv_cp.direct_bdaddr,direct_bdaddr,sizeof(adv_cp.direct_bdaddr));
+ 372              		.loc 1 145 0
+ 373 002a 2B68     		ldr	r3, [r5]	@ unaligned
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 10
+
+
+ 374 002c CDF80F30 		str	r3, [sp, #15]	@ unaligned
+ 375 0030 AB88     		ldrh	r3, [r5, #4]	@ unaligned
+ 376 0032 ADF81330 		strh	r3, [sp, #19]	@ unaligned
+ 377              	.L20:
+ 146:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   adv_cp.chan_map = chan_map;
+ 378              		.loc 1 146 0
+ 379 0036 9DF84830 		ldrb	r3, [sp, #72]	@ zero_extendqisi2
+ 380 003a 8DF81530 		strb	r3, [sp, #21]
+ 147:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   adv_cp.filter = filter;
+ 381              		.loc 1 147 0
+ 382 003e 9DF84C30 		ldrb	r3, [sp, #76]	@ zero_extendqisi2
+ 383 0042 8DF81630 		strb	r3, [sp, #22]
+ 148:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 149:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 384              		.loc 1 149 0
+ 385 0046 0021     		movs	r1, #0
+ 386              	.LVL17:
+ 387 0048 0791     		str	r1, [sp, #28]
+ 150:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 388              		.loc 1 150 0
+ 389 004a 0823     		movs	r3, #8
+ 390 004c ADF81830 		strh	r3, [sp, #24]	@ movhi
+ 151:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_SET_ADV_PARAMETERS;
+ 391              		.loc 1 151 0
+ 392 0050 0623     		movs	r3, #6
+ 393 0052 ADF81A30 		strh	r3, [sp, #26]	@ movhi
+ 152:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &adv_cp;
+ 394              		.loc 1 152 0
+ 395 0056 02AB     		add	r3, sp, #8
+ 396 0058 0893     		str	r3, [sp, #32]
+ 153:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_SET_ADV_PARAMETERS_CP_SIZE;
+ 397              		.loc 1 153 0
+ 398 005a 0F23     		movs	r3, #15
+ 399 005c 0993     		str	r3, [sp, #36]
+ 154:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 400              		.loc 1 154 0
+ 401 005e 0DF10703 		add	r3, sp, #7
+ 402 0062 0A93     		str	r3, [sp, #40]
+ 155:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 403              		.loc 1 155 0
+ 404 0064 0123     		movs	r3, #1
+ 405 0066 0B93     		str	r3, [sp, #44]
+ 156:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 157:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 406              		.loc 1 157 0
+ 407 0068 06A8     		add	r0, sp, #24
+ 408              	.LVL18:
+ 409 006a FFF7FEFF 		bl	hci_send_req
+ 410              	.LVL19:
+ 411 006e 0028     		cmp	r0, #0
+ 412 0070 03DB     		blt	.L22
+ 158:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 159:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 160:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 413              		.loc 1 160 0
+ 414 0072 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 415              	.L19:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 11
+
+
+ 161:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 416              		.loc 1 161 0
+ 417 0076 0DB0     		add	sp, sp, #52
+ 418              	.LCFI16:
+ 419              		.cfi_remember_state
+ 420              		.cfi_def_cfa_offset 12
+ 421              		@ sp needed
+ 422 0078 30BD     		pop	{r4, r5, pc}
+ 423              	.LVL20:
+ 424              	.L22:
+ 425              	.LCFI17:
+ 426              		.cfi_restore_state
+ 158:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 427              		.loc 1 158 0
+ 428 007a FF20     		movs	r0, #255
+ 429 007c FBE7     		b	.L19
+ 430              		.cfi_endproc
+ 431              	.LFE134:
+ 433              		.section	.text.hci_le_set_advertising_data,"ax",%progbits
+ 434              		.align	1
+ 435              		.global	hci_le_set_advertising_data
+ 436              		.syntax unified
+ 437              		.thumb
+ 438              		.thumb_func
+ 439              		.fpu fpv4-sp-d16
+ 441              	hci_le_set_advertising_data:
+ 442              	.LFB135:
+ 162:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 163:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_set_advertising_data(uint8_t length, const uint8_t data[])
+ 164:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 443              		.loc 1 164 0
+ 444              		.cfi_startproc
+ 445              		@ args = 0, pretend = 0, frame = 64
+ 446              		@ frame_needed = 0, uses_anonymous_args = 0
+ 447              	.LVL21:
+ 448 0000 30B5     		push	{r4, r5, lr}
+ 449              	.LCFI18:
+ 450              		.cfi_def_cfa_offset 12
+ 451              		.cfi_offset 4, -12
+ 452              		.cfi_offset 5, -8
+ 453              		.cfi_offset 14, -4
+ 454 0002 91B0     		sub	sp, sp, #68
+ 455              	.LCFI19:
+ 456              		.cfi_def_cfa_offset 80
+ 457 0004 0446     		mov	r4, r0
+ 458 0006 0D46     		mov	r5, r1
+ 165:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 166:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_set_adv_data_cp adv_cp;
+ 167:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 168:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 169:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&adv_cp, 0, sizeof(adv_cp));
+ 459              		.loc 1 169 0
+ 460 0008 2022     		movs	r2, #32
+ 461 000a 0021     		movs	r1, #0
+ 462              	.LVL22:
+ 463 000c 02A8     		add	r0, sp, #8
+ 464              	.LVL23:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 12
+
+
+ 465 000e FFF7FEFF 		bl	memset
+ 466              	.LVL24:
+ 170:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   adv_cp.length = length;
+ 467              		.loc 1 170 0
+ 468 0012 8DF80840 		strb	r4, [sp, #8]
+ 171:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(adv_cp.data, data, MIN(31,length));
+ 469              		.loc 1 171 0
+ 470 0016 1F2C     		cmp	r4, #31
+ 471 0018 1ED8     		bhi	.L27
+ 472              		.loc 1 171 0 is_stmt 0 discriminator 1
+ 473 001a 2246     		mov	r2, r4
+ 474              	.L25:
+ 475              		.loc 1 171 0 discriminator 4
+ 476 001c 2946     		mov	r1, r5
+ 477 001e 0DF10900 		add	r0, sp, #9
+ 478 0022 FFF7FEFF 		bl	memcpy
+ 479              	.LVL25:
+ 172:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 173:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 480              		.loc 1 173 0 is_stmt 1 discriminator 4
+ 481 0026 0021     		movs	r1, #0
+ 482 0028 0B91     		str	r1, [sp, #44]
+ 174:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 483              		.loc 1 174 0 discriminator 4
+ 484 002a 0823     		movs	r3, #8
+ 485 002c ADF82830 		strh	r3, [sp, #40]	@ movhi
+ 175:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_SET_ADV_DATA;
+ 486              		.loc 1 175 0 discriminator 4
+ 487 0030 ADF82A30 		strh	r3, [sp, #42]	@ movhi
+ 176:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &adv_cp;
+ 488              		.loc 1 176 0 discriminator 4
+ 489 0034 6B44     		add	r3, sp, r3
+ 490 0036 0C93     		str	r3, [sp, #48]
+ 177:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_SET_ADV_DATA_CP_SIZE;
+ 491              		.loc 1 177 0 discriminator 4
+ 492 0038 2023     		movs	r3, #32
+ 493 003a 0D93     		str	r3, [sp, #52]
+ 178:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 494              		.loc 1 178 0 discriminator 4
+ 495 003c 0DF10703 		add	r3, sp, #7
+ 496 0040 0E93     		str	r3, [sp, #56]
+ 179:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 497              		.loc 1 179 0 discriminator 4
+ 498 0042 0123     		movs	r3, #1
+ 499 0044 0F93     		str	r3, [sp, #60]
+ 180:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 181:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 500              		.loc 1 181 0 discriminator 4
+ 501 0046 0AA8     		add	r0, sp, #40
+ 502 0048 FFF7FEFF 		bl	hci_send_req
+ 503              	.LVL26:
+ 504 004c 0028     		cmp	r0, #0
+ 505 004e 05DB     		blt	.L28
+ 182:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 183:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 184:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 506              		.loc 1 184 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 13
+
+
+ 507 0050 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 508              	.L24:
+ 185:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 509              		.loc 1 185 0
+ 510 0054 11B0     		add	sp, sp, #68
+ 511              	.LCFI20:
+ 512              		.cfi_remember_state
+ 513              		.cfi_def_cfa_offset 12
+ 514              		@ sp needed
+ 515 0056 30BD     		pop	{r4, r5, pc}
+ 516              	.LVL27:
+ 517              	.L27:
+ 518              	.LCFI21:
+ 519              		.cfi_restore_state
+ 171:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 520              		.loc 1 171 0
+ 521 0058 1F22     		movs	r2, #31
+ 522 005a DFE7     		b	.L25
+ 523              	.L28:
+ 182:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 524              		.loc 1 182 0
+ 525 005c FF20     		movs	r0, #255
+ 526 005e F9E7     		b	.L24
+ 527              		.cfi_endproc
+ 528              	.LFE135:
+ 530              		.section	.text.hci_le_set_advertise_enable,"ax",%progbits
+ 531              		.align	1
+ 532              		.global	hci_le_set_advertise_enable
+ 533              		.syntax unified
+ 534              		.thumb
+ 535              		.thumb_func
+ 536              		.fpu fpv4-sp-d16
+ 538              	hci_le_set_advertise_enable:
+ 539              	.LFB136:
+ 186:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 187:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_set_advertise_enable(uint8_t enable)
+ 188:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 540              		.loc 1 188 0
+ 541              		.cfi_startproc
+ 542              		@ args = 0, pretend = 0, frame = 32
+ 543              		@ frame_needed = 0, uses_anonymous_args = 0
+ 544              	.LVL28:
+ 545 0000 00B5     		push	{lr}
+ 546              	.LCFI22:
+ 547              		.cfi_def_cfa_offset 4
+ 548              		.cfi_offset 14, -4
+ 549 0002 89B0     		sub	sp, sp, #36
+ 550              	.LCFI23:
+ 551              		.cfi_def_cfa_offset 40
+ 189:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 190:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_set_advertise_enable_cp adv_cp;
+ 191:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 192:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 193:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&adv_cp, 0, sizeof(adv_cp));
+ 194:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   adv_cp.enable = enable?1:0;
+ 552              		.loc 1 194 0
+ 553 0004 0030     		adds	r0, r0, #0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 14
+
+
+ 554              	.LVL29:
+ 555 0006 18BF     		it	ne
+ 556 0008 0120     		movne	r0, #1
+ 557 000a 8DF80400 		strb	r0, [sp, #4]
+ 195:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 196:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 558              		.loc 1 196 0
+ 559 000e 0021     		movs	r1, #0
+ 560 0010 0391     		str	r1, [sp, #12]
+ 197:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 561              		.loc 1 197 0
+ 562 0012 0823     		movs	r3, #8
+ 563 0014 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 198:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_SET_ADVERTISE_ENABLE;
+ 564              		.loc 1 198 0
+ 565 0018 0A23     		movs	r3, #10
+ 566 001a ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 199:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &adv_cp;
+ 567              		.loc 1 199 0
+ 568 001e 01AB     		add	r3, sp, #4
+ 569 0020 0493     		str	r3, [sp, #16]
+ 200:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_SET_ADVERTISE_ENABLE_CP_SIZE;
+ 570              		.loc 1 200 0
+ 571 0022 0123     		movs	r3, #1
+ 572 0024 0593     		str	r3, [sp, #20]
+ 201:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 573              		.loc 1 201 0
+ 574 0026 0DF10302 		add	r2, sp, #3
+ 575 002a 0692     		str	r2, [sp, #24]
+ 202:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 576              		.loc 1 202 0
+ 577 002c 0793     		str	r3, [sp, #28]
+ 203:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 204:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 578              		.loc 1 204 0
+ 579 002e 02A8     		add	r0, sp, #8
+ 580 0030 FFF7FEFF 		bl	hci_send_req
+ 581              	.LVL30:
+ 582 0034 0028     		cmp	r0, #0
+ 583 0036 04DB     		blt	.L32
+ 205:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 206:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 207:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 584              		.loc 1 207 0
+ 585 0038 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 586              	.L30:
+ 208:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 587              		.loc 1 208 0
+ 588 003c 09B0     		add	sp, sp, #36
+ 589              	.LCFI24:
+ 590              		.cfi_remember_state
+ 591              		.cfi_def_cfa_offset 4
+ 592              		@ sp needed
+ 593 003e 5DF804FB 		ldr	pc, [sp], #4
+ 594              	.L32:
+ 595              	.LCFI25:
+ 596              		.cfi_restore_state
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 15
+
+
+ 205:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 597              		.loc 1 205 0
+ 598 0042 FF20     		movs	r0, #255
+ 599 0044 FAE7     		b	.L30
+ 600              		.cfi_endproc
+ 601              	.LFE136:
+ 603              		.section	.text.hci_le_set_scan_parameters,"ax",%progbits
+ 604              		.align	1
+ 605              		.global	hci_le_set_scan_parameters
+ 606              		.syntax unified
+ 607              		.thumb
+ 608              		.thumb_func
+ 609              		.fpu fpv4-sp-d16
+ 611              	hci_le_set_scan_parameters:
+ 612              	.LFB137:
+ 209:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 210:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_set_scan_parameters(uint8_t	type, uint16_t interval,
+ 211:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****                                uint16_t window, uint8_t own_bdaddr_type,
+ 212:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****                                uint8_t	filter)
+ 213:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 613              		.loc 1 213 0
+ 614              		.cfi_startproc
+ 615              		@ args = 4, pretend = 0, frame = 40
+ 616              		@ frame_needed = 0, uses_anonymous_args = 0
+ 617              	.LVL31:
+ 618 0000 10B5     		push	{r4, lr}
+ 619              	.LCFI26:
+ 620              		.cfi_def_cfa_offset 8
+ 621              		.cfi_offset 4, -8
+ 622              		.cfi_offset 14, -4
+ 623 0002 8AB0     		sub	sp, sp, #40
+ 624              	.LCFI27:
+ 625              		.cfi_def_cfa_offset 48
+ 214:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 215:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_set_scan_parameters_cp scan_cp;
+ 216:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 217:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 218:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&scan_cp, 0, sizeof(scan_cp));
+ 626              		.loc 1 218 0
+ 627 0004 0024     		movs	r4, #0
+ 219:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   scan_cp.type = type;
+ 628              		.loc 1 219 0
+ 629 0006 8DF80800 		strb	r0, [sp, #8]
+ 220:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   scan_cp.interval = interval;
+ 630              		.loc 1 220 0
+ 631 000a ADF80910 		strh	r1, [sp, #9]	@ unaligned
+ 221:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   scan_cp.window = window;
+ 632              		.loc 1 221 0
+ 633 000e ADF80B20 		strh	r2, [sp, #11]	@ unaligned
+ 222:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   scan_cp.own_bdaddr_type = own_bdaddr_type;
+ 634              		.loc 1 222 0
+ 635 0012 8DF80D30 		strb	r3, [sp, #13]
+ 223:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   scan_cp.filter = filter;
+ 636              		.loc 1 223 0
+ 637 0016 9DF83030 		ldrb	r3, [sp, #48]	@ zero_extendqisi2
+ 638              	.LVL32:
+ 639 001a 8DF80E30 		strb	r3, [sp, #14]
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 16
+
+
+ 224:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 225:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 640              		.loc 1 225 0
+ 641 001e 0594     		str	r4, [sp, #20]
+ 226:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 642              		.loc 1 226 0
+ 643 0020 0823     		movs	r3, #8
+ 644 0022 ADF81030 		strh	r3, [sp, #16]	@ movhi
+ 227:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_SET_SCAN_PARAMETERS;
+ 645              		.loc 1 227 0
+ 646 0026 0B23     		movs	r3, #11
+ 647 0028 ADF81230 		strh	r3, [sp, #18]	@ movhi
+ 228:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &scan_cp;
+ 648              		.loc 1 228 0
+ 649 002c 02AB     		add	r3, sp, #8
+ 650 002e 0693     		str	r3, [sp, #24]
+ 229:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_SET_SCAN_PARAMETERS_CP_SIZE;
+ 651              		.loc 1 229 0
+ 652 0030 0723     		movs	r3, #7
+ 653 0032 0793     		str	r3, [sp, #28]
+ 230:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 654              		.loc 1 230 0
+ 655 0034 6B44     		add	r3, sp, r3
+ 656 0036 0893     		str	r3, [sp, #32]
+ 231:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 657              		.loc 1 231 0
+ 658 0038 0123     		movs	r3, #1
+ 659 003a 0993     		str	r3, [sp, #36]
+ 232:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 233:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 660              		.loc 1 233 0
+ 661 003c 2146     		mov	r1, r4
+ 662              	.LVL33:
+ 663 003e 04A8     		add	r0, sp, #16
+ 664              	.LVL34:
+ 665 0040 FFF7FEFF 		bl	hci_send_req
+ 666              	.LVL35:
+ 667 0044 A042     		cmp	r0, r4
+ 668 0046 03DB     		blt	.L36
+ 234:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 235:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 236:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 669              		.loc 1 236 0
+ 670 0048 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 671              	.L34:
+ 237:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 672              		.loc 1 237 0
+ 673 004c 0AB0     		add	sp, sp, #40
+ 674              	.LCFI28:
+ 675              		.cfi_remember_state
+ 676              		.cfi_def_cfa_offset 8
+ 677              		@ sp needed
+ 678 004e 10BD     		pop	{r4, pc}
+ 679              	.LVL36:
+ 680              	.L36:
+ 681              	.LCFI29:
+ 682              		.cfi_restore_state
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 17
+
+
+ 234:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 683              		.loc 1 234 0
+ 684 0050 FF20     		movs	r0, #255
+ 685 0052 FBE7     		b	.L34
+ 686              		.cfi_endproc
+ 687              	.LFE137:
+ 689              		.section	.text.hci_le_set_scan_enable,"ax",%progbits
+ 690              		.align	1
+ 691              		.global	hci_le_set_scan_enable
+ 692              		.syntax unified
+ 693              		.thumb
+ 694              		.thumb_func
+ 695              		.fpu fpv4-sp-d16
+ 697              	hci_le_set_scan_enable:
+ 698              	.LFB138:
+ 238:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 239:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_set_scan_enable(uint8_t enable, uint8_t filter_dup)
+ 240:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 699              		.loc 1 240 0
+ 700              		.cfi_startproc
+ 701              		@ args = 0, pretend = 0, frame = 32
+ 702              		@ frame_needed = 0, uses_anonymous_args = 0
+ 703              	.LVL37:
+ 704 0000 00B5     		push	{lr}
+ 705              	.LCFI30:
+ 706              		.cfi_def_cfa_offset 4
+ 707              		.cfi_offset 14, -4
+ 708 0002 89B0     		sub	sp, sp, #36
+ 709              	.LCFI31:
+ 710              		.cfi_def_cfa_offset 40
+ 241:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 242:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_set_scan_enable_cp scan_cp;
+ 243:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 244:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 245:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&scan_cp, 0, sizeof(scan_cp));
+ 711              		.loc 1 245 0
+ 712 0004 0023     		movs	r3, #0
+ 246:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   scan_cp.enable = enable?1:0;
+ 713              		.loc 1 246 0
+ 714 0006 C01A     		subs	r0, r0, r3
+ 715              	.LVL38:
+ 716 0008 18BF     		it	ne
+ 717 000a 0120     		movne	r0, #1
+ 718 000c 8DF80400 		strb	r0, [sp, #4]
+ 247:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   scan_cp.filter_dup = filter_dup;
+ 719              		.loc 1 247 0
+ 720 0010 8DF80510 		strb	r1, [sp, #5]
+ 248:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 249:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 721              		.loc 1 249 0
+ 722 0014 0393     		str	r3, [sp, #12]
+ 250:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 723              		.loc 1 250 0
+ 724 0016 0822     		movs	r2, #8
+ 725 0018 ADF80820 		strh	r2, [sp, #8]	@ movhi
+ 251:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_SET_SCAN_ENABLE;
+ 726              		.loc 1 251 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 18
+
+
+ 727 001c 0C22     		movs	r2, #12
+ 728 001e ADF80A20 		strh	r2, [sp, #10]	@ movhi
+ 252:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &scan_cp;
+ 729              		.loc 1 252 0
+ 730 0022 01AA     		add	r2, sp, #4
+ 731 0024 0492     		str	r2, [sp, #16]
+ 253:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_SET_SCAN_ENABLE_CP_SIZE;
+ 732              		.loc 1 253 0
+ 733 0026 0222     		movs	r2, #2
+ 734 0028 0592     		str	r2, [sp, #20]
+ 254:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 735              		.loc 1 254 0
+ 736 002a 0DF10302 		add	r2, sp, #3
+ 737 002e 0692     		str	r2, [sp, #24]
+ 255:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 738              		.loc 1 255 0
+ 739 0030 0122     		movs	r2, #1
+ 740 0032 0792     		str	r2, [sp, #28]
+ 256:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 257:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 741              		.loc 1 257 0
+ 742 0034 1946     		mov	r1, r3
+ 743              	.LVL39:
+ 744 0036 02A8     		add	r0, sp, #8
+ 745 0038 FFF7FEFF 		bl	hci_send_req
+ 746              	.LVL40:
+ 747 003c 0028     		cmp	r0, #0
+ 748 003e 04DB     		blt	.L40
+ 258:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 259:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 260:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 749              		.loc 1 260 0
+ 750 0040 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 751              	.L38:
+ 261:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 752              		.loc 1 261 0
+ 753 0044 09B0     		add	sp, sp, #36
+ 754              	.LCFI32:
+ 755              		.cfi_remember_state
+ 756              		.cfi_def_cfa_offset 4
+ 757              		@ sp needed
+ 758 0046 5DF804FB 		ldr	pc, [sp], #4
+ 759              	.L40:
+ 760              	.LCFI33:
+ 761              		.cfi_restore_state
+ 258:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 762              		.loc 1 258 0
+ 763 004a FF20     		movs	r0, #255
+ 764 004c FAE7     		b	.L38
+ 765              		.cfi_endproc
+ 766              	.LFE138:
+ 768              		.section	.text.hci_le_rand,"ax",%progbits
+ 769              		.align	1
+ 770              		.global	hci_le_rand
+ 771              		.syntax unified
+ 772              		.thumb
+ 773              		.thumb_func
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 19
+
+
+ 774              		.fpu fpv4-sp-d16
+ 776              	hci_le_rand:
+ 777              	.LFB139:
+ 262:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 263:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_rand(uint8_t random_number[8])
+ 264:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 778              		.loc 1 264 0
+ 779              		.cfi_startproc
+ 780              		@ args = 0, pretend = 0, frame = 40
+ 781              		@ frame_needed = 0, uses_anonymous_args = 0
+ 782              	.LVL41:
+ 783 0000 10B5     		push	{r4, lr}
+ 784              	.LCFI34:
+ 785              		.cfi_def_cfa_offset 8
+ 786              		.cfi_offset 4, -8
+ 787              		.cfi_offset 14, -4
+ 788 0002 8AB0     		sub	sp, sp, #40
+ 789              	.LCFI35:
+ 790              		.cfi_def_cfa_offset 48
+ 791 0004 0446     		mov	r4, r0
+ 265:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 266:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_rand_rp resp;
+ 267:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 268:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 792              		.loc 1 268 0
+ 793 0006 01AB     		add	r3, sp, #4
+ 794 0008 0021     		movs	r1, #0
+ 795 000a 0191     		str	r1, [sp, #4]
+ 796 000c 0291     		str	r1, [sp, #8]
+ 797 000e 8DF80C10 		strb	r1, [sp, #12]
+ 269:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 270:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 798              		.loc 1 270 0
+ 799 0012 0591     		str	r1, [sp, #20]
+ 800 0014 0691     		str	r1, [sp, #24]
+ 801 0016 0791     		str	r1, [sp, #28]
+ 271:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 802              		.loc 1 271 0
+ 803 0018 0822     		movs	r2, #8
+ 804 001a ADF81020 		strh	r2, [sp, #16]	@ movhi
+ 272:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_RAND;
+ 805              		.loc 1 272 0
+ 806 001e 1822     		movs	r2, #24
+ 807 0020 ADF81220 		strh	r2, [sp, #18]	@ movhi
+ 273:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = NULL;
+ 274:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = 0;
+ 275:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 808              		.loc 1 275 0
+ 809 0024 0893     		str	r3, [sp, #32]
+ 276:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_RAND_RP_SIZE;
+ 810              		.loc 1 276 0
+ 811 0026 0923     		movs	r3, #9
+ 812 0028 0993     		str	r3, [sp, #36]
+ 277:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 278:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 813              		.loc 1 278 0
+ 814 002a 04A8     		add	r0, sp, #16
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 20
+
+
+ 815              	.LVL42:
+ 816 002c FFF7FEFF 		bl	hci_send_req
+ 817              	.LVL43:
+ 818 0030 0028     		cmp	r0, #0
+ 819 0032 0ADB     		blt	.L45
+ 279:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 280:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 281:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 820              		.loc 1 281 0
+ 821 0034 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 822 0038 40B9     		cbnz	r0, .L42
+ 282:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 283:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 284:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 285:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(random_number, resp.random, 8);
+ 823              		.loc 1 285 0
+ 824 003a 0AAB     		add	r3, sp, #40
+ 825 003c 53F8232D 		ldr	r2, [r3, #-35]!	@ unaligned
+ 826 0040 5B68     		ldr	r3, [r3, #4]	@ unaligned
+ 827 0042 2260     		str	r2, [r4]	@ unaligned
+ 828 0044 6360     		str	r3, [r4, #4]	@ unaligned
+ 286:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 287:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 829              		.loc 1 287 0
+ 830 0046 0020     		movs	r0, #0
+ 831 0048 00E0     		b	.L42
+ 832              	.L45:
+ 279:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 833              		.loc 1 279 0
+ 834 004a FF20     		movs	r0, #255
+ 835              	.L42:
+ 288:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 836              		.loc 1 288 0
+ 837 004c 0AB0     		add	sp, sp, #40
+ 838              	.LCFI36:
+ 839              		.cfi_def_cfa_offset 8
+ 840              		@ sp needed
+ 841 004e 10BD     		pop	{r4, pc}
+ 842              		.cfi_endproc
+ 843              	.LFE139:
+ 845              		.section	.text.hci_le_set_scan_resp_data,"ax",%progbits
+ 846              		.align	1
+ 847              		.global	hci_le_set_scan_resp_data
+ 848              		.syntax unified
+ 849              		.thumb
+ 850              		.thumb_func
+ 851              		.fpu fpv4-sp-d16
+ 853              	hci_le_set_scan_resp_data:
+ 854              	.LFB140:
+ 289:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 290:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_set_scan_resp_data(uint8_t length, const uint8_t data[])
+ 291:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 855              		.loc 1 291 0
+ 856              		.cfi_startproc
+ 857              		@ args = 0, pretend = 0, frame = 64
+ 858              		@ frame_needed = 0, uses_anonymous_args = 0
+ 859              	.LVL44:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 21
+
+
+ 860 0000 30B5     		push	{r4, r5, lr}
+ 861              	.LCFI37:
+ 862              		.cfi_def_cfa_offset 12
+ 863              		.cfi_offset 4, -12
+ 864              		.cfi_offset 5, -8
+ 865              		.cfi_offset 14, -4
+ 866 0002 91B0     		sub	sp, sp, #68
+ 867              	.LCFI38:
+ 868              		.cfi_def_cfa_offset 80
+ 869 0004 0446     		mov	r4, r0
+ 870 0006 0D46     		mov	r5, r1
+ 292:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 293:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_set_scan_response_data_cp scan_resp_cp;
+ 294:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 295:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 296:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&scan_resp_cp, 0, sizeof(scan_resp_cp));
+ 871              		.loc 1 296 0
+ 872 0008 2022     		movs	r2, #32
+ 873 000a 0021     		movs	r1, #0
+ 874              	.LVL45:
+ 875 000c 02A8     		add	r0, sp, #8
+ 876              	.LVL46:
+ 877 000e FFF7FEFF 		bl	memset
+ 878              	.LVL47:
+ 297:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   scan_resp_cp.length = length;
+ 879              		.loc 1 297 0
+ 880 0012 8DF80840 		strb	r4, [sp, #8]
+ 298:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(scan_resp_cp.data, data, MIN(31,length));
+ 881              		.loc 1 298 0
+ 882 0016 1F2C     		cmp	r4, #31
+ 883 0018 1FD8     		bhi	.L50
+ 884              		.loc 1 298 0 is_stmt 0 discriminator 1
+ 885 001a 2246     		mov	r2, r4
+ 886              	.L48:
+ 887              		.loc 1 298 0 discriminator 4
+ 888 001c 2946     		mov	r1, r5
+ 889 001e 0DF10900 		add	r0, sp, #9
+ 890 0022 FFF7FEFF 		bl	memcpy
+ 891              	.LVL48:
+ 299:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 300:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 892              		.loc 1 300 0 is_stmt 1 discriminator 4
+ 893 0026 0021     		movs	r1, #0
+ 894 0028 0B91     		str	r1, [sp, #44]
+ 301:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 895              		.loc 1 301 0 discriminator 4
+ 896 002a 0823     		movs	r3, #8
+ 897 002c ADF82830 		strh	r3, [sp, #40]	@ movhi
+ 302:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_SET_SCAN_RESPONSE_DATA;
+ 898              		.loc 1 302 0 discriminator 4
+ 899 0030 0923     		movs	r3, #9
+ 900 0032 ADF82A30 		strh	r3, [sp, #42]	@ movhi
+ 303:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &scan_resp_cp;
+ 901              		.loc 1 303 0 discriminator 4
+ 902 0036 02AB     		add	r3, sp, #8
+ 903 0038 0C93     		str	r3, [sp, #48]
+ 304:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_SET_SCAN_RESPONSE_DATA_CP_SIZE;
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 22
+
+
+ 904              		.loc 1 304 0 discriminator 4
+ 905 003a 2023     		movs	r3, #32
+ 906 003c 0D93     		str	r3, [sp, #52]
+ 305:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 907              		.loc 1 305 0 discriminator 4
+ 908 003e 0DF10703 		add	r3, sp, #7
+ 909 0042 0E93     		str	r3, [sp, #56]
+ 306:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 910              		.loc 1 306 0 discriminator 4
+ 911 0044 0123     		movs	r3, #1
+ 912 0046 0F93     		str	r3, [sp, #60]
+ 307:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 308:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 913              		.loc 1 308 0 discriminator 4
+ 914 0048 0AA8     		add	r0, sp, #40
+ 915 004a FFF7FEFF 		bl	hci_send_req
+ 916              	.LVL49:
+ 917 004e 0028     		cmp	r0, #0
+ 918 0050 05DB     		blt	.L51
+ 309:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 310:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 311:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 919              		.loc 1 311 0
+ 920 0052 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 921              	.L47:
+ 312:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 922              		.loc 1 312 0
+ 923 0056 11B0     		add	sp, sp, #68
+ 924              	.LCFI39:
+ 925              		.cfi_remember_state
+ 926              		.cfi_def_cfa_offset 12
+ 927              		@ sp needed
+ 928 0058 30BD     		pop	{r4, r5, pc}
+ 929              	.LVL50:
+ 930              	.L50:
+ 931              	.LCFI40:
+ 932              		.cfi_restore_state
+ 298:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 933              		.loc 1 298 0
+ 934 005a 1F22     		movs	r2, #31
+ 935 005c DEE7     		b	.L48
+ 936              	.L51:
+ 309:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 937              		.loc 1 309 0
+ 938 005e FF20     		movs	r0, #255
+ 939 0060 F9E7     		b	.L47
+ 940              		.cfi_endproc
+ 941              	.LFE140:
+ 943              		.section	.text.hci_le_read_advertising_channel_tx_power,"ax",%progbits
+ 944              		.align	1
+ 945              		.global	hci_le_read_advertising_channel_tx_power
+ 946              		.syntax unified
+ 947              		.thumb
+ 948              		.thumb_func
+ 949              		.fpu fpv4-sp-d16
+ 951              	hci_le_read_advertising_channel_tx_power:
+ 952              	.LFB141:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 23
+
+
+ 313:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 314:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_read_advertising_channel_tx_power(int8_t *tx_power_level)
+ 315:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 953              		.loc 1 315 0
+ 954              		.cfi_startproc
+ 955              		@ args = 0, pretend = 0, frame = 32
+ 956              		@ frame_needed = 0, uses_anonymous_args = 0
+ 957              	.LVL51:
+ 958 0000 10B5     		push	{r4, lr}
+ 959              	.LCFI41:
+ 960              		.cfi_def_cfa_offset 8
+ 961              		.cfi_offset 4, -8
+ 962              		.cfi_offset 14, -4
+ 963 0002 88B0     		sub	sp, sp, #32
+ 964              	.LCFI42:
+ 965              		.cfi_def_cfa_offset 40
+ 966 0004 0446     		mov	r4, r0
+ 316:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 317:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_read_adv_channel_tx_power_rp resp;
+ 318:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 319:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 967              		.loc 1 319 0
+ 968 0006 0021     		movs	r1, #0
+ 969 0008 ADF80410 		strh	r1, [sp, #4]	@ movhi
+ 320:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 321:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 970              		.loc 1 321 0
+ 971 000c 0391     		str	r1, [sp, #12]
+ 972 000e 0491     		str	r1, [sp, #16]
+ 973 0010 0591     		str	r1, [sp, #20]
+ 322:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 974              		.loc 1 322 0
+ 975 0012 0823     		movs	r3, #8
+ 976 0014 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 323:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_READ_ADV_CHANNEL_TX_POWER;
+ 977              		.loc 1 323 0
+ 978 0018 0723     		movs	r3, #7
+ 979 001a ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 324:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = NULL;
+ 325:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = 0;
+ 326:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 980              		.loc 1 326 0
+ 981 001e 01AB     		add	r3, sp, #4
+ 982 0020 0693     		str	r3, [sp, #24]
+ 327:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_RAND_RP_SIZE;
+ 983              		.loc 1 327 0
+ 984 0022 0923     		movs	r3, #9
+ 985 0024 0793     		str	r3, [sp, #28]
+ 328:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 329:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 986              		.loc 1 329 0
+ 987 0026 02A8     		add	r0, sp, #8
+ 988              	.LVL52:
+ 989 0028 FFF7FEFF 		bl	hci_send_req
+ 990              	.LVL53:
+ 991 002c 0028     		cmp	r0, #0
+ 992 002e 07DB     		blt	.L56
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 24
+
+
+ 330:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 331:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 332:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 993              		.loc 1 332 0
+ 994 0030 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 995 0034 28B9     		cbnz	r0, .L53
+ 333:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 334:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 335:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 336:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *tx_power_level = resp.level;
+ 996              		.loc 1 336 0
+ 997 0036 9DF90530 		ldrsb	r3, [sp, #5]
+ 998 003a 2370     		strb	r3, [r4]
+ 337:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 338:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 999              		.loc 1 338 0
+ 1000 003c 0020     		movs	r0, #0
+ 1001 003e 00E0     		b	.L53
+ 1002              	.L56:
+ 330:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 1003              		.loc 1 330 0
+ 1004 0040 FF20     		movs	r0, #255
+ 1005              	.L53:
+ 339:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1006              		.loc 1 339 0
+ 1007 0042 08B0     		add	sp, sp, #32
+ 1008              	.LCFI43:
+ 1009              		.cfi_def_cfa_offset 8
+ 1010              		@ sp needed
+ 1011 0044 10BD     		pop	{r4, pc}
+ 1012              		.cfi_endproc
+ 1013              	.LFE141:
+ 1015              		.section	.text.hci_le_set_random_address,"ax",%progbits
+ 1016              		.align	1
+ 1017              		.global	hci_le_set_random_address
+ 1018              		.syntax unified
+ 1019              		.thumb
+ 1020              		.thumb_func
+ 1021              		.fpu fpv4-sp-d16
+ 1023              	hci_le_set_random_address:
+ 1024              	.LFB142:
+ 340:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 341:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_set_random_address(tBDAddr bdaddr)
+ 342:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1025              		.loc 1 342 0
+ 1026              		.cfi_startproc
+ 1027              		@ args = 0, pretend = 0, frame = 40
+ 1028              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1029              	.LVL54:
+ 1030 0000 00B5     		push	{lr}
+ 1031              	.LCFI44:
+ 1032              		.cfi_def_cfa_offset 4
+ 1033              		.cfi_offset 14, -4
+ 1034 0002 8BB0     		sub	sp, sp, #44
+ 1035              	.LCFI45:
+ 1036              		.cfi_def_cfa_offset 48
+ 1037 0004 0246     		mov	r2, r0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 25
+
+
+ 343:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 344:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_set_random_address_cp set_rand_addr_cp;
+ 345:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 346:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 347:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&set_rand_addr_cp, 0, sizeof(set_rand_addr_cp));
+ 1038              		.loc 1 347 0
+ 1039 0006 02AB     		add	r3, sp, #8
+ 1040 0008 0021     		movs	r1, #0
+ 348:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(set_rand_addr_cp.bdaddr, bdaddr, sizeof(tBDAddr));
+ 1041              		.loc 1 348 0
+ 1042 000a 0068     		ldr	r0, [r0]	@ unaligned
+ 1043              	.LVL55:
+ 1044 000c 0290     		str	r0, [sp, #8]
+ 1045 000e 9288     		ldrh	r2, [r2, #4]	@ unaligned
+ 1046              	.LVL56:
+ 1047 0010 ADF80C20 		strh	r2, [sp, #12]	@ unaligned
+ 349:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 350:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1048              		.loc 1 350 0
+ 1049 0014 0591     		str	r1, [sp, #20]
+ 351:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1050              		.loc 1 351 0
+ 1051 0016 0822     		movs	r2, #8
+ 1052 0018 ADF81020 		strh	r2, [sp, #16]	@ movhi
+ 352:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_SET_RANDOM_ADDRESS;
+ 1053              		.loc 1 352 0
+ 1054 001c 0522     		movs	r2, #5
+ 1055 001e ADF81220 		strh	r2, [sp, #18]	@ movhi
+ 353:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &set_rand_addr_cp;
+ 1056              		.loc 1 353 0
+ 1057 0022 0693     		str	r3, [sp, #24]
+ 354:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_SET_RANDOM_ADDRESS_CP_SIZE;
+ 1058              		.loc 1 354 0
+ 1059 0024 0623     		movs	r3, #6
+ 1060 0026 0793     		str	r3, [sp, #28]
+ 355:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 1061              		.loc 1 355 0
+ 1062 0028 0DF10703 		add	r3, sp, #7
+ 1063 002c 0893     		str	r3, [sp, #32]
+ 356:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 1064              		.loc 1 356 0
+ 1065 002e 0123     		movs	r3, #1
+ 1066 0030 0993     		str	r3, [sp, #36]
+ 357:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 358:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 1067              		.loc 1 358 0
+ 1068 0032 04A8     		add	r0, sp, #16
+ 1069 0034 FFF7FEFF 		bl	hci_send_req
+ 1070              	.LVL57:
+ 1071 0038 0028     		cmp	r0, #0
+ 1072 003a 04DB     		blt	.L60
+ 359:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 360:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 361:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 1073              		.loc 1 361 0
+ 1074 003c 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 1075              	.L58:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 26
+
+
+ 362:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1076              		.loc 1 362 0
+ 1077 0040 0BB0     		add	sp, sp, #44
+ 1078              	.LCFI46:
+ 1079              		.cfi_remember_state
+ 1080              		.cfi_def_cfa_offset 4
+ 1081              		@ sp needed
+ 1082 0042 5DF804FB 		ldr	pc, [sp], #4
+ 1083              	.L60:
+ 1084              	.LCFI47:
+ 1085              		.cfi_restore_state
+ 359:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 1086              		.loc 1 359 0
+ 1087 0046 FF20     		movs	r0, #255
+ 1088 0048 FAE7     		b	.L58
+ 1089              		.cfi_endproc
+ 1090              	.LFE142:
+ 1092              		.section	.text.hci_read_bd_addr,"ax",%progbits
+ 1093              		.align	1
+ 1094              		.global	hci_read_bd_addr
+ 1095              		.syntax unified
+ 1096              		.thumb
+ 1097              		.thumb_func
+ 1098              		.fpu fpv4-sp-d16
+ 1100              	hci_read_bd_addr:
+ 1101              	.LFB143:
+ 363:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 364:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_read_bd_addr(tBDAddr bdaddr)
+ 365:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1102              		.loc 1 365 0
+ 1103              		.cfi_startproc
+ 1104              		@ args = 0, pretend = 0, frame = 32
+ 1105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1106              	.LVL58:
+ 1107 0000 10B5     		push	{r4, lr}
+ 1108              	.LCFI48:
+ 1109              		.cfi_def_cfa_offset 8
+ 1110              		.cfi_offset 4, -8
+ 1111              		.cfi_offset 14, -4
+ 1112 0002 88B0     		sub	sp, sp, #32
+ 1113              	.LCFI49:
+ 1114              		.cfi_def_cfa_offset 40
+ 1115 0004 0446     		mov	r4, r0
+ 366:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 367:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   read_bd_addr_rp resp;
+ 368:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 369:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 1116              		.loc 1 369 0
+ 1117 0006 0021     		movs	r1, #0
+ 1118 0008 0091     		str	r1, [sp]
+ 1119 000a CDF80310 		str	r1, [sp, #3]	@ unaligned
+ 370:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 371:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1120              		.loc 1 371 0
+ 1121 000e 0391     		str	r1, [sp, #12]
+ 1122 0010 0491     		str	r1, [sp, #16]
+ 1123 0012 0591     		str	r1, [sp, #20]
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 27
+
+
+ 372:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_INFO_PARAM;
+ 1124              		.loc 1 372 0
+ 1125 0014 0423     		movs	r3, #4
+ 1126 0016 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 373:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_READ_BD_ADDR;
+ 1127              		.loc 1 373 0
+ 1128 001a 0923     		movs	r3, #9
+ 1129 001c ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 374:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = NULL;
+ 375:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = 0;
+ 376:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 1130              		.loc 1 376 0
+ 1131 0020 CDF818D0 		str	sp, [sp, #24]
+ 377:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = READ_BD_ADDR_RP_SIZE;
+ 1132              		.loc 1 377 0
+ 1133 0024 0723     		movs	r3, #7
+ 1134 0026 0793     		str	r3, [sp, #28]
+ 378:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 379:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 1135              		.loc 1 379 0
+ 1136 0028 02A8     		add	r0, sp, #8
+ 1137              	.LVL59:
+ 1138 002a FFF7FEFF 		bl	hci_send_req
+ 1139              	.LVL60:
+ 1140 002e 0028     		cmp	r0, #0
+ 1141 0030 0ADB     		blt	.L65
+ 380:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 381:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 382:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 1142              		.loc 1 382 0
+ 1143 0032 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ 1144 0036 40B9     		cbnz	r0, .L62
+ 383:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 384:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 385:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(bdaddr, resp.bdaddr, sizeof(tBDAddr));
+ 1145              		.loc 1 385 0
+ 1146 0038 08AB     		add	r3, sp, #32
+ 1147 003a 53F81F2D 		ldr	r2, [r3, #-31]!	@ unaligned
+ 1148 003e 2260     		str	r2, [r4]	@ unaligned
+ 1149 0040 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 1150 0042 A380     		strh	r3, [r4, #4]	@ unaligned
+ 386:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 387:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 1151              		.loc 1 387 0
+ 1152 0044 0020     		movs	r0, #0
+ 1153 0046 00E0     		b	.L62
+ 1154              	.L65:
+ 380:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 1155              		.loc 1 380 0
+ 1156 0048 FF20     		movs	r0, #255
+ 1157              	.L62:
+ 388:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1158              		.loc 1 388 0
+ 1159 004a 08B0     		add	sp, sp, #32
+ 1160              	.LCFI50:
+ 1161              		.cfi_def_cfa_offset 8
+ 1162              		@ sp needed
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 28
+
+
+ 1163 004c 10BD     		pop	{r4, pc}
+ 1164              		.cfi_endproc
+ 1165              	.LFE143:
+ 1167              		.section	.text.hci_le_create_connection,"ax",%progbits
+ 1168              		.align	1
+ 1169              		.global	hci_le_create_connection
+ 1170              		.syntax unified
+ 1171              		.thumb
+ 1172              		.thumb_func
+ 1173              		.fpu fpv4-sp-d16
+ 1175              	hci_le_create_connection:
+ 1176              	.LFB144:
+ 389:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 390:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_create_connection(uint16_t interval,	uint16_t window, uint8_t initiator_filter, uint8_t 
+ 391:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****                              const tBDAddr peer_bdaddr,	uint8_t	own_bdaddr_type, uint16_t min_inter
+ 392:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****                              uint16_t latency,	uint16_t supervision_timeout, uint16_t min_ce_length
+ 393:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1177              		.loc 1 393 0
+ 1178              		.cfi_startproc
+ 1179              		@ args = 32, pretend = 0, frame = 56
+ 1180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1181              	.LVL61:
+ 1182 0000 10B5     		push	{r4, lr}
+ 1183              	.LCFI51:
+ 1184              		.cfi_def_cfa_offset 8
+ 1185              		.cfi_offset 4, -8
+ 1186              		.cfi_offset 14, -4
+ 1187 0002 8EB0     		sub	sp, sp, #56
+ 1188              	.LCFI52:
+ 1189              		.cfi_def_cfa_offset 64
+ 1190 0004 109C     		ldr	r4, [sp, #64]
+ 394:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 395:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_create_connection_cp create_cp;
+ 396:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 397:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 398:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&create_cp, 0, sizeof(create_cp));
+ 399:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.interval = interval;
+ 1191              		.loc 1 399 0
+ 1192 0006 ADF80400 		strh	r0, [sp, #4]	@ movhi
+ 400:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.window =  window;
+ 1193              		.loc 1 400 0
+ 1194 000a ADF80610 		strh	r1, [sp, #6]	@ movhi
+ 401:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.initiator_filter = initiator_filter;
+ 1195              		.loc 1 401 0
+ 1196 000e 8DF80820 		strb	r2, [sp, #8]
+ 402:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.peer_bdaddr_type = peer_bdaddr_type;
+ 1197              		.loc 1 402 0
+ 1198 0012 8DF80930 		strb	r3, [sp, #9]
+ 403:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(create_cp.peer_bdaddr, peer_bdaddr, sizeof(tBDAddr));
+ 1199              		.loc 1 403 0
+ 1200 0016 2368     		ldr	r3, [r4]	@ unaligned
+ 1201              	.LVL62:
+ 1202 0018 CDF80A30 		str	r3, [sp, #10]	@ unaligned
+ 1203 001c A388     		ldrh	r3, [r4, #4]	@ unaligned
+ 1204 001e ADF80E30 		strh	r3, [sp, #14]	@ unaligned
+ 404:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.own_bdaddr_type = own_bdaddr_type;
+ 1205              		.loc 1 404 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 29
+
+
+ 1206 0022 9DF84430 		ldrb	r3, [sp, #68]	@ zero_extendqisi2
+ 1207 0026 8DF81030 		strb	r3, [sp, #16]
+ 405:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.min_interval=min_interval;
+ 1208              		.loc 1 405 0
+ 1209 002a BDF84830 		ldrh	r3, [sp, #72]
+ 1210 002e ADF81130 		strh	r3, [sp, #17]	@ unaligned
+ 406:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.max_interval=max_interval;
+ 1211              		.loc 1 406 0
+ 1212 0032 BDF84C30 		ldrh	r3, [sp, #76]
+ 1213 0036 ADF81330 		strh	r3, [sp, #19]	@ unaligned
+ 407:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.latency = latency;
+ 1214              		.loc 1 407 0
+ 1215 003a BDF85030 		ldrh	r3, [sp, #80]
+ 1216 003e ADF81530 		strh	r3, [sp, #21]	@ unaligned
+ 408:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.supervision_timeout=supervision_timeout;
+ 1217              		.loc 1 408 0
+ 1218 0042 BDF85430 		ldrh	r3, [sp, #84]
+ 1219 0046 ADF81730 		strh	r3, [sp, #23]	@ unaligned
+ 409:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.min_ce_length=min_ce_length;
+ 1220              		.loc 1 409 0
+ 1221 004a BDF85830 		ldrh	r3, [sp, #88]
+ 1222 004e ADF81930 		strh	r3, [sp, #25]	@ unaligned
+ 410:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   create_cp.max_ce_length=max_ce_length;
+ 1223              		.loc 1 410 0
+ 1224 0052 BDF85C30 		ldrh	r3, [sp, #92]
+ 1225 0056 ADF81B30 		strh	r3, [sp, #27]	@ unaligned
+ 411:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 412:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 413:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1226              		.loc 1 413 0
+ 1227 005a 0823     		movs	r3, #8
+ 1228 005c ADF82030 		strh	r3, [sp, #32]	@ movhi
+ 414:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_CREATE_CONN;
+ 1229              		.loc 1 414 0
+ 1230 0060 0D23     		movs	r3, #13
+ 1231 0062 ADF82230 		strh	r3, [sp, #34]	@ movhi
+ 415:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &create_cp;
+ 1232              		.loc 1 415 0
+ 1233 0066 01AB     		add	r3, sp, #4
+ 1234 0068 0A93     		str	r3, [sp, #40]
+ 416:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_CREATE_CONN_CP_SIZE;
+ 1235              		.loc 1 416 0
+ 1236 006a 1923     		movs	r3, #25
+ 1237 006c 0B93     		str	r3, [sp, #44]
+ 417:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.event = EVT_CMD_STATUS;
+ 1238              		.loc 1 417 0
+ 1239 006e 0F23     		movs	r3, #15
+ 1240 0070 0993     		str	r3, [sp, #36]
+ 418:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 1241              		.loc 1 418 0
+ 1242 0072 0DF10303 		add	r3, sp, #3
+ 1243 0076 0C93     		str	r3, [sp, #48]
+ 419:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 1244              		.loc 1 419 0
+ 1245 0078 0123     		movs	r3, #1
+ 1246 007a 0D93     		str	r3, [sp, #52]
+ 420:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 30
+
+
+ 421:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 1247              		.loc 1 421 0
+ 1248 007c 0021     		movs	r1, #0
+ 1249              	.LVL63:
+ 1250 007e 08A8     		add	r0, sp, #32
+ 1251              	.LVL64:
+ 1252 0080 FFF7FEFF 		bl	hci_send_req
+ 1253              	.LVL65:
+ 1254 0084 0028     		cmp	r0, #0
+ 1255 0086 03DB     		blt	.L69
+ 422:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 423:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 424:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 1256              		.loc 1 424 0
+ 1257 0088 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 1258              	.L67:
+ 425:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1259              		.loc 1 425 0
+ 1260 008c 0EB0     		add	sp, sp, #56
+ 1261              	.LCFI53:
+ 1262              		.cfi_remember_state
+ 1263              		.cfi_def_cfa_offset 8
+ 1264              		@ sp needed
+ 1265 008e 10BD     		pop	{r4, pc}
+ 1266              	.LVL66:
+ 1267              	.L69:
+ 1268              	.LCFI54:
+ 1269              		.cfi_restore_state
+ 422:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 1270              		.loc 1 422 0
+ 1271 0090 FF20     		movs	r0, #255
+ 1272 0092 FBE7     		b	.L67
+ 1273              		.cfi_endproc
+ 1274              	.LFE144:
+ 1276              		.section	.text.hci_le_create_connection_cancel,"ax",%progbits
+ 1277              		.align	1
+ 1278              		.global	hci_le_create_connection_cancel
+ 1279              		.syntax unified
+ 1280              		.thumb
+ 1281              		.thumb_func
+ 1282              		.fpu fpv4-sp-d16
+ 1284              	hci_le_create_connection_cancel:
+ 1285              	.LFB145:
+ 426:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 427:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_create_connection_cancel(void)
+ 428:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1286              		.loc 1 428 0
+ 1287              		.cfi_startproc
+ 1288              		@ args = 0, pretend = 0, frame = 32
+ 1289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1290 0000 00B5     		push	{lr}
+ 1291              	.LCFI55:
+ 1292              		.cfi_def_cfa_offset 4
+ 1293              		.cfi_offset 14, -4
+ 1294 0002 89B0     		sub	sp, sp, #36
+ 1295              	.LCFI56:
+ 1296              		.cfi_def_cfa_offset 40
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 31
+
+
+ 429:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 430:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 431:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 432:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1297              		.loc 1 432 0
+ 1298 0004 0021     		movs	r1, #0
+ 1299 0006 0391     		str	r1, [sp, #12]
+ 1300 0008 0491     		str	r1, [sp, #16]
+ 1301 000a 0591     		str	r1, [sp, #20]
+ 433:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1302              		.loc 1 433 0
+ 1303 000c 0823     		movs	r3, #8
+ 1304 000e ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 434:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_CREATE_CONN_CANCEL;
+ 1305              		.loc 1 434 0
+ 1306 0012 0E23     		movs	r3, #14
+ 1307 0014 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 435:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 1308              		.loc 1 435 0
+ 1309 0018 0DF10703 		add	r3, sp, #7
+ 1310 001c 0693     		str	r3, [sp, #24]
+ 436:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 1311              		.loc 1 436 0
+ 1312 001e 0123     		movs	r3, #1
+ 1313 0020 0793     		str	r3, [sp, #28]
+ 437:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 438:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 1314              		.loc 1 438 0
+ 1315 0022 02A8     		add	r0, sp, #8
+ 1316 0024 FFF7FEFF 		bl	hci_send_req
+ 1317              	.LVL67:
+ 1318 0028 0028     		cmp	r0, #0
+ 1319 002a 04DB     		blt	.L73
+ 439:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 440:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 441:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;  
+ 1320              		.loc 1 441 0
+ 1321 002c 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 1322              	.L71:
+ 442:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1323              		.loc 1 442 0
+ 1324 0030 09B0     		add	sp, sp, #36
+ 1325              	.LCFI57:
+ 1326              		.cfi_remember_state
+ 1327              		.cfi_def_cfa_offset 4
+ 1328              		@ sp needed
+ 1329 0032 5DF804FB 		ldr	pc, [sp], #4
+ 1330              	.L73:
+ 1331              	.LCFI58:
+ 1332              		.cfi_restore_state
+ 439:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 1333              		.loc 1 439 0
+ 1334 0036 FF20     		movs	r0, #255
+ 1335 0038 FAE7     		b	.L71
+ 1336              		.cfi_endproc
+ 1337              	.LFE145:
+ 1339              		.section	.text.hci_le_encrypt,"ax",%progbits
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 32
+
+
+ 1340              		.align	1
+ 1341              		.global	hci_le_encrypt
+ 1342              		.syntax unified
+ 1343              		.thumb
+ 1344              		.thumb_func
+ 1345              		.fpu fpv4-sp-d16
+ 1347              	hci_le_encrypt:
+ 1348              	.LFB146:
+ 443:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 444:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_encrypt(uint8_t key[16], uint8_t plaintextData[16], uint8_t encryptedData[16])
+ 445:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1349              		.loc 1 445 0
+ 1350              		.cfi_startproc
+ 1351              		@ args = 0, pretend = 0, frame = 80
+ 1352              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1353              	.LVL68:
+ 1354 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1355              	.LCFI59:
+ 1356              		.cfi_def_cfa_offset 24
+ 1357              		.cfi_offset 4, -24
+ 1358              		.cfi_offset 5, -20
+ 1359              		.cfi_offset 6, -16
+ 1360              		.cfi_offset 7, -12
+ 1361              		.cfi_offset 8, -8
+ 1362              		.cfi_offset 14, -4
+ 1363 0004 94B0     		sub	sp, sp, #80
+ 1364              	.LCFI60:
+ 1365              		.cfi_def_cfa_offset 104
+ 1366 0006 0346     		mov	r3, r0
+ 1367 0008 0F46     		mov	r7, r1
+ 1368 000a 9046     		mov	r8, r2
+ 446:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 447:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_encrypt_cp params;
+ 448:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_encrypt_rp resp;
+ 449:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 450:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 1369              		.loc 1 450 0
+ 1370 000c 01AE     		add	r6, sp, #4
+ 1371 000e 0024     		movs	r4, #0
+ 1372 0010 0194     		str	r4, [sp, #4]
+ 1373 0012 0294     		str	r4, [sp, #8]
+ 1374 0014 0394     		str	r4, [sp, #12]
+ 1375 0016 0494     		str	r4, [sp, #16]
+ 1376 0018 8DF81440 		strb	r4, [sp, #20]
+ 451:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 452:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(params.key, key, 16);
+ 1377              		.loc 1 452 0
+ 1378 001c 06AD     		add	r5, sp, #24
+ 1379 001e 0068     		ldr	r0, [r0]	@ unaligned
+ 1380              	.LVL69:
+ 1381 0020 5968     		ldr	r1, [r3, #4]	@ unaligned
+ 1382              	.LVL70:
+ 1383 0022 9A68     		ldr	r2, [r3, #8]	@ unaligned
+ 1384              	.LVL71:
+ 1385 0024 DB68     		ldr	r3, [r3, #12]	@ unaligned
+ 1386              	.LVL72:
+ 1387 0026 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 33
+
+
+ 453:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(params.plaintext, plaintextData, 16);
+ 1388              		.loc 1 453 0
+ 1389 0028 0AAD     		add	r5, sp, #40
+ 1390 002a 3868     		ldr	r0, [r7]	@ unaligned
+ 1391 002c 7968     		ldr	r1, [r7, #4]	@ unaligned
+ 1392 002e BA68     		ldr	r2, [r7, #8]	@ unaligned
+ 1393 0030 FB68     		ldr	r3, [r7, #12]	@ unaligned
+ 1394 0032 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 454:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 455:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1395              		.loc 1 455 0
+ 1396 0034 0F94     		str	r4, [sp, #60]
+ 456:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1397              		.loc 1 456 0
+ 1398 0036 0823     		movs	r3, #8
+ 1399 0038 ADF83830 		strh	r3, [sp, #56]	@ movhi
+ 457:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_ENCRYPT;
+ 1400              		.loc 1 457 0
+ 1401 003c 1723     		movs	r3, #23
+ 1402 003e ADF83A30 		strh	r3, [sp, #58]	@ movhi
+ 458:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 1403              		.loc 1 458 0
+ 1404 0042 06AB     		add	r3, sp, #24
+ 1405 0044 1093     		str	r3, [sp, #64]
+ 459:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_ENCRYPT_CP_SIZE;
+ 1406              		.loc 1 459 0
+ 1407 0046 2023     		movs	r3, #32
+ 1408 0048 1193     		str	r3, [sp, #68]
+ 460:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 1409              		.loc 1 460 0
+ 1410 004a 1296     		str	r6, [sp, #72]
+ 461:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_ENCRYPT_RP_SIZE;
+ 1411              		.loc 1 461 0
+ 1412 004c 1123     		movs	r3, #17
+ 1413 004e 1393     		str	r3, [sp, #76]
+ 462:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 463:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 1414              		.loc 1 463 0
+ 1415 0050 2146     		mov	r1, r4
+ 1416 0052 0EA8     		add	r0, sp, #56
+ 1417 0054 FFF7FEFF 		bl	hci_send_req
+ 1418              	.LVL73:
+ 1419 0058 A042     		cmp	r0, r4
+ 1420 005a 12DB     		blt	.L78
+ 464:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 465:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 466:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 467:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 1421              		.loc 1 467 0
+ 1422 005c 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 1423 0060 80B9     		cbnz	r0, .L75
+ 468:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 469:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 470:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 471:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(encryptedData, resp.encdata, 16);
+ 1424              		.loc 1 471 0
+ 1425 0062 14AB     		add	r3, sp, #80
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 34
+
+
+ 1426 0064 53F84B0D 		ldr	r0, [r3, #-75]!	@ unaligned
+ 1427 0068 5968     		ldr	r1, [r3, #4]	@ unaligned
+ 1428 006a 9A68     		ldr	r2, [r3, #8]	@ unaligned
+ 1429 006c DB68     		ldr	r3, [r3, #12]	@ unaligned
+ 1430 006e C8F80000 		str	r0, [r8]	@ unaligned
+ 1431 0072 C8F80410 		str	r1, [r8, #4]	@ unaligned
+ 1432 0076 C8F80820 		str	r2, [r8, #8]	@ unaligned
+ 1433 007a C8F80C30 		str	r3, [r8, #12]	@ unaligned
+ 472:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 473:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 1434              		.loc 1 473 0
+ 1435 007e 0020     		movs	r0, #0
+ 1436 0080 00E0     		b	.L75
+ 1437              	.L78:
+ 464:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 1438              		.loc 1 464 0
+ 1439 0082 FF20     		movs	r0, #255
+ 1440              	.L75:
+ 474:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1441              		.loc 1 474 0
+ 1442 0084 14B0     		add	sp, sp, #80
+ 1443              	.LCFI61:
+ 1444              		.cfi_def_cfa_offset 24
+ 1445              		@ sp needed
+ 1446 0086 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1447              		.cfi_endproc
+ 1448              	.LFE146:
+ 1450              		.section	.text.hci_le_ltk_request_reply,"ax",%progbits
+ 1451              		.align	1
+ 1452              		.global	hci_le_ltk_request_reply
+ 1453              		.syntax unified
+ 1454              		.thumb
+ 1455              		.thumb_func
+ 1456              		.fpu fpv4-sp-d16
+ 1458              	hci_le_ltk_request_reply:
+ 1459              	.LFB147:
+ 475:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 476:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_ltk_request_reply(uint8_t key[16])
+ 477:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1460              		.loc 1 477 0
+ 1461              		.cfi_startproc
+ 1462              		@ args = 0, pretend = 0, frame = 48
+ 1463              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1464              	.LVL74:
+ 1465 0000 30B5     		push	{r4, r5, lr}
+ 1466              	.LCFI62:
+ 1467              		.cfi_def_cfa_offset 12
+ 1468              		.cfi_offset 4, -12
+ 1469              		.cfi_offset 5, -8
+ 1470              		.cfi_offset 14, -4
+ 1471 0002 8DB0     		sub	sp, sp, #52
+ 1472              	.LCFI63:
+ 1473              		.cfi_def_cfa_offset 64
+ 478:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 479:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_ltk_reply_cp params;
+ 480:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_ltk_reply_rp resp;
+ 481:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 35
+
+
+ 482:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 1474              		.loc 1 482 0
+ 1475 0004 0021     		movs	r1, #0
+ 1476 0006 ADF80010 		strh	r1, [sp]	@ movhi
+ 1477 000a 8DF80210 		strb	r1, [sp, #2]
+ 483:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 484:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.handle = 1;
+ 1478              		.loc 1 484 0
+ 1479 000e 0123     		movs	r3, #1
+ 1480 0010 ADF80430 		strh	r3, [sp, #4]	@ movhi
+ 485:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(params.key, key, 16);
+ 1481              		.loc 1 485 0
+ 1482 0014 0568     		ldr	r5, [r0]	@ unaligned
+ 1483 0016 4468     		ldr	r4, [r0, #4]	@ unaligned
+ 1484 0018 8268     		ldr	r2, [r0, #8]	@ unaligned
+ 1485 001a C368     		ldr	r3, [r0, #12]	@ unaligned
+ 1486 001c CDF80650 		str	r5, [sp, #6]	@ unaligned
+ 1487 0020 CDF80A40 		str	r4, [sp, #10]	@ unaligned
+ 1488 0024 CDF80E20 		str	r2, [sp, #14]	@ unaligned
+ 1489 0028 CDF81230 		str	r3, [sp, #18]	@ unaligned
+ 486:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 487:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1490              		.loc 1 487 0
+ 1491 002c 0791     		str	r1, [sp, #28]
+ 488:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1492              		.loc 1 488 0
+ 1493 002e 0823     		movs	r3, #8
+ 1494 0030 ADF81830 		strh	r3, [sp, #24]	@ movhi
+ 489:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_LTK_REPLY;
+ 1495              		.loc 1 489 0
+ 1496 0034 1A23     		movs	r3, #26
+ 1497 0036 ADF81A30 		strh	r3, [sp, #26]	@ movhi
+ 490:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 1498              		.loc 1 490 0
+ 1499 003a 01AB     		add	r3, sp, #4
+ 1500 003c 0893     		str	r3, [sp, #32]
+ 491:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_LTK_REPLY_CP_SIZE;
+ 1501              		.loc 1 491 0
+ 1502 003e 1223     		movs	r3, #18
+ 1503 0040 0993     		str	r3, [sp, #36]
+ 492:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 1504              		.loc 1 492 0
+ 1505 0042 CDF828D0 		str	sp, [sp, #40]
+ 493:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_LTK_REPLY_RP_SIZE;
+ 1506              		.loc 1 493 0
+ 1507 0046 0323     		movs	r3, #3
+ 1508 0048 0B93     		str	r3, [sp, #44]
+ 494:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 495:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 1509              		.loc 1 495 0
+ 1510 004a 06A8     		add	r0, sp, #24
+ 1511              	.LVL75:
+ 1512 004c FFF7FEFF 		bl	hci_send_req
+ 1513              	.LVL76:
+ 1514 0050 0028     		cmp	r0, #0
+ 1515 0052 03DB     		blt	.L82
+ 496:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 36
+
+
+ 497:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 498:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return resp.status;
+ 1516              		.loc 1 498 0
+ 1517 0054 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ 1518              	.L80:
+ 499:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1519              		.loc 1 499 0
+ 1520 0058 0DB0     		add	sp, sp, #52
+ 1521              	.LCFI64:
+ 1522              		.cfi_remember_state
+ 1523              		.cfi_def_cfa_offset 12
+ 1524              		@ sp needed
+ 1525 005a 30BD     		pop	{r4, r5, pc}
+ 1526              	.L82:
+ 1527              	.LCFI65:
+ 1528              		.cfi_restore_state
+ 496:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 1529              		.loc 1 496 0
+ 1530 005c FF20     		movs	r0, #255
+ 1531 005e FBE7     		b	.L80
+ 1532              		.cfi_endproc
+ 1533              	.LFE147:
+ 1535              		.section	.text.hci_le_ltk_request_neg_reply,"ax",%progbits
+ 1536              		.align	1
+ 1537              		.global	hci_le_ltk_request_neg_reply
+ 1538              		.syntax unified
+ 1539              		.thumb
+ 1540              		.thumb_func
+ 1541              		.fpu fpv4-sp-d16
+ 1543              	hci_le_ltk_request_neg_reply:
+ 1544              	.LFB148:
+ 500:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 501:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_ltk_request_neg_reply(void)
+ 502:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1545              		.loc 1 502 0
+ 1546              		.cfi_startproc
+ 1547              		@ args = 0, pretend = 0, frame = 32
+ 1548              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1549 0000 00B5     		push	{lr}
+ 1550              	.LCFI66:
+ 1551              		.cfi_def_cfa_offset 4
+ 1552              		.cfi_offset 14, -4
+ 1553 0002 89B0     		sub	sp, sp, #36
+ 1554              	.LCFI67:
+ 1555              		.cfi_def_cfa_offset 40
+ 503:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 504:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_ltk_neg_reply_cp params;
+ 505:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_ltk_neg_reply_rp resp;
+ 506:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 507:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 1556              		.loc 1 507 0
+ 1557 0004 0021     		movs	r1, #0
+ 1558 0006 ADF80010 		strh	r1, [sp]	@ movhi
+ 1559 000a 8DF80210 		strb	r1, [sp, #2]
+ 508:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 509:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.handle = 1;
+ 1560              		.loc 1 509 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 37
+
+
+ 1561 000e 0123     		movs	r3, #1
+ 1562 0010 ADF80430 		strh	r3, [sp, #4]	@ movhi
+ 510:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 511:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1563              		.loc 1 511 0
+ 1564 0014 0391     		str	r1, [sp, #12]
+ 512:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1565              		.loc 1 512 0
+ 1566 0016 0823     		movs	r3, #8
+ 1567 0018 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 513:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_LTK_NEG_REPLY;
+ 1568              		.loc 1 513 0
+ 1569 001c 1B23     		movs	r3, #27
+ 1570 001e ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 514:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 1571              		.loc 1 514 0
+ 1572 0022 01AB     		add	r3, sp, #4
+ 1573 0024 0493     		str	r3, [sp, #16]
+ 515:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_LTK_NEG_REPLY_CP_SIZE;
+ 1574              		.loc 1 515 0
+ 1575 0026 0223     		movs	r3, #2
+ 1576 0028 0593     		str	r3, [sp, #20]
+ 516:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 1577              		.loc 1 516 0
+ 1578 002a CDF818D0 		str	sp, [sp, #24]
+ 517:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_LTK_NEG_REPLY_RP_SIZE;
+ 1579              		.loc 1 517 0
+ 1580 002e 0323     		movs	r3, #3
+ 1581 0030 0793     		str	r3, [sp, #28]
+ 518:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 519:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0)
+ 1582              		.loc 1 519 0
+ 1583 0032 02A8     		add	r0, sp, #8
+ 1584 0034 FFF7FEFF 		bl	hci_send_req
+ 1585              	.LVL77:
+ 1586 0038 0028     		cmp	r0, #0
+ 1587 003a 04DB     		blt	.L86
+ 520:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 521:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 522:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return resp.status;
+ 1588              		.loc 1 522 0
+ 1589 003c 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ 1590              	.L84:
+ 523:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1591              		.loc 1 523 0
+ 1592 0040 09B0     		add	sp, sp, #36
+ 1593              	.LCFI68:
+ 1594              		.cfi_remember_state
+ 1595              		.cfi_def_cfa_offset 4
+ 1596              		@ sp needed
+ 1597 0042 5DF804FB 		ldr	pc, [sp], #4
+ 1598              	.L86:
+ 1599              	.LCFI69:
+ 1600              		.cfi_restore_state
+ 520:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 1601              		.loc 1 520 0
+ 1602 0046 FF20     		movs	r0, #255
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 38
+
+
+ 1603 0048 FAE7     		b	.L84
+ 1604              		.cfi_endproc
+ 1605              	.LFE148:
+ 1607              		.section	.text.hci_le_read_white_list_size,"ax",%progbits
+ 1608              		.align	1
+ 1609              		.global	hci_le_read_white_list_size
+ 1610              		.syntax unified
+ 1611              		.thumb
+ 1612              		.thumb_func
+ 1613              		.fpu fpv4-sp-d16
+ 1615              	hci_le_read_white_list_size:
+ 1616              	.LFB149:
+ 524:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 525:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_read_white_list_size(uint8_t *size)
+ 526:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1617              		.loc 1 526 0
+ 1618              		.cfi_startproc
+ 1619              		@ args = 0, pretend = 0, frame = 32
+ 1620              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1621              	.LVL78:
+ 1622 0000 10B5     		push	{r4, lr}
+ 1623              	.LCFI70:
+ 1624              		.cfi_def_cfa_offset 8
+ 1625              		.cfi_offset 4, -8
+ 1626              		.cfi_offset 14, -4
+ 1627 0002 88B0     		sub	sp, sp, #32
+ 1628              	.LCFI71:
+ 1629              		.cfi_def_cfa_offset 40
+ 1630 0004 0446     		mov	r4, r0
+ 527:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 528:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_read_white_list_size_rp resp;
+ 529:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 530:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 1631              		.loc 1 530 0
+ 1632 0006 0021     		movs	r1, #0
+ 1633 0008 ADF80410 		strh	r1, [sp, #4]	@ movhi
+ 531:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 532:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1634              		.loc 1 532 0
+ 1635 000c 0391     		str	r1, [sp, #12]
+ 1636 000e 0491     		str	r1, [sp, #16]
+ 1637 0010 0591     		str	r1, [sp, #20]
+ 533:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1638              		.loc 1 533 0
+ 1639 0012 0823     		movs	r3, #8
+ 1640 0014 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 534:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_READ_WHITE_LIST_SIZE;
+ 1641              		.loc 1 534 0
+ 1642 0018 0F23     		movs	r3, #15
+ 1643 001a ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 535:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 1644              		.loc 1 535 0
+ 1645 001e 01AB     		add	r3, sp, #4
+ 1646 0020 0693     		str	r3, [sp, #24]
+ 536:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_READ_WHITE_LIST_SIZE_RP_SIZE;
+ 1647              		.loc 1 536 0
+ 1648 0022 0223     		movs	r3, #2
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 39
+
+
+ 1649 0024 0793     		str	r3, [sp, #28]
+ 537:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 538:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 1650              		.loc 1 538 0
+ 1651 0026 02A8     		add	r0, sp, #8
+ 1652              	.LVL79:
+ 1653 0028 FFF7FEFF 		bl	hci_send_req
+ 1654              	.LVL80:
+ 1655 002c 0028     		cmp	r0, #0
+ 1656 002e 07DB     		blt	.L91
+ 539:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 540:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 541:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 542:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 1657              		.loc 1 542 0
+ 1658 0030 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 1659 0034 28B9     		cbnz	r0, .L88
+ 543:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 544:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 545:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 546:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *size = resp.size;
+ 1660              		.loc 1 546 0
+ 1661 0036 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 1662 003a 2370     		strb	r3, [r4]
+ 547:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 548:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 1663              		.loc 1 548 0
+ 1664 003c 0020     		movs	r0, #0
+ 1665 003e 00E0     		b	.L88
+ 1666              	.L91:
+ 539:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 1667              		.loc 1 539 0
+ 1668 0040 FF20     		movs	r0, #255
+ 1669              	.L88:
+ 549:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1670              		.loc 1 549 0
+ 1671 0042 08B0     		add	sp, sp, #32
+ 1672              	.LCFI72:
+ 1673              		.cfi_def_cfa_offset 8
+ 1674              		@ sp needed
+ 1675 0044 10BD     		pop	{r4, pc}
+ 1676              		.cfi_endproc
+ 1677              	.LFE149:
+ 1679              		.section	.text.hci_le_clear_white_list,"ax",%progbits
+ 1680              		.align	1
+ 1681              		.global	hci_le_clear_white_list
+ 1682              		.syntax unified
+ 1683              		.thumb
+ 1684              		.thumb_func
+ 1685              		.fpu fpv4-sp-d16
+ 1687              	hci_le_clear_white_list:
+ 1688              	.LFB150:
+ 550:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 551:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_clear_white_list(void)
+ 552:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1689              		.loc 1 552 0
+ 1690              		.cfi_startproc
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 40
+
+
+ 1691              		@ args = 0, pretend = 0, frame = 32
+ 1692              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1693 0000 00B5     		push	{lr}
+ 1694              	.LCFI73:
+ 1695              		.cfi_def_cfa_offset 4
+ 1696              		.cfi_offset 14, -4
+ 1697 0002 89B0     		sub	sp, sp, #36
+ 1698              	.LCFI74:
+ 1699              		.cfi_def_cfa_offset 40
+ 553:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 554:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 555:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 556:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1700              		.loc 1 556 0
+ 1701 0004 0021     		movs	r1, #0
+ 1702 0006 0391     		str	r1, [sp, #12]
+ 1703 0008 0491     		str	r1, [sp, #16]
+ 1704 000a 0591     		str	r1, [sp, #20]
+ 557:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1705              		.loc 1 557 0
+ 1706 000c 0823     		movs	r3, #8
+ 1707 000e ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 558:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_CLEAR_WHITE_LIST;
+ 1708              		.loc 1 558 0
+ 1709 0012 1023     		movs	r3, #16
+ 1710 0014 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 559:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 1711              		.loc 1 559 0
+ 1712 0018 0DF10703 		add	r3, sp, #7
+ 1713 001c 0693     		str	r3, [sp, #24]
+ 560:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 1714              		.loc 1 560 0
+ 1715 001e 0123     		movs	r3, #1
+ 1716 0020 0793     		str	r3, [sp, #28]
+ 561:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 562:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 1717              		.loc 1 562 0
+ 1718 0022 02A8     		add	r0, sp, #8
+ 1719 0024 FFF7FEFF 		bl	hci_send_req
+ 1720              	.LVL81:
+ 1721 0028 0028     		cmp	r0, #0
+ 1722 002a 04DB     		blt	.L95
+ 563:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 564:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 565:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 566:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 1723              		.loc 1 566 0
+ 1724 002c 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 1725              	.L93:
+ 567:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1726              		.loc 1 567 0
+ 1727 0030 09B0     		add	sp, sp, #36
+ 1728              	.LCFI75:
+ 1729              		.cfi_remember_state
+ 1730              		.cfi_def_cfa_offset 4
+ 1731              		@ sp needed
+ 1732 0032 5DF804FB 		ldr	pc, [sp], #4
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 41
+
+
+ 1733              	.L95:
+ 1734              	.LCFI76:
+ 1735              		.cfi_restore_state
+ 563:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 1736              		.loc 1 563 0
+ 1737 0036 FF20     		movs	r0, #255
+ 1738 0038 FAE7     		b	.L93
+ 1739              		.cfi_endproc
+ 1740              	.LFE150:
+ 1742              		.section	.text.hci_le_add_device_to_white_list,"ax",%progbits
+ 1743              		.align	1
+ 1744              		.global	hci_le_add_device_to_white_list
+ 1745              		.syntax unified
+ 1746              		.thumb
+ 1747              		.thumb_func
+ 1748              		.fpu fpv4-sp-d16
+ 1750              	hci_le_add_device_to_white_list:
+ 1751              	.LFB151:
+ 568:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 569:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_add_device_to_white_list(uint8_t	bdaddr_type, tBDAddr bdaddr)
+ 570:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1752              		.loc 1 570 0
+ 1753              		.cfi_startproc
+ 1754              		@ args = 0, pretend = 0, frame = 40
+ 1755              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1756              	.LVL82:
+ 1757 0000 00B5     		push	{lr}
+ 1758              	.LCFI77:
+ 1759              		.cfi_def_cfa_offset 4
+ 1760              		.cfi_offset 14, -4
+ 1761 0002 8BB0     		sub	sp, sp, #44
+ 1762              	.LCFI78:
+ 1763              		.cfi_def_cfa_offset 48
+ 571:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 572:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_add_device_to_white_list_cp params;
+ 573:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 574:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 575:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.bdaddr_type = bdaddr_type;
+ 1764              		.loc 1 575 0
+ 1765 0004 8DF80800 		strb	r0, [sp, #8]
+ 576:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(params.bdaddr, bdaddr, 6);
+ 1766              		.loc 1 576 0
+ 1767 0008 0B68     		ldr	r3, [r1]	@ unaligned
+ 1768 000a CDF80930 		str	r3, [sp, #9]	@ unaligned
+ 1769 000e 8B88     		ldrh	r3, [r1, #4]	@ unaligned
+ 1770 0010 ADF80D30 		strh	r3, [sp, #13]	@ unaligned
+ 577:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 578:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1771              		.loc 1 578 0
+ 1772 0014 0021     		movs	r1, #0
+ 1773              	.LVL83:
+ 1774 0016 0591     		str	r1, [sp, #20]
+ 579:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1775              		.loc 1 579 0
+ 1776 0018 0823     		movs	r3, #8
+ 1777 001a ADF81030 		strh	r3, [sp, #16]	@ movhi
+ 580:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_ADD_DEVICE_TO_WHITE_LIST;
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 42
+
+
+ 1778              		.loc 1 580 0
+ 1779 001e 1123     		movs	r3, #17
+ 1780 0020 ADF81230 		strh	r3, [sp, #18]	@ movhi
+ 581:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 1781              		.loc 1 581 0
+ 1782 0024 02AB     		add	r3, sp, #8
+ 1783 0026 0693     		str	r3, [sp, #24]
+ 582:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_ADD_DEVICE_TO_WHITE_LIST_CP_SIZE;
+ 1784              		.loc 1 582 0
+ 1785 0028 0723     		movs	r3, #7
+ 1786 002a 0793     		str	r3, [sp, #28]
+ 583:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 1787              		.loc 1 583 0
+ 1788 002c 6B44     		add	r3, sp, r3
+ 1789 002e 0893     		str	r3, [sp, #32]
+ 584:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 1790              		.loc 1 584 0
+ 1791 0030 0123     		movs	r3, #1
+ 1792 0032 0993     		str	r3, [sp, #36]
+ 585:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 586:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 1793              		.loc 1 586 0
+ 1794 0034 04A8     		add	r0, sp, #16
+ 1795              	.LVL84:
+ 1796 0036 FFF7FEFF 		bl	hci_send_req
+ 1797              	.LVL85:
+ 1798 003a 0028     		cmp	r0, #0
+ 1799 003c 04DB     		blt	.L99
+ 587:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 588:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 589:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 590:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 1800              		.loc 1 590 0
+ 1801 003e 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 1802              	.L97:
+ 591:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1803              		.loc 1 591 0
+ 1804 0042 0BB0     		add	sp, sp, #44
+ 1805              	.LCFI79:
+ 1806              		.cfi_remember_state
+ 1807              		.cfi_def_cfa_offset 4
+ 1808              		@ sp needed
+ 1809 0044 5DF804FB 		ldr	pc, [sp], #4
+ 1810              	.L99:
+ 1811              	.LCFI80:
+ 1812              		.cfi_restore_state
+ 587:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 1813              		.loc 1 587 0
+ 1814 0048 FF20     		movs	r0, #255
+ 1815 004a FAE7     		b	.L97
+ 1816              		.cfi_endproc
+ 1817              	.LFE151:
+ 1819              		.section	.text.hci_le_remove_device_from_white_list,"ax",%progbits
+ 1820              		.align	1
+ 1821              		.global	hci_le_remove_device_from_white_list
+ 1822              		.syntax unified
+ 1823              		.thumb
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 43
+
+
+ 1824              		.thumb_func
+ 1825              		.fpu fpv4-sp-d16
+ 1827              	hci_le_remove_device_from_white_list:
+ 1828              	.LFB152:
+ 592:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 593:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_remove_device_from_white_list(uint8_t bdaddr_type, tBDAddr bdaddr)
+ 594:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1829              		.loc 1 594 0
+ 1830              		.cfi_startproc
+ 1831              		@ args = 0, pretend = 0, frame = 40
+ 1832              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1833              	.LVL86:
+ 1834 0000 00B5     		push	{lr}
+ 1835              	.LCFI81:
+ 1836              		.cfi_def_cfa_offset 4
+ 1837              		.cfi_offset 14, -4
+ 1838 0002 8BB0     		sub	sp, sp, #44
+ 1839              	.LCFI82:
+ 1840              		.cfi_def_cfa_offset 48
+ 595:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 596:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_remove_device_from_white_list_cp params;
+ 597:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 598:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 599:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.bdaddr_type = bdaddr_type;
+ 1841              		.loc 1 599 0
+ 1842 0004 8DF80800 		strb	r0, [sp, #8]
+ 600:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(params.bdaddr, bdaddr, 6);
+ 1843              		.loc 1 600 0
+ 1844 0008 0B68     		ldr	r3, [r1]	@ unaligned
+ 1845 000a CDF80930 		str	r3, [sp, #9]	@ unaligned
+ 1846 000e 8B88     		ldrh	r3, [r1, #4]	@ unaligned
+ 1847 0010 ADF80D30 		strh	r3, [sp, #13]	@ unaligned
+ 601:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 602:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1848              		.loc 1 602 0
+ 1849 0014 0021     		movs	r1, #0
+ 1850              	.LVL87:
+ 1851 0016 0591     		str	r1, [sp, #20]
+ 603:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 1852              		.loc 1 603 0
+ 1853 0018 0823     		movs	r3, #8
+ 1854 001a ADF81030 		strh	r3, [sp, #16]	@ movhi
+ 604:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_REMOVE_DEVICE_FROM_WHITE_LIST;
+ 1855              		.loc 1 604 0
+ 1856 001e 1223     		movs	r3, #18
+ 1857 0020 ADF81230 		strh	r3, [sp, #18]	@ movhi
+ 605:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 1858              		.loc 1 605 0
+ 1859 0024 02AB     		add	r3, sp, #8
+ 1860 0026 0693     		str	r3, [sp, #24]
+ 606:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_REMOVE_DEVICE_FROM_WHITE_LIST_CP_SIZE;
+ 1861              		.loc 1 606 0
+ 1862 0028 0723     		movs	r3, #7
+ 1863 002a 0793     		str	r3, [sp, #28]
+ 607:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 1864              		.loc 1 607 0
+ 1865 002c 6B44     		add	r3, sp, r3
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 44
+
+
+ 1866 002e 0893     		str	r3, [sp, #32]
+ 608:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 1867              		.loc 1 608 0
+ 1868 0030 0123     		movs	r3, #1
+ 1869 0032 0993     		str	r3, [sp, #36]
+ 609:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 610:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 1870              		.loc 1 610 0
+ 1871 0034 04A8     		add	r0, sp, #16
+ 1872              	.LVL88:
+ 1873 0036 FFF7FEFF 		bl	hci_send_req
+ 1874              	.LVL89:
+ 1875 003a 0028     		cmp	r0, #0
+ 1876 003c 04DB     		blt	.L103
+ 611:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 612:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 613:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 614:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 1877              		.loc 1 614 0
+ 1878 003e 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 1879              	.L101:
+ 615:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1880              		.loc 1 615 0
+ 1881 0042 0BB0     		add	sp, sp, #44
+ 1882              	.LCFI83:
+ 1883              		.cfi_remember_state
+ 1884              		.cfi_def_cfa_offset 4
+ 1885              		@ sp needed
+ 1886 0044 5DF804FB 		ldr	pc, [sp], #4
+ 1887              	.L103:
+ 1888              	.LCFI84:
+ 1889              		.cfi_restore_state
+ 611:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 1890              		.loc 1 611 0
+ 1891 0048 FF20     		movs	r0, #255
+ 1892 004a FAE7     		b	.L101
+ 1893              		.cfi_endproc
+ 1894              	.LFE152:
+ 1896              		.section	.text.hci_read_transmit_power_level,"ax",%progbits
+ 1897              		.align	1
+ 1898              		.global	hci_read_transmit_power_level
+ 1899              		.syntax unified
+ 1900              		.thumb
+ 1901              		.thumb_func
+ 1902              		.fpu fpv4-sp-d16
+ 1904              	hci_read_transmit_power_level:
+ 1905              	.LFB153:
+ 616:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 617:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_read_transmit_power_level(uint16_t *conn_handle, uint8_t type, int8_t * tx_level)
+ 618:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1906              		.loc 1 618 0
+ 1907              		.cfi_startproc
+ 1908              		@ args = 0, pretend = 0, frame = 32
+ 1909              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1910              	.LVL90:
+ 1911 0000 30B5     		push	{r4, r5, lr}
+ 1912              	.LCFI85:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 45
+
+
+ 1913              		.cfi_def_cfa_offset 12
+ 1914              		.cfi_offset 4, -12
+ 1915              		.cfi_offset 5, -8
+ 1916              		.cfi_offset 14, -4
+ 1917 0002 89B0     		sub	sp, sp, #36
+ 1918              	.LCFI86:
+ 1919              		.cfi_def_cfa_offset 48
+ 1920 0004 0446     		mov	r4, r0
+ 1921 0006 1546     		mov	r5, r2
+ 619:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 620:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   read_transmit_power_level_cp params;
+ 621:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   read_transmit_power_level_rp resp;
+ 622:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 623:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 1922              		.loc 1 623 0
+ 1923 0008 0023     		movs	r3, #0
+ 1924 000a 0093     		str	r3, [sp]
+ 624:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 625:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.handle = *conn_handle;
+ 1925              		.loc 1 625 0
+ 1926 000c 0288     		ldrh	r2, [r0]
+ 1927              	.LVL91:
+ 1928 000e ADF80420 		strh	r2, [sp, #4]	@ movhi
+ 626:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.type = type;
+ 1929              		.loc 1 626 0
+ 1930 0012 8DF80610 		strb	r1, [sp, #6]
+ 627:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 628:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 1931              		.loc 1 628 0
+ 1932 0016 0393     		str	r3, [sp, #12]
+ 629:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_HOST_CTL;
+ 1933              		.loc 1 629 0
+ 1934 0018 0322     		movs	r2, #3
+ 1935 001a ADF80820 		strh	r2, [sp, #8]	@ movhi
+ 630:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_READ_TRANSMIT_POWER_LEVEL;
+ 1936              		.loc 1 630 0
+ 1937 001e 2D21     		movs	r1, #45
+ 1938              	.LVL92:
+ 1939 0020 ADF80A10 		strh	r1, [sp, #10]	@ movhi
+ 631:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 1940              		.loc 1 631 0
+ 1941 0024 01A9     		add	r1, sp, #4
+ 1942 0026 0491     		str	r1, [sp, #16]
+ 632:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = READ_TRANSMIT_POWER_LEVEL_CP_SIZE;
+ 1943              		.loc 1 632 0
+ 1944 0028 0592     		str	r2, [sp, #20]
+ 633:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 1945              		.loc 1 633 0
+ 1946 002a CDF818D0 		str	sp, [sp, #24]
+ 634:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = READ_TRANSMIT_POWER_LEVEL_RP_SIZE;
+ 1947              		.loc 1 634 0
+ 1948 002e 0422     		movs	r2, #4
+ 1949 0030 0792     		str	r2, [sp, #28]
+ 635:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 636:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 1950              		.loc 1 636 0
+ 1951 0032 1946     		mov	r1, r3
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 46
+
+
+ 1952 0034 02A8     		add	r0, sp, #8
+ 1953              	.LVL93:
+ 1954 0036 FFF7FEFF 		bl	hci_send_req
+ 1955              	.LVL94:
+ 1956 003a 0028     		cmp	r0, #0
+ 1957 003c 0ADB     		blt	.L108
+ 637:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 638:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 639:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 640:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 1958              		.loc 1 640 0
+ 1959 003e 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ 1960 0042 40B9     		cbnz	r0, .L105
+ 641:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 642:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 643:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 644:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *conn_handle = resp.handle;
+ 1961              		.loc 1 644 0
+ 1962 0044 BDF80130 		ldrh	r3, [sp, #1]	@ unaligned
+ 1963 0048 2380     		strh	r3, [r4]	@ movhi
+ 645:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *tx_level = resp.level;
+ 1964              		.loc 1 645 0
+ 1965 004a 9DF90330 		ldrsb	r3, [sp, #3]
+ 1966 004e 2B70     		strb	r3, [r5]
+ 646:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 647:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 1967              		.loc 1 647 0
+ 1968 0050 0020     		movs	r0, #0
+ 1969 0052 00E0     		b	.L105
+ 1970              	.L108:
+ 637:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 1971              		.loc 1 637 0
+ 1972 0054 FF20     		movs	r0, #255
+ 1973              	.L105:
+ 648:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 1974              		.loc 1 648 0
+ 1975 0056 09B0     		add	sp, sp, #36
+ 1976              	.LCFI87:
+ 1977              		.cfi_def_cfa_offset 12
+ 1978              		@ sp needed
+ 1979 0058 30BD     		pop	{r4, r5, pc}
+ 1980              		.cfi_endproc
+ 1981              	.LFE153:
+ 1983              		.section	.text.hci_read_rssi,"ax",%progbits
+ 1984              		.align	1
+ 1985              		.global	hci_read_rssi
+ 1986              		.syntax unified
+ 1987              		.thumb
+ 1988              		.thumb_func
+ 1989              		.fpu fpv4-sp-d16
+ 1991              	hci_read_rssi:
+ 1992              	.LFB154:
+ 649:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 650:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_read_rssi(uint16_t *conn_handle, int8_t * rssi)
+ 651:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 1993              		.loc 1 651 0
+ 1994              		.cfi_startproc
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 47
+
+
+ 1995              		@ args = 0, pretend = 0, frame = 32
+ 1996              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1997              	.LVL95:
+ 1998 0000 30B5     		push	{r4, r5, lr}
+ 1999              	.LCFI88:
+ 2000              		.cfi_def_cfa_offset 12
+ 2001              		.cfi_offset 4, -12
+ 2002              		.cfi_offset 5, -8
+ 2003              		.cfi_offset 14, -4
+ 2004 0002 89B0     		sub	sp, sp, #36
+ 2005              	.LCFI89:
+ 2006              		.cfi_def_cfa_offset 48
+ 2007 0004 0446     		mov	r4, r0
+ 2008 0006 0D46     		mov	r5, r1
+ 652:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 653:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   read_rssi_cp params;
+ 654:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   read_rssi_rp resp;
+ 655:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 656:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 2009              		.loc 1 656 0
+ 2010 0008 0021     		movs	r1, #0
+ 2011              	.LVL96:
+ 2012 000a 0091     		str	r1, [sp]
+ 657:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 658:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.handle = *conn_handle;
+ 2013              		.loc 1 658 0
+ 2014 000c 0388     		ldrh	r3, [r0]
+ 2015 000e ADF80430 		strh	r3, [sp, #4]	@ movhi
+ 659:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 660:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 2016              		.loc 1 660 0
+ 2017 0012 0391     		str	r1, [sp, #12]
+ 661:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_STATUS_PARAM;
+ 2018              		.loc 1 661 0
+ 2019 0014 0523     		movs	r3, #5
+ 2020 0016 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 662:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_READ_RSSI;
+ 2021              		.loc 1 662 0
+ 2022 001a ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 663:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 2023              		.loc 1 663 0
+ 2024 001e 01AB     		add	r3, sp, #4
+ 2025 0020 0493     		str	r3, [sp, #16]
+ 664:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = READ_RSSI_CP_SIZE;
+ 2026              		.loc 1 664 0
+ 2027 0022 0223     		movs	r3, #2
+ 2028 0024 0593     		str	r3, [sp, #20]
+ 665:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 2029              		.loc 1 665 0
+ 2030 0026 CDF818D0 		str	sp, [sp, #24]
+ 666:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = READ_RSSI_RP_SIZE;
+ 2031              		.loc 1 666 0
+ 2032 002a 0423     		movs	r3, #4
+ 2033 002c 0793     		str	r3, [sp, #28]
+ 667:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 668:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 2034              		.loc 1 668 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 48
+
+
+ 2035 002e 02A8     		add	r0, sp, #8
+ 2036              	.LVL97:
+ 2037 0030 FFF7FEFF 		bl	hci_send_req
+ 2038              	.LVL98:
+ 2039 0034 0028     		cmp	r0, #0
+ 2040 0036 0ADB     		blt	.L113
+ 669:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 670:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 671:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 672:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 2041              		.loc 1 672 0
+ 2042 0038 9DF80000 		ldrb	r0, [sp]	@ zero_extendqisi2
+ 2043 003c 40B9     		cbnz	r0, .L110
+ 673:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 674:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 675:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 676:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *conn_handle = resp.handle;
+ 2044              		.loc 1 676 0
+ 2045 003e BDF80130 		ldrh	r3, [sp, #1]	@ unaligned
+ 2046 0042 2380     		strh	r3, [r4]	@ movhi
+ 677:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *rssi = resp.rssi;
+ 2047              		.loc 1 677 0
+ 2048 0044 9DF90330 		ldrsb	r3, [sp, #3]
+ 2049 0048 2B70     		strb	r3, [r5]
+ 678:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 679:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 2050              		.loc 1 679 0
+ 2051 004a 0020     		movs	r0, #0
+ 2052 004c 00E0     		b	.L110
+ 2053              	.L113:
+ 669:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 2054              		.loc 1 669 0
+ 2055 004e FF20     		movs	r0, #255
+ 2056              	.L110:
+ 680:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 2057              		.loc 1 680 0
+ 2058 0050 09B0     		add	sp, sp, #36
+ 2059              	.LCFI90:
+ 2060              		.cfi_def_cfa_offset 12
+ 2061              		@ sp needed
+ 2062 0052 30BD     		pop	{r4, r5, pc}
+ 2063              		.cfi_endproc
+ 2064              	.LFE154:
+ 2066              		.section	.text.hci_le_read_local_supported_features,"ax",%progbits
+ 2067              		.align	1
+ 2068              		.global	hci_le_read_local_supported_features
+ 2069              		.syntax unified
+ 2070              		.thumb
+ 2071              		.thumb_func
+ 2072              		.fpu fpv4-sp-d16
+ 2074              	hci_le_read_local_supported_features:
+ 2075              	.LFB155:
+ 681:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 682:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_read_local_supported_features(uint8_t *features)
+ 683:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 2076              		.loc 1 683 0
+ 2077              		.cfi_startproc
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 49
+
+
+ 2078              		@ args = 0, pretend = 0, frame = 40
+ 2079              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2080              	.LVL99:
+ 2081 0000 10B5     		push	{r4, lr}
+ 2082              	.LCFI91:
+ 2083              		.cfi_def_cfa_offset 8
+ 2084              		.cfi_offset 4, -8
+ 2085              		.cfi_offset 14, -4
+ 2086 0002 8AB0     		sub	sp, sp, #40
+ 2087              	.LCFI92:
+ 2088              		.cfi_def_cfa_offset 48
+ 2089 0004 0446     		mov	r4, r0
+ 684:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 685:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_read_local_supported_features_rp resp;
+ 686:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 687:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 2090              		.loc 1 687 0
+ 2091 0006 01AB     		add	r3, sp, #4
+ 2092 0008 0021     		movs	r1, #0
+ 2093 000a 0191     		str	r1, [sp, #4]
+ 2094 000c 0291     		str	r1, [sp, #8]
+ 2095 000e 8DF80C10 		strb	r1, [sp, #12]
+ 688:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 689:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 2096              		.loc 1 689 0
+ 2097 0012 0591     		str	r1, [sp, #20]
+ 2098 0014 0691     		str	r1, [sp, #24]
+ 2099 0016 0791     		str	r1, [sp, #28]
+ 690:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 2100              		.loc 1 690 0
+ 2101 0018 0822     		movs	r2, #8
+ 2102 001a ADF81020 		strh	r2, [sp, #16]	@ movhi
+ 691:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_READ_LOCAL_SUPPORTED_FEATURES;
+ 2103              		.loc 1 691 0
+ 2104 001e 0322     		movs	r2, #3
+ 2105 0020 ADF81220 		strh	r2, [sp, #18]	@ movhi
+ 692:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 2106              		.loc 1 692 0
+ 2107 0024 0893     		str	r3, [sp, #32]
+ 693:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_READ_LOCAL_SUPPORTED_FEATURES_RP_SIZE;
+ 2108              		.loc 1 693 0
+ 2109 0026 0923     		movs	r3, #9
+ 2110 0028 0993     		str	r3, [sp, #36]
+ 694:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 695:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 2111              		.loc 1 695 0
+ 2112 002a 04A8     		add	r0, sp, #16
+ 2113              	.LVL100:
+ 2114 002c FFF7FEFF 		bl	hci_send_req
+ 2115              	.LVL101:
+ 2116 0030 0028     		cmp	r0, #0
+ 2117 0032 0ADB     		blt	.L118
+ 696:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 697:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 698:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 699:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 2118              		.loc 1 699 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 50
+
+
+ 2119 0034 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 2120 0038 40B9     		cbnz	r0, .L115
+ 700:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 701:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 702:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 703:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(features, resp.features, sizeof(resp.features));
+ 2121              		.loc 1 703 0
+ 2122 003a 0AAB     		add	r3, sp, #40
+ 2123 003c 53F8232D 		ldr	r2, [r3, #-35]!	@ unaligned
+ 2124 0040 5B68     		ldr	r3, [r3, #4]	@ unaligned
+ 2125 0042 2260     		str	r2, [r4]	@ unaligned
+ 2126 0044 6360     		str	r3, [r4, #4]	@ unaligned
+ 704:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 705:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 2127              		.loc 1 705 0
+ 2128 0046 0020     		movs	r0, #0
+ 2129 0048 00E0     		b	.L115
+ 2130              	.L118:
+ 696:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 2131              		.loc 1 696 0
+ 2132 004a FF20     		movs	r0, #255
+ 2133              	.L115:
+ 706:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 2134              		.loc 1 706 0
+ 2135 004c 0AB0     		add	sp, sp, #40
+ 2136              	.LCFI93:
+ 2137              		.cfi_def_cfa_offset 8
+ 2138              		@ sp needed
+ 2139 004e 10BD     		pop	{r4, pc}
+ 2140              		.cfi_endproc
+ 2141              	.LFE155:
+ 2143              		.section	.text.hci_le_read_channel_map,"ax",%progbits
+ 2144              		.align	1
+ 2145              		.global	hci_le_read_channel_map
+ 2146              		.syntax unified
+ 2147              		.thumb
+ 2148              		.thumb_func
+ 2149              		.fpu fpv4-sp-d16
+ 2151              	hci_le_read_channel_map:
+ 2152              	.LFB156:
+ 707:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 708:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_read_channel_map(uint16_t conn_handle, uint8_t ch_map[5])
+ 709:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 2153              		.loc 1 709 0
+ 2154              		.cfi_startproc
+ 2155              		@ args = 0, pretend = 0, frame = 40
+ 2156              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2157              	.LVL102:
+ 2158 0000 10B5     		push	{r4, lr}
+ 2159              	.LCFI94:
+ 2160              		.cfi_def_cfa_offset 8
+ 2161              		.cfi_offset 4, -8
+ 2162              		.cfi_offset 14, -4
+ 2163 0002 8AB0     		sub	sp, sp, #40
+ 2164              	.LCFI95:
+ 2165              		.cfi_def_cfa_offset 48
+ 2166 0004 0C46     		mov	r4, r1
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 51
+
+
+ 710:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 711:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_read_channel_map_cp params;
+ 712:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_read_channel_map_rp resp;
+ 713:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 714:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 2167              		.loc 1 714 0
+ 2168 0006 01AA     		add	r2, sp, #4
+ 2169 0008 0021     		movs	r1, #0
+ 2170              	.LVL103:
+ 2171 000a 0191     		str	r1, [sp, #4]
+ 2172 000c 0291     		str	r1, [sp, #8]
+ 715:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 716:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.handle = conn_handle;
+ 2173              		.loc 1 716 0
+ 2174 000e ADF80C00 		strh	r0, [sp, #12]	@ movhi
+ 717:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 718:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 2175              		.loc 1 718 0
+ 2176 0012 0591     		str	r1, [sp, #20]
+ 719:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 2177              		.loc 1 719 0
+ 2178 0014 0823     		movs	r3, #8
+ 2179 0016 ADF81030 		strh	r3, [sp, #16]	@ movhi
+ 720:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_READ_CHANNEL_MAP;
+ 2180              		.loc 1 720 0
+ 2181 001a 1520     		movs	r0, #21
+ 2182              	.LVL104:
+ 2183 001c ADF81200 		strh	r0, [sp, #18]	@ movhi
+ 721:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 2184              		.loc 1 721 0
+ 2185 0020 03A8     		add	r0, sp, #12
+ 2186              	.LVL105:
+ 2187 0022 0690     		str	r0, [sp, #24]
+ 722:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_READ_CHANNEL_MAP_CP_SIZE;
+ 2188              		.loc 1 722 0
+ 2189 0024 0220     		movs	r0, #2
+ 2190              	.LVL106:
+ 2191 0026 0790     		str	r0, [sp, #28]
+ 723:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 2192              		.loc 1 723 0
+ 2193 0028 0892     		str	r2, [sp, #32]
+ 724:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_READ_CHANNEL_MAP_RP_SIZE;
+ 2194              		.loc 1 724 0
+ 2195 002a 0993     		str	r3, [sp, #36]
+ 725:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 726:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 2196              		.loc 1 726 0
+ 2197 002c 04A8     		add	r0, sp, #16
+ 2198 002e FFF7FEFF 		bl	hci_send_req
+ 2199              	.LVL107:
+ 2200 0032 0028     		cmp	r0, #0
+ 2201 0034 0ADB     		blt	.L123
+ 727:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 728:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 729:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 730:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 2202              		.loc 1 730 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 52
+
+
+ 2203 0036 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 2204 003a 40B9     		cbnz	r0, .L120
+ 731:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 732:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 733:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 734:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(ch_map, resp.map, 5);
+ 2205              		.loc 1 734 0
+ 2206 003c 0AAB     		add	r3, sp, #40
+ 2207 003e 53F8212D 		ldr	r2, [r3, #-33]!	@ unaligned
+ 2208 0042 2260     		str	r2, [r4]	@ unaligned
+ 2209 0044 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 2210 0046 2371     		strb	r3, [r4, #4]
+ 735:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 736:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 2211              		.loc 1 736 0
+ 2212 0048 0020     		movs	r0, #0
+ 2213 004a 00E0     		b	.L120
+ 2214              	.L123:
+ 727:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 2215              		.loc 1 727 0
+ 2216 004c FF20     		movs	r0, #255
+ 2217              	.L120:
+ 737:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 2218              		.loc 1 737 0
+ 2219 004e 0AB0     		add	sp, sp, #40
+ 2220              	.LCFI96:
+ 2221              		.cfi_def_cfa_offset 8
+ 2222              		@ sp needed
+ 2223 0050 10BD     		pop	{r4, pc}
+ 2224              		.cfi_endproc
+ 2225              	.LFE156:
+ 2227              		.section	.text.hci_le_read_supported_states,"ax",%progbits
+ 2228              		.align	1
+ 2229              		.global	hci_le_read_supported_states
+ 2230              		.syntax unified
+ 2231              		.thumb
+ 2232              		.thumb_func
+ 2233              		.fpu fpv4-sp-d16
+ 2235              	hci_le_read_supported_states:
+ 2236              	.LFB157:
+ 738:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 739:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_read_supported_states(uint8_t states[8])
+ 740:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 2237              		.loc 1 740 0
+ 2238              		.cfi_startproc
+ 2239              		@ args = 0, pretend = 0, frame = 40
+ 2240              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2241              	.LVL108:
+ 2242 0000 10B5     		push	{r4, lr}
+ 2243              	.LCFI97:
+ 2244              		.cfi_def_cfa_offset 8
+ 2245              		.cfi_offset 4, -8
+ 2246              		.cfi_offset 14, -4
+ 2247 0002 8AB0     		sub	sp, sp, #40
+ 2248              	.LCFI98:
+ 2249              		.cfi_def_cfa_offset 48
+ 2250 0004 0446     		mov	r4, r0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 53
+
+
+ 741:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 742:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_read_supported_states_rp resp;
+ 743:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 744:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 2251              		.loc 1 744 0
+ 2252 0006 01AB     		add	r3, sp, #4
+ 2253 0008 0021     		movs	r1, #0
+ 2254 000a 0191     		str	r1, [sp, #4]
+ 2255 000c 0291     		str	r1, [sp, #8]
+ 2256 000e 8DF80C10 		strb	r1, [sp, #12]
+ 745:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 746:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 2257              		.loc 1 746 0
+ 2258 0012 0591     		str	r1, [sp, #20]
+ 2259 0014 0691     		str	r1, [sp, #24]
+ 2260 0016 0791     		str	r1, [sp, #28]
+ 747:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 2261              		.loc 1 747 0
+ 2262 0018 0822     		movs	r2, #8
+ 2263 001a ADF81020 		strh	r2, [sp, #16]	@ movhi
+ 748:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_READ_SUPPORTED_STATES;
+ 2264              		.loc 1 748 0
+ 2265 001e 1C22     		movs	r2, #28
+ 2266 0020 ADF81220 		strh	r2, [sp, #18]	@ movhi
+ 749:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 2267              		.loc 1 749 0
+ 2268 0024 0893     		str	r3, [sp, #32]
+ 750:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_READ_SUPPORTED_STATES_RP_SIZE;
+ 2269              		.loc 1 750 0
+ 2270 0026 0923     		movs	r3, #9
+ 2271 0028 0993     		str	r3, [sp, #36]
+ 751:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 752:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 2272              		.loc 1 752 0
+ 2273 002a 04A8     		add	r0, sp, #16
+ 2274              	.LVL109:
+ 2275 002c FFF7FEFF 		bl	hci_send_req
+ 2276              	.LVL110:
+ 2277 0030 0028     		cmp	r0, #0
+ 2278 0032 0ADB     		blt	.L128
+ 753:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 754:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 755:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 756:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 2279              		.loc 1 756 0
+ 2280 0034 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 2281 0038 40B9     		cbnz	r0, .L125
+ 757:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 758:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 759:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 760:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memcpy(states, resp.states, 8);
+ 2282              		.loc 1 760 0
+ 2283 003a 0AAB     		add	r3, sp, #40
+ 2284 003c 53F8232D 		ldr	r2, [r3, #-35]!	@ unaligned
+ 2285 0040 5B68     		ldr	r3, [r3, #4]	@ unaligned
+ 2286 0042 2260     		str	r2, [r4]	@ unaligned
+ 2287 0044 6360     		str	r3, [r4, #4]	@ unaligned
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 54
+
+
+ 761:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 762:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 2288              		.loc 1 762 0
+ 2289 0046 0020     		movs	r0, #0
+ 2290 0048 00E0     		b	.L125
+ 2291              	.L128:
+ 753:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 2292              		.loc 1 753 0
+ 2293 004a FF20     		movs	r0, #255
+ 2294              	.L125:
+ 763:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 2295              		.loc 1 763 0
+ 2296 004c 0AB0     		add	sp, sp, #40
+ 2297              	.LCFI99:
+ 2298              		.cfi_def_cfa_offset 8
+ 2299              		@ sp needed
+ 2300 004e 10BD     		pop	{r4, pc}
+ 2301              		.cfi_endproc
+ 2302              	.LFE157:
+ 2304              		.section	.text.hci_le_receiver_test,"ax",%progbits
+ 2305              		.align	1
+ 2306              		.global	hci_le_receiver_test
+ 2307              		.syntax unified
+ 2308              		.thumb
+ 2309              		.thumb_func
+ 2310              		.fpu fpv4-sp-d16
+ 2312              	hci_le_receiver_test:
+ 2313              	.LFB158:
+ 764:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 765:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_receiver_test(uint8_t frequency)
+ 766:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 2314              		.loc 1 766 0
+ 2315              		.cfi_startproc
+ 2316              		@ args = 0, pretend = 0, frame = 32
+ 2317              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2318              	.LVL111:
+ 2319 0000 00B5     		push	{lr}
+ 2320              	.LCFI100:
+ 2321              		.cfi_def_cfa_offset 4
+ 2322              		.cfi_offset 14, -4
+ 2323 0002 89B0     		sub	sp, sp, #36
+ 2324              	.LCFI101:
+ 2325              		.cfi_def_cfa_offset 40
+ 767:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 768:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_receiver_test_cp params;
+ 769:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 770:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 771:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.frequency = frequency;
+ 2326              		.loc 1 771 0
+ 2327 0004 8DF80400 		strb	r0, [sp, #4]
+ 772:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 773:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 2328              		.loc 1 773 0
+ 2329 0008 0021     		movs	r1, #0
+ 2330 000a 0391     		str	r1, [sp, #12]
+ 774:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 2331              		.loc 1 774 0
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 55
+
+
+ 2332 000c 0823     		movs	r3, #8
+ 2333 000e ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 775:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_RECEIVER_TEST;
+ 2334              		.loc 1 775 0
+ 2335 0012 1D23     		movs	r3, #29
+ 2336 0014 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 776:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 2337              		.loc 1 776 0
+ 2338 0018 01AB     		add	r3, sp, #4
+ 2339 001a 0493     		str	r3, [sp, #16]
+ 777:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_RECEIVER_TEST_CP_SIZE;
+ 2340              		.loc 1 777 0
+ 2341 001c 0123     		movs	r3, #1
+ 2342 001e 0593     		str	r3, [sp, #20]
+ 778:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ 2343              		.loc 1 778 0
+ 2344 0020 0DF10302 		add	r2, sp, #3
+ 2345 0024 0692     		str	r2, [sp, #24]
+ 779:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 2346              		.loc 1 779 0
+ 2347 0026 0793     		str	r3, [sp, #28]
+ 780:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 781:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 2348              		.loc 1 781 0
+ 2349 0028 02A8     		add	r0, sp, #8
+ 2350              	.LVL112:
+ 2351 002a FFF7FEFF 		bl	hci_send_req
+ 2352              	.LVL113:
+ 2353 002e 0028     		cmp	r0, #0
+ 2354 0030 04DB     		blt	.L132
+ 782:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 783:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 784:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 785:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 2355              		.loc 1 785 0
+ 2356 0032 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 2357              	.L130:
+ 786:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 2358              		.loc 1 786 0
+ 2359 0036 09B0     		add	sp, sp, #36
+ 2360              	.LCFI102:
+ 2361              		.cfi_remember_state
+ 2362              		.cfi_def_cfa_offset 4
+ 2363              		@ sp needed
+ 2364 0038 5DF804FB 		ldr	pc, [sp], #4
+ 2365              	.L132:
+ 2366              	.LCFI103:
+ 2367              		.cfi_restore_state
+ 782:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 2368              		.loc 1 782 0
+ 2369 003c FF20     		movs	r0, #255
+ 2370 003e FAE7     		b	.L130
+ 2371              		.cfi_endproc
+ 2372              	.LFE158:
+ 2374              		.section	.text.hci_le_transmitter_test,"ax",%progbits
+ 2375              		.align	1
+ 2376              		.global	hci_le_transmitter_test
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 56
+
+
+ 2377              		.syntax unified
+ 2378              		.thumb
+ 2379              		.thumb_func
+ 2380              		.fpu fpv4-sp-d16
+ 2382              	hci_le_transmitter_test:
+ 2383              	.LFB159:
+ 787:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 788:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_transmitter_test(uint8_t frequency, uint8_t length, uint8_t payload)
+ 789:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 2384              		.loc 1 789 0
+ 2385              		.cfi_startproc
+ 2386              		@ args = 0, pretend = 0, frame = 32
+ 2387              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2388              	.LVL114:
+ 2389 0000 00B5     		push	{lr}
+ 2390              	.LCFI104:
+ 2391              		.cfi_def_cfa_offset 4
+ 2392              		.cfi_offset 14, -4
+ 2393 0002 89B0     		sub	sp, sp, #36
+ 2394              	.LCFI105:
+ 2395              		.cfi_def_cfa_offset 40
+ 790:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 791:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_transmitter_test_cp params;
+ 792:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   uint8_t status;
+ 793:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 794:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.frequency = frequency;
+ 2396              		.loc 1 794 0
+ 2397 0004 8DF80400 		strb	r0, [sp, #4]
+ 795:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.length = length;
+ 2398              		.loc 1 795 0
+ 2399 0008 8DF80510 		strb	r1, [sp, #5]
+ 796:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   params.payload = payload;
+ 2400              		.loc 1 796 0
+ 2401 000c 8DF80620 		strb	r2, [sp, #6]
+ 797:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 798:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 2402              		.loc 1 798 0
+ 2403 0010 0021     		movs	r1, #0
+ 2404              	.LVL115:
+ 2405 0012 0391     		str	r1, [sp, #12]
+ 799:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 2406              		.loc 1 799 0
+ 2407 0014 0823     		movs	r3, #8
+ 2408 0016 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 800:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_TRANSMITTER_TEST;
+ 2409              		.loc 1 800 0
+ 2410 001a 1E23     		movs	r3, #30
+ 2411 001c ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 801:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.cparam = &params;
+ 2412              		.loc 1 801 0
+ 2413 0020 01AB     		add	r3, sp, #4
+ 2414 0022 0493     		str	r3, [sp, #16]
+ 802:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.clen = LE_TRANSMITTER_TEST_CP_SIZE;
+ 2415              		.loc 1 802 0
+ 2416 0024 0323     		movs	r3, #3
+ 2417 0026 0593     		str	r3, [sp, #20]
+ 803:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &status;
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 57
+
+
+ 2418              		.loc 1 803 0
+ 2419 0028 6B44     		add	r3, sp, r3
+ 2420 002a 0693     		str	r3, [sp, #24]
+ 804:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = 1;
+ 2421              		.loc 1 804 0
+ 2422 002c 0123     		movs	r3, #1
+ 2423 002e 0793     		str	r3, [sp, #28]
+ 805:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 806:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 2424              		.loc 1 806 0
+ 2425 0030 02A8     		add	r0, sp, #8
+ 2426              	.LVL116:
+ 2427 0032 FFF7FEFF 		bl	hci_send_req
+ 2428              	.LVL117:
+ 2429 0036 0028     		cmp	r0, #0
+ 2430 0038 04DB     		blt	.L136
+ 807:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 808:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 809:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 810:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return status;
+ 2431              		.loc 1 810 0
+ 2432 003a 9DF80300 		ldrb	r0, [sp, #3]	@ zero_extendqisi2
+ 2433              	.L134:
+ 811:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 2434              		.loc 1 811 0
+ 2435 003e 09B0     		add	sp, sp, #36
+ 2436              	.LCFI106:
+ 2437              		.cfi_remember_state
+ 2438              		.cfi_def_cfa_offset 4
+ 2439              		@ sp needed
+ 2440 0040 5DF804FB 		ldr	pc, [sp], #4
+ 2441              	.L136:
+ 2442              	.LCFI107:
+ 2443              		.cfi_restore_state
+ 807:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 2444              		.loc 1 807 0
+ 2445 0044 FF20     		movs	r0, #255
+ 2446 0046 FAE7     		b	.L134
+ 2447              		.cfi_endproc
+ 2448              	.LFE159:
+ 2450              		.section	.text.hci_le_test_end,"ax",%progbits
+ 2451              		.align	1
+ 2452              		.global	hci_le_test_end
+ 2453              		.syntax unified
+ 2454              		.thumb
+ 2455              		.thumb_func
+ 2456              		.fpu fpv4-sp-d16
+ 2458              	hci_le_test_end:
+ 2459              	.LFB160:
+ 812:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** 
+ 813:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** int hci_le_test_end(uint16_t *num_pkts)
+ 814:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** {
+ 2460              		.loc 1 814 0
+ 2461              		.cfi_startproc
+ 2462              		@ args = 0, pretend = 0, frame = 32
+ 2463              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2464              	.LVL118:
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 58
+
+
+ 2465 0000 10B5     		push	{r4, lr}
+ 2466              	.LCFI108:
+ 2467              		.cfi_def_cfa_offset 8
+ 2468              		.cfi_offset 4, -8
+ 2469              		.cfi_offset 14, -4
+ 2470 0002 88B0     		sub	sp, sp, #32
+ 2471              	.LCFI109:
+ 2472              		.cfi_def_cfa_offset 40
+ 2473 0004 0446     		mov	r4, r0
+ 815:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   struct hci_request rq;
+ 816:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   le_test_end_rp resp;
+ 817:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 818:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&resp, 0, sizeof(resp));
+ 2474              		.loc 1 818 0
+ 2475 0006 01AB     		add	r3, sp, #4
+ 2476 0008 0021     		movs	r1, #0
+ 2477 000a ADF80410 		strh	r1, [sp, #4]	@ movhi
+ 2478 000e 8DF80610 		strb	r1, [sp, #6]
+ 819:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 820:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   BLUENRG_memset(&rq, 0, sizeof(rq));
+ 2479              		.loc 1 820 0
+ 2480 0012 0391     		str	r1, [sp, #12]
+ 2481 0014 0491     		str	r1, [sp, #16]
+ 2482 0016 0591     		str	r1, [sp, #20]
+ 821:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ogf = OGF_LE_CTL;
+ 2483              		.loc 1 821 0
+ 2484 0018 0822     		movs	r2, #8
+ 2485 001a ADF80820 		strh	r2, [sp, #8]	@ movhi
+ 822:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.ocf = OCF_LE_TEST_END;
+ 2486              		.loc 1 822 0
+ 2487 001e 1F22     		movs	r2, #31
+ 2488 0020 ADF80A20 		strh	r2, [sp, #10]	@ movhi
+ 823:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rparam = &resp;
+ 2489              		.loc 1 823 0
+ 2490 0024 0693     		str	r3, [sp, #24]
+ 824:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   rq.rlen = LE_TEST_END_RP_SIZE;
+ 2491              		.loc 1 824 0
+ 2492 0026 0323     		movs	r3, #3
+ 2493 0028 0793     		str	r3, [sp, #28]
+ 825:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 826:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (hci_send_req(&rq, FALSE) < 0){
+ 2494              		.loc 1 826 0
+ 2495 002a 02A8     		add	r0, sp, #8
+ 2496              	.LVL119:
+ 2497 002c FFF7FEFF 		bl	hci_send_req
+ 2498              	.LVL120:
+ 2499 0030 0028     		cmp	r0, #0
+ 2500 0032 07DB     		blt	.L141
+ 827:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return BLE_STATUS_TIMEOUT;
+ 828:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 829:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 830:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   if (resp.status) {
+ 2501              		.loc 1 830 0
+ 2502 0034 9DF80400 		ldrb	r0, [sp, #4]	@ zero_extendqisi2
+ 2503 0038 28B9     		cbnz	r0, .L138
+ 831:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****     return resp.status;
+ 832:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 59
+
+
+ 833:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 834:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   *num_pkts = resp.num_pkts;
+ 2504              		.loc 1 834 0
+ 2505 003a BDF80530 		ldrh	r3, [sp, #5]	@ unaligned
+ 2506 003e 2380     		strh	r3, [r4]	@ movhi
+ 835:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   
+ 836:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   return 0;
+ 2507              		.loc 1 836 0
+ 2508 0040 0020     		movs	r0, #0
+ 2509 0042 00E0     		b	.L138
+ 2510              	.L141:
+ 827:Middlewares/ST/BlueNRG-MS/hci/hci_le.c ****   }
+ 2511              		.loc 1 827 0
+ 2512 0044 FF20     		movs	r0, #255
+ 2513              	.L138:
+ 837:Middlewares/ST/BlueNRG-MS/hci/hci_le.c **** }
+ 2514              		.loc 1 837 0
+ 2515 0046 08B0     		add	sp, sp, #32
+ 2516              	.LCFI110:
+ 2517              		.cfi_def_cfa_offset 8
+ 2518              		@ sp needed
+ 2519 0048 10BD     		pop	{r4, pc}
+ 2520              		.cfi_endproc
+ 2521              	.LFE160:
+ 2523              		.text
+ 2524              	.Letext0:
+ 2525              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 2526              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 2527              		.file 4 "Middlewares/ST/BlueNRG-MS/includes/link_layer.h"
+ 2528              		.file 5 "Drivers/CMSIS/Include/core_cm4.h"
+ 2529              		.file 6 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 2530              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 2531              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h"
+ 2532              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 2533              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 2534              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 2535              		.file 12 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-ea
+ 2536              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 2537              		.file 14 "Middlewares/ST/BlueNRG-MS/hci/hci_tl_patterns/Template/hci_tl.h"
+ 2538              		.file 15 "Middlewares/ST/BlueNRG-MS/includes/hci_const.h"
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 60
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 hci_le.c
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:18     .text.hci_reset:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:25     .text.hci_reset:00000000 hci_reset
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:81     .text.hci_disconnect:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:88     .text.hci_disconnect:00000000 hci_disconnect
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:155    .text.hci_le_read_local_version:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:162    .text.hci_le_read_local_version:00000000 hci_le_read_local_version
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:251    .text.hci_le_read_buffer_size:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:258    .text.hci_le_read_buffer_size:00000000 hci_le_read_buffer_size
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:329    .text.hci_le_set_advertising_parameters:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:336    .text.hci_le_set_advertising_parameters:00000000 hci_le_set_advertising_parameters
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:434    .text.hci_le_set_advertising_data:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:441    .text.hci_le_set_advertising_data:00000000 hci_le_set_advertising_data
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:531    .text.hci_le_set_advertise_enable:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:538    .text.hci_le_set_advertise_enable:00000000 hci_le_set_advertise_enable
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:604    .text.hci_le_set_scan_parameters:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:611    .text.hci_le_set_scan_parameters:00000000 hci_le_set_scan_parameters
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:690    .text.hci_le_set_scan_enable:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:697    .text.hci_le_set_scan_enable:00000000 hci_le_set_scan_enable
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:769    .text.hci_le_rand:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:776    .text.hci_le_rand:00000000 hci_le_rand
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:846    .text.hci_le_set_scan_resp_data:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:853    .text.hci_le_set_scan_resp_data:00000000 hci_le_set_scan_resp_data
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:944    .text.hci_le_read_advertising_channel_tx_power:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:951    .text.hci_le_read_advertising_channel_tx_power:00000000 hci_le_read_advertising_channel_tx_power
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1016   .text.hci_le_set_random_address:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1023   .text.hci_le_set_random_address:00000000 hci_le_set_random_address
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1093   .text.hci_read_bd_addr:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1100   .text.hci_read_bd_addr:00000000 hci_read_bd_addr
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1168   .text.hci_le_create_connection:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1175   .text.hci_le_create_connection:00000000 hci_le_create_connection
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1277   .text.hci_le_create_connection_cancel:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1284   .text.hci_le_create_connection_cancel:00000000 hci_le_create_connection_cancel
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1340   .text.hci_le_encrypt:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1347   .text.hci_le_encrypt:00000000 hci_le_encrypt
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1451   .text.hci_le_ltk_request_reply:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1458   .text.hci_le_ltk_request_reply:00000000 hci_le_ltk_request_reply
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1536   .text.hci_le_ltk_request_neg_reply:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1543   .text.hci_le_ltk_request_neg_reply:00000000 hci_le_ltk_request_neg_reply
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1608   .text.hci_le_read_white_list_size:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1615   .text.hci_le_read_white_list_size:00000000 hci_le_read_white_list_size
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1680   .text.hci_le_clear_white_list:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1687   .text.hci_le_clear_white_list:00000000 hci_le_clear_white_list
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1743   .text.hci_le_add_device_to_white_list:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1750   .text.hci_le_add_device_to_white_list:00000000 hci_le_add_device_to_white_list
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1820   .text.hci_le_remove_device_from_white_list:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1827   .text.hci_le_remove_device_from_white_list:00000000 hci_le_remove_device_from_white_list
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1897   .text.hci_read_transmit_power_level:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1904   .text.hci_read_transmit_power_level:00000000 hci_read_transmit_power_level
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1984   .text.hci_read_rssi:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:1991   .text.hci_read_rssi:00000000 hci_read_rssi
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2067   .text.hci_le_read_local_supported_features:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2074   .text.hci_le_read_local_supported_features:00000000 hci_le_read_local_supported_features
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2144   .text.hci_le_read_channel_map:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2151   .text.hci_le_read_channel_map:00000000 hci_le_read_channel_map
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2228   .text.hci_le_read_supported_states:00000000 $t
+ARM GAS  C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s 			page 61
+
+
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2235   .text.hci_le_read_supported_states:00000000 hci_le_read_supported_states
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2305   .text.hci_le_receiver_test:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2312   .text.hci_le_receiver_test:00000000 hci_le_receiver_test
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2375   .text.hci_le_transmitter_test:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2382   .text.hci_le_transmitter_test:00000000 hci_le_transmitter_test
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2451   .text.hci_le_test_end:00000000 $t
+C:\Users\choee\AppData\Local\Temp\ccoIjP7a.s:2458   .text.hci_le_test_end:00000000 hci_le_test_end
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+hci_send_req
+memset
+memcpy
